@@ -3,13 +3,13 @@
     <div class="col-12">
       <v-card class="card h-100">
         <div class="card-body">
-          <h3>Manajemen User</h3>
+          <h3 class="font-weight-bold">Manajemen User</h3>
           <ul class="nav pl-0">
             <li class="nav-item" v-for="item in listTab" :key="item">
               <a
                 :class="
                   tabActive == item
-                    ? 'nav-link font-weight-bold pl-0 mr-3 active'
+                    ? 'nav-link font-weight-bold pl-0 mr-3 text-primary'
                     : 'nav-link pl-0 mr-3'
                 "
                 @click="tabActive = item"

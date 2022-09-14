@@ -32,8 +32,12 @@
         id="main-menu-navigation"
         data-menu="menu-navigation"
       >
-        <li class="nav-item" v-for="(item, i) in listSidebar" :key="i">
-          <router-link :to="item.link">
+        <li
+          :class="tabActive == item.name ? 'nav-item active' : 'nav-item'"
+          v-for="(item, i) in listSidebar"
+          :key="i"
+        >
+          <router-link :to="item.link" @click="tabActive = item.name">
             <i :class="item.icon"></i>
             <span class="menu-title">{{ item.name }}</span>
           </router-link>
@@ -46,11 +50,16 @@
 <script>
 export default {
   name: "AppSidebar",
+  computed: {
+    tabActive() {
+      return this.$route.name;
+    },
+  },
   data() {
     return {
       listSidebar: [
         {
-          name: "Dashboard",
+          name: "Home",
           icon: "feather icon-home",
           link: "/",
         },
