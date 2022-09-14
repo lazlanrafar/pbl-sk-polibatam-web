@@ -4,12 +4,25 @@
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
-              blanditiis et distinctio laborum cumque ea necessitatibus odit?
-              Neque vel quos a commodi recusandae ratione exercitationem dolores
-              laboriosam, harum accusantium nobis.
-            </p>
+            <h3>Manajemen User</h3>
+            <ul class="nav pl-0">
+              <li class="nav-item" v-for="item in listTab" :key="item">
+                <a
+                  :class="
+                    tabActive == item
+                      ? 'nav-link font-weight-bold pl-0 mr-3 active'
+                      : 'nav-link pl-0 mr-3'
+                  "
+                  @click="tabActive = item"
+                  href="#"
+                  >{{ item }}</a
+                >
+              </li>
+            </ul>
+            <hr />
+
+            <Mahasiswa v-if="tabActive == 'Mahasiswa'" />
+            <Dosen v-if="tabActive == 'Dosen'" />
           </div>
         </div>
       </div>
@@ -18,11 +31,14 @@
 </template>
 
 <script>
+import Mahasiswa from "./Tab/Mahasiswa.vue";
+import Dosen from "./Tab/Dosen.vue";
 export default {
   name: "UserPage",
-  components: {},
+  components: { Mahasiswa, Dosen },
   data: () => ({
-    //
+    listTab: ["Mahasiswa", "Dosen"],
+    tabActive: "Mahasiswa",
   }),
 };
 </script>

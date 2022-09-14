@@ -10,7 +10,9 @@
         <div class="content-wrapper">
           <div class="content-header row"></div>
           <div class="content-body">
-            <router-view v-if="user" />
+            <v-app v-if="user">
+              <router-view />
+            </v-app>
 
             <Login v-else />
           </div>
@@ -55,4 +57,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.v-application--wrap {
+  background: transparent;
+  min-height: 0;
+}
+</style>
