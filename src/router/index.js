@@ -10,6 +10,21 @@ const routes = [
     component: () => import("../views/Home/index.vue"),
   },
   {
+    path: "/document-tugas",
+    name: "Document Tugas",
+    component: () => import("../views/DocumentTugas/index.vue"),
+  },
+  {
+    path: "/document-keputusan",
+    name: "Keputusan",
+    component: () => import("../views/DocumentKeputusan/index.vue"),
+  },
+  {
+    path: "/tag-group",
+    name: "Tag Group",
+    component: () => import("../views/TagGroup/index.vue"),
+  },
+  {
     path: "/user",
     name: "Manajemen User",
     component: () => import("../views/User/index.vue"),

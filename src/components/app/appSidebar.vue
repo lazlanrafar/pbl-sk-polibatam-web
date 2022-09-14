@@ -64,19 +64,19 @@ export default {
           link: "/",
         },
         {
-          name: "Tugas",
+          name: "Document Tugas",
           icon: "feather icon-book",
-          link: "/user",
+          link: "/document-tugas",
         },
         {
-          name: "Keperluan",
+          name: "Keputusan",
           icon: "feather icon-mail",
-          link: "/user",
+          link: "/document-keputusan",
         },
         {
-          name: "Document Grup",
+          name: "Tag Group",
           icon: "feather icon-shopping-bag",
-          link: "/user",
+          link: "/tag-group",
         },
         {
           name: "Manajemen User",
