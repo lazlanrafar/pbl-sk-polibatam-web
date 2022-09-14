@@ -107,6 +107,7 @@ export default {
   mounted() {
     document.body.classList.add("blank-page");
     document.body.classList.add("blank-page");
+    document.body.classList.add("bg-full-screen-image");
   },
 };
 </script>

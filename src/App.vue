@@ -45,6 +45,7 @@ export default {
       if (this.user) {
         document.body.classList.remove("blank-page");
         document.body.classList.remove("blank-page");
+        document.body.classList.remove("bg-full-screen-image");
       }
     },
   },
