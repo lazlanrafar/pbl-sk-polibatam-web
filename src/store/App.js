@@ -7,8 +7,8 @@ const app = {
   state: {
     user: "",
     login: {
-      username: "azlan.3312101024",
-      password: "Kertayasam4",
+      username: "",
+      password: "",
     },
   },
   mutations: {
@@ -31,12 +31,16 @@ const app = {
         context.commit("SET_USER", result.data.data);
         localStorage.setItem("user", JSON.stringify(result.data.data));
 
+        context.state.login = {
+          username: "",
+          password: "",
+        };
         router.push("/");
       } catch (error) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: error.message,
+          text: error.response.data.message,
         });
       }
     },

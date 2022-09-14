@@ -24,13 +24,13 @@
                 data-toggle="dropdown"
               >
                 <div class="user-nav d-sm-flex d-none">
-                  <span class="user-name text-bold-600">John Doe</span
-                  ><span class="user-status">Available</span>
+                  <span class="user-name text-bold-600">{{ user.name }}</span
+                  ><span class="user-status">{{ user.jabatan }}</span>
                 </div>
                 <span
                   ><img
                     class="round"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"
+                    src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                     alt="avatar"
                     height="40"
                     width="40"
@@ -52,6 +52,11 @@
 <script>
 export default {
   name: "AppTopbar",
+  computed: {
+    user() {
+      return this.$store.state.app.user;
+    },
+  },
   methods: {
     handleLogout() {
       localStorage.clear();

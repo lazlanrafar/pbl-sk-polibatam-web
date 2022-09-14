@@ -102,9 +102,9 @@ export default {
     },
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       if (this.$refs.initialReport.validate()) {
-        this.$store.dispatch("Login");
+        await this.$store.dispatch("Login");
       }
     },
   },
