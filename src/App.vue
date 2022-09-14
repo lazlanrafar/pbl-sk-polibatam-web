@@ -10,9 +10,8 @@
         <div class="content-wrapper">
           <div class="content-header row"></div>
           <div class="content-body">
-            <v-app v-if="user">
-              <router-view />
-            </v-app>
+            <router-view v-if="user" />
+
             <Login v-else />
           </div>
         </div>
@@ -39,6 +38,14 @@ export default {
       return this.$store.state.app.user;
     },
   },
+  watch: {
+    user() {
+      if (this.user) {
+        document.body.classList.remove("blank-page");
+        document.body.classList.remove("blank-page");
+      }
+    },
+  },
   created() {
     const user = localStorage.getItem("user");
     if (user) {
@@ -48,9 +55,4 @@ export default {
 };
 </script>
 
-<style>
-.v-application--wrap {
-  background: transparent;
-  min-height: 0;
-}
-</style>
+<style></style>

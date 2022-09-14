@@ -18,52 +18,50 @@
               <p class="px-2">Welcome back, please login to your account.</p>
               <div class="card-content">
                 <div class="card-body pt-1">
-                  <v-app>
-                    <v-form ref="initialReport" @submit.prevent="handleSubmit">
-                      <fieldset
-                        class="form-label-group form-group position-relative has-icon-left"
-                      >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="user-name"
-                          placeholder="Username"
-                          :value="username"
-                          @change="username = $event.target.value"
-                          required
-                        />
-                        <div class="form-control-position">
-                          <i class="feather icon-user"></i>
-                        </div>
-                        <label for="user-name">Username</label>
-                      </fieldset>
+                  <form @submit.prevent="handleSubmit">
+                    <fieldset
+                      class="form-label-group form-group position-relative has-icon-left"
+                    >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="user-name"
+                        placeholder="Username"
+                        :value="username"
+                        @change="username = $event.target.value"
+                        required
+                      />
+                      <div class="form-control-position">
+                        <i class="feather icon-user"></i>
+                      </div>
+                      <label for="user-name">Username</label>
+                    </fieldset>
 
-                      <fieldset
-                        class="form-label-group position-relative has-icon-left"
-                      >
-                        <input
-                          type="password"
-                          class="form-control"
-                          id="user-password"
-                          placeholder="Password"
-                          :value="password"
-                          @change="password = $event.target.value"
-                          required
-                        />
-                        <div class="form-control-position">
-                          <i class="feather icon-lock"></i>
-                        </div>
-                        <label for="user-password">Password</label>
-                      </fieldset>
+                    <fieldset
+                      class="form-label-group position-relative has-icon-left"
+                    >
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="user-password"
+                        placeholder="Password"
+                        :value="password"
+                        @change="password = $event.target.value"
+                        required
+                      />
+                      <div class="form-control-position">
+                        <i class="feather icon-lock"></i>
+                      </div>
+                      <label for="user-password">Password</label>
+                    </fieldset>
 
-                      <button
-                        type="submit"
-                        class="btn btn-primary text-white float-right"
-                      >
-                        Login
-                      </button>
-                    </v-form>
-                  </v-app>
+                    <button
+                      type="submit"
+                      class="btn btn-primary text-white float-right"
+                    >
+                      Login
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -103,10 +101,12 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      if (this.$refs.initialReport.validate()) {
-        await this.$store.dispatch("Login");
-      }
+      await this.$store.dispatch("Login");
     },
+  },
+  mounted() {
+    document.body.classList.add("blank-page");
+    document.body.classList.add("blank-page");
   },
 };
 </script>

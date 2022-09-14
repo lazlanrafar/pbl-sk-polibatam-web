@@ -32,10 +32,10 @@
         data-menu="menu-navigation"
       >
         <li class="nav-item" v-for="(item, i) in listSidebar" :key="i">
-          <a :href="item.link"
-            ><i :class="item.icon"></i
-            ><span class="menu-title">{{ item.name }}</span></a
-          >
+          <router-link :to="item.link">
+            <i :class="item.icon"></i>
+            <span class="menu-title">{{ item.name }}</span>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -51,27 +51,27 @@ export default {
         {
           name: "Dashboard",
           icon: "feather icon-home",
-          link: "",
+          link: "/",
         },
         {
           name: "Tugas",
           icon: "feather icon-book",
-          link: "",
+          link: "/user",
         },
         {
           name: "Keperluan",
           icon: "feather icon-mail",
-          link: "",
+          link: "/user",
         },
         {
           name: "Document Grup",
           icon: "feather icon-shopping-bag",
-          link: "",
+          link: "/user",
         },
         {
           name: "Manajemen User",
           icon: "feather icon-users",
-          link: "",
+          link: "/user",
         },
       ],
     };
