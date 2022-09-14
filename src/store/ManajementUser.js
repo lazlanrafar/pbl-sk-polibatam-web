@@ -13,6 +13,7 @@ const manajemenUser = {
       search: "",
     },
     dataMahasiswa: [],
+    dataMahasiswaDetail: {},
     /**
      * Data Dosen
      */
@@ -36,6 +37,9 @@ const manajemenUser = {
     SET_DATA_MAHASISWA(state, payload) {
       state.dataMahasiswa = payload;
     },
+    SET_DATA_MAHASISWA_DETAIL(state, payload) {
+      state.dataMahasiswaDetail = payload;
+    },
     /**
      * Data Dosen
      */
@@ -55,6 +59,29 @@ const manajemenUser = {
           method: "GET",
         });
         context.commit("SET_DATA_MAHASISWA", result.data.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        context.commit("SET_LOADING_MANAJEMEN_USER", false);
+      }
+    },
+    async getMahasiswaByNIM(context, nim) {
+      try {
+        context.commit("SET_LOADING_MANAJEMEN_USER", true);
+        const result = await axios({
+          url: `${apiUrl}/polibatam/mahasiswa/${nim}`,
+          method: "GET",
+        });
+        let entries = Object.entries(result.data.data);
+        let data = [];
+        entries.forEach((item) => {
+          data.push({
+            key: item[0],
+            value: item[1],
+          });
+        });
+
+        context.commit("SET_DATA_MAHASISWA_DETAIL", data);
       } catch (error) {
         console.log(error);
       } finally {
