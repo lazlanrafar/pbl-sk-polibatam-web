@@ -35,6 +35,7 @@ export default {
     headers: [
       { text: "No", value: "no" },
       { text: "Nama", value: "name" },
+      { text: "Username", value: "username" },
       { text: "NIM", value: "nim_nik_unit" },
       { text: "Status", value: "jabatan" },
     ],
