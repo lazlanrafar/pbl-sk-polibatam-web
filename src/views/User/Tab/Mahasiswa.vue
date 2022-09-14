@@ -2,6 +2,17 @@
   <div>
     <div class="card border">
       <div class="card-body">
+        <div class="row justify-content-end">
+          <div class="col-md-3">
+            <v-text-field
+              label="Cari"
+              prepend-inner-icon="mdi-magnify"
+              v-model="optionsTableMahasiswa.search"
+              outlined
+              dense
+            />
+          </div>
+        </div>
         <v-data-table
           :headers="headers"
           :items="dataMahasiswa"
