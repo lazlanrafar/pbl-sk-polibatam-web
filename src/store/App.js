@@ -5,15 +5,15 @@ import router from "@/router";
 
 const app = {
   state: {
-    isLogin: false,
+    user: "",
     login: {
       username: "azlan.3312101024",
       password: "Kertayasam4",
     },
   },
   mutations: {
-    SET_IS_LOGIN(state, payload) {
-      state.isLogin = payload;
+    SET_USER(state, payload) {
+      state.user = payload;
     },
     SET_FORM_LOGIN(state, payload) {
       state.login[payload.key] = payload.value;
@@ -28,16 +28,8 @@ const app = {
           data: context.state.login,
         });
 
-        if (result.data.status === 200) {
-          context.commit("SET_IS_LOGIN", true);
-          localStorage.setItem("user", JSON.stringify(result.data.data));
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: result.data.message,
-          });
-        }
+        context.commit("SET_USER", result.data.data);
+        localStorage.setItem("user", JSON.stringify(result.data.data));
 
         router.push("/");
       } catch (error) {

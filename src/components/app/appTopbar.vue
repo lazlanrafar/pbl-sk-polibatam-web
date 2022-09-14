@@ -37,9 +37,9 @@
                 /></span>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="auth-login.html"
-                  ><i class="feather icon-power"></i> Logout</a
-                >
+                <button class="dropdown-item" @click="handleLogout">
+                  <i class="feather icon-power"></i> Logout
+                </button>
               </div>
             </li>
           </ul>
@@ -52,5 +52,12 @@
 <script>
 export default {
   name: "AppTopbar",
+  methods: {
+    handleLogout() {
+      localStorage.clear();
+      this.$store.commit("SET_USER", "");
+      this.$router.push("/login");
+    },
+  },
 };
 </script>
