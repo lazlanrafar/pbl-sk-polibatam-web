@@ -34,19 +34,12 @@
                   {{ (props.index += 1) }}
                 </template>
                 <template v-slot:[`item.aksi`]="{ item }">
-                  <div class="d-flex">
-                    <v-btn
-                      color="primary"
-                      class="mr-2"
-                      icon
-                      @click="handleUpdate(item.id)"
-                    >
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
-                    <v-btn color="error" icon @click="handleDelete(item.id)">
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                  </div>
+                  <v-btn class="mr-2" icon @click="handleUpdate(item.id)">
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                  <v-btn icon @click="handleDelete(item.id)">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
                 </template>
                 <template v-slot:expanded-item="{ headers, item }">
                   <td :colspan="headers.length" class="collapsable">
@@ -74,7 +67,12 @@
         </div>
       </v-card>
     </div>
-    <v-dialog v-model="modalForm" max-width="500" persistent>
+    <v-dialog
+      v-model="modalForm"
+      max-width="500"
+      persistent
+      style="z-index: 9999"
+    >
       <Form @modalForm="modalForm = false" />
     </v-dialog>
   </div>
@@ -91,7 +89,7 @@ export default {
       { text: "No", value: "no" },
       { text: "Nama", value: "nama" },
       { text: "Dibuat oleh", value: "createdBy" },
-      { text: "Aksi", value: "aksi" },
+      { text: "Aksi", value: "aksi", align: "right" },
     ],
     modalForm: false,
     expanded: [],
