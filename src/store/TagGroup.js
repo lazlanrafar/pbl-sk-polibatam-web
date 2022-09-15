@@ -1,5 +1,6 @@
 import axios from "axios";
 const apiUrl = process.env.VUE_APP_API_URL;
+import Swal from "sweetalert2";
 
 const tagGroup = {
   state: {
@@ -59,6 +60,38 @@ const tagGroup = {
         context.commit("SET_LIST_MAHASISWA_TAG_GROUP", result.data.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        context.commit("SET_LOADING_TAG_GROUP", false);
+      }
+    },
+    async createTagGroup(context) {
+      try {
+        context.commit("SET_LOADING_TAG_GROUP", true);
+
+        const payload = {
+          nama: context.state.form.nama,
+          tag: JSON.stringify(context.state.form.tag),
+          createdBy: context.rootState.app.user.nim_nik_unit,
+        };
+
+        await axios({
+          url: `${apiUrl}/tag-group`,
+          method: "POST",
+          data: payload,
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil disimpan",
+        });
+        context.dispatch("fetchAllTagGroup");
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
       } finally {
         context.commit("SET_LOADING_TAG_GROUP", false);
       }

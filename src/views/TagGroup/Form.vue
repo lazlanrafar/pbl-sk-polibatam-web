@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="card-body">
-      <v-form>
+      <v-form ref="initialForm" @submit.prevent="handleSubmit">
         <v-text-field label="Nama" outlined v-model="nama" dense />
         <v-combobox
           v-model="tag"
@@ -82,7 +82,15 @@ export default {
   },
   methods: {
     handleClose() {
+      this.$refs.initialForm.reset();
       this.$emit("modalForm", false);
+    },
+    async handleSubmit() {
+      if (this.$refs.initialForm.validate()) {
+        await this.$store.dispatch("createTagGroup").then(() => {
+          this.handleClose();
+        });
+      }
     },
   },
 };
