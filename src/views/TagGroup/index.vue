@@ -39,7 +39,7 @@
                       color="primary"
                       class="mr-2"
                       icon
-                      @click="handleModalForm(item)"
+                      @click="handleUpdate(item.id)"
                     >
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
@@ -117,6 +117,11 @@ export default {
     async handleModalForm() {
       this.$store.dispatch("fetchBeforeForm");
       this.modalForm = !this.modalForm;
+    },
+    handleUpdate(id) {
+      this.$store.dispatch("setFormTagGroup", id);
+      this.$store.commit("SET_IS_UPDATE_TAG_GROUP", id);
+      this.handleModalForm();
     },
     handleDelete(id) {
       Swal.fire({

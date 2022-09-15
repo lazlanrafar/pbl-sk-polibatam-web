@@ -17,6 +17,7 @@ const tagGroup = {
       tag: "",
       createdBy: "",
     },
+    isUpdate: false,
   },
   mutations: {
     SET_LOADING_TAG_GROUP(state, payload) {
@@ -33,6 +34,9 @@ const tagGroup = {
     },
     SET_FORM_TAG_GROUP(state, payload) {
       state.form[payload.key] = payload.value;
+    },
+    SET_IS_UPDATE_TAG_GROUP(state, payload) {
+      state.isUpdate = payload;
     },
   },
   actions: {
@@ -92,6 +96,63 @@ const tagGroup = {
           icon: "success",
           title: "Berhasil",
           text: "Data berhasil disimpan",
+        });
+        context.dispatch("fetchAllTagGroup");
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      } finally {
+        context.commit("SET_LOADING_TAG_GROUP", false);
+      }
+    },
+    async setFormTagGroup(context, id) {
+      try {
+        context.commit("SET_LOADING_TAG_GROUP", true);
+        const result = await axios({
+          url: `${apiUrl}/tag-group/${id}`,
+          method: "GET",
+        });
+
+        context.commit("SET_FORM_TAG_GROUP", {
+          key: "nama",
+          value: result.data.data.nama,
+        });
+        context.commit("SET_FORM_TAG_GROUP", {
+          key: "tag",
+          value: JSON.parse(result.data.data.tag),
+        });
+        context.commit("SET_FORM_TAG_GROUP", {
+          key: "createdBy",
+          value: result.data.data.createdBy,
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        context.commit("SET_LOADING_TAG_GROUP", false);
+      }
+    },
+    async updateTagGroup(context, id) {
+      try {
+        context.commit("SET_LOADING_TAG_GROUP", true);
+
+        const payload = {
+          ...context.state.form,
+          tag: JSON.stringify(context.state.form.tag),
+        };
+
+        await axios({
+          url: `${apiUrl}/tag-group/${id}`,
+          method: "PUT",
+          data: payload,
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil diubah",
         });
         context.dispatch("fetchAllTagGroup");
       } catch (error) {

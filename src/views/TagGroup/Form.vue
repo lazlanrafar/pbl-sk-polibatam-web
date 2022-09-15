@@ -57,6 +57,9 @@ export default {
     listMahasiswa() {
       return this.$store.state.tagGroup.listMahasiswa;
     },
+    isUpdate() {
+      return this.$store.state.tagGroup.isUpdate;
+    },
     nama: {
       get() {
         return this.$store.state.tagGroup.form.nama;
@@ -83,13 +86,22 @@ export default {
   methods: {
     handleClose() {
       this.$refs.initialForm.reset();
+      this.$store.commit("SET_IS_UPDATE_TAG_GROUP", false);
       this.$emit("modalForm", false);
     },
     async handleSubmit() {
       if (this.$refs.initialForm.validate()) {
-        await this.$store.dispatch("createTagGroup").then(() => {
-          this.handleClose();
-        });
+        if (this.isUpdate) {
+          await this.$store
+            .dispatch("updateTagGroup", this.isUpdate)
+            .then(() => {
+              this.handleClose();
+            });
+        } else {
+          await this.$store.dispatch("createTagGroup").then(() => {
+            this.handleClose();
+          });
+        }
       }
     },
   },
