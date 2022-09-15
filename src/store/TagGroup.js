@@ -10,6 +10,12 @@ const tagGroup = {
       search: "",
     },
     reports: [],
+    listMahasiswa: [],
+    form: {
+      nama: "",
+      tag: "",
+      createdBy: "",
+    },
   },
   mutations: {
     SET_LOADING_TAG_GROUP(state, payload) {
@@ -21,6 +27,12 @@ const tagGroup = {
     SET_REPORTS_TAG_GROUPS(state, payload) {
       state.reports = payload;
     },
+    SET_LIST_MAHASISWA_TAG_GROUP(state, payload) {
+      state.listMahasiswa = payload;
+    },
+    SET_FORM_TAG_GROUP(state, payload) {
+      state.form[payload.key] = payload.value;
+    },
   },
   actions: {
     async fetchAllTagGroup(context) {
@@ -31,6 +43,20 @@ const tagGroup = {
           method: "GET",
         });
         context.commit("SET_REPORTS_TAG_GROUPS", result.data.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        context.commit("SET_LOADING_TAG_GROUP", false);
+      }
+    },
+    async fetchBeforeForm(context) {
+      try {
+        context.commit("SET_LOADING_TAG_GROUP", true);
+        const result = await axios({
+          url: `${apiUrl}/polibatam/mahasiswa`,
+          method: "GET",
+        });
+        context.commit("SET_LIST_MAHASISWA_TAG_GROUP", result.data.data);
       } catch (error) {
         console.log(error);
       } finally {
