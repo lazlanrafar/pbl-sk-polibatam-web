@@ -8,7 +8,7 @@
       <ul class="nav navbar-nav flex-row">
         <li class="nav-item mr-auto">
           <a class="navbar-brand" href="#">
-            <img src="@/assets/logo.svg" alt="Logo" width="60" />
+            <img src="@/assets/logo.svg" alt="Logo" width="45" />
             <h2 class="brand-text mb-0">Vuexy</h2>
           </a>
         </li>
