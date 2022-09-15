@@ -43,7 +43,15 @@ const tagGroup = {
           url: `${apiUrl}/tag-group`,
           method: "GET",
         });
-        context.commit("SET_REPORTS_TAG_GROUPS", result.data.data);
+
+        let data = [];
+        for (const iterator of result.data.data) {
+          data.push({
+            ...iterator,
+            tag: JSON.parse(iterator.tag),
+          });
+        }
+        context.commit("SET_REPORTS_TAG_GROUPS", data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -84,6 +92,30 @@ const tagGroup = {
           icon: "success",
           title: "Berhasil",
           text: "Data berhasil disimpan",
+        });
+        context.dispatch("fetchAllTagGroup");
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      } finally {
+        context.commit("SET_LOADING_TAG_GROUP", false);
+      }
+    },
+    async deleteTagGroup(context, id) {
+      try {
+        context.commit("SET_LOADING_TAG_GROUP", true);
+        await axios({
+          url: `${apiUrl}/tag-group/${id}`,
+          method: "DELETE",
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: "Data berhasil dihapus",
         });
         context.dispatch("fetchAllTagGroup");
       } catch (error) {

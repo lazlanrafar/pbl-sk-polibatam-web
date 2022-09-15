@@ -26,9 +26,45 @@
                 :items="reports"
                 :search="optionsTableTagGroup.search"
                 :loading="isLoading"
+                :single-expand="singleExpand"
+                :expanded.sync="expanded"
+                show-expand
               >
                 <template v-slot:[`item.no`]="props">
                   {{ (props.index += 1) }}
+                </template>
+                <template v-slot:[`item.aksi`]="{ item }">
+                  <div class="d-flex">
+                    <v-btn
+                      color="primary"
+                      class="mr-2"
+                      icon
+                      @click="handleModalForm(item)"
+                    >
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                    <v-btn color="error" icon @click="handleDelete(item.id)">
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </div>
+                </template>
+                <template v-slot:expanded-item="{}">
+                  <table class="w-100">
+                    <tr>
+                      <th>No</th>
+                      <th>Nama</th>
+                      <th>Username</th>
+                      <th>NIM</th>
+                      <th>Status</th>
+                    </tr>
+                    <!-- <tr v-for="(x, i) in item.tag" :key="i">
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ x.name }}</td>
+                      <td>{{ x.username }}</td>
+                      <td>{{ x.nim_nik_unit }}</td>
+                      <td>{{ x.jabatan }}</td>
+                    </tr> -->
+                  </table>
                 </template>
               </v-data-table>
             </div>
@@ -44,6 +80,7 @@
 
 <script>
 import Form from "./Form.vue";
+import Swal from "sweetalert2";
 export default {
   name: "DocumentGroupPage",
   components: { Form },
@@ -55,6 +92,8 @@ export default {
       { text: "Aksi", value: "aksi" },
     ],
     modalForm: false,
+    expanded: [],
+    singleExpand: true,
   }),
   computed: {
     reports() {
@@ -76,6 +115,21 @@ export default {
     async handleModalForm() {
       this.$store.dispatch("fetchBeforeForm");
       this.modalForm = !this.modalForm;
+    },
+    handleDelete(id) {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Data yang dihapus tidak dapat dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch("deleteTagGroup", id);
+        }
+      });
     },
   },
   created() {
