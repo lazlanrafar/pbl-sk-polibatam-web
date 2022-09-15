@@ -17,6 +17,7 @@
           :headers="headers"
           :items="dataMahasiswa"
           :search="optionsTableMahasiswa.search"
+          :loading="isLoading"
         >
           <template v-slot:[`item.no`]="props">
             {{ (props.index += 1) }}
@@ -52,6 +53,9 @@ export default {
     modalDetail: false,
   }),
   computed: {
+    isLoading() {
+      return this.$store.state.manajemenUser.isLoading;
+    },
     dataMahasiswa() {
       return this.$store.state.manajemenUser.dataMahasiswa;
     },

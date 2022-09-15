@@ -17,6 +17,7 @@
           :headers="headers"
           :items="dataDosen"
           :search="optionsTableDosen.search"
+          :loading="isLoading"
         >
           <template v-slot:[`item.no`]="props">
             {{ (props.index += 1) }}
@@ -42,6 +43,9 @@ export default {
     ],
   }),
   computed: {
+    isLoading() {
+      return this.$store.state.manajemenUser.isLoading;
+    },
     dataDosen() {
       return this.$store.state.manajemenUser.dataDosen;
     },
