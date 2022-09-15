@@ -48,23 +48,25 @@
                     </v-btn>
                   </div>
                 </template>
-                <template v-slot:expanded-item="{}">
-                  <table class="w-100">
-                    <tr>
-                      <th>No</th>
-                      <th>Nama</th>
-                      <th>Username</th>
-                      <th>NIM</th>
-                      <th>Status</th>
-                    </tr>
-                    <!-- <tr v-for="(x, i) in item.tag" :key="i">
-                      <td>{{ i + 1 }}</td>
-                      <td>{{ x.name }}</td>
-                      <td>{{ x.username }}</td>
-                      <td>{{ x.nim_nik_unit }}</td>
-                      <td>{{ x.jabatan }}</td>
-                    </tr> -->
-                  </table>
+                <template v-slot:expanded-item="{ headers, item }">
+                  <td :colspan="headers.length" class="collapsable">
+                    <table class="table w-100">
+                      <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Username</th>
+                        <th>NIM</th>
+                        <th>Status</th>
+                      </tr>
+                      <tr v-for="(x, i) in item.tag" :key="i">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ x.name }}</td>
+                        <td>{{ x.username }}</td>
+                        <td>{{ x.nim_nik_unit }}</td>
+                        <td>{{ x.jabatan }}</td>
+                      </tr>
+                    </table>
+                  </td>
                 </template>
               </v-data-table>
             </div>
