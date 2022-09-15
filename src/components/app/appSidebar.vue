@@ -2,7 +2,6 @@
   <div
     class="main-menu menu-fixed menu-light menu-accordion menu-shadow"
     data-scroll-to-active="true"
-    style="z-index: 200"
   >
     <div class="navbar-header">
       <ul class="nav navbar-nav flex-row">

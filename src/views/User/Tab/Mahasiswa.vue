@@ -30,7 +30,7 @@
         </v-data-table>
       </div>
     </div>
-    <v-dialog v-model="modalDetail" max-width="700">
+    <v-dialog v-model="modalDetail" max-width="700" style="z-index: 999999">
       <MahasiswaDetail @modalDetail="modalDetail = false" />
     </v-dialog>
   </div>
