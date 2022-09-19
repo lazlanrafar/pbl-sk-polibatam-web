@@ -15,7 +15,7 @@
           <div class="col">
             <div class="card">
               <div class="card-body">
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" @click="handleModalForm">
                   <i class="fa fa-plus"></i>
                   Tambah
                 </button>
@@ -83,14 +83,24 @@
         </div>
       </div>
     </div>
+    <v-dialog
+      v-model="modalForm"
+      max-width="500"
+      persistent
+      style="z-index: 9999"
+    >
+      <Form @modalForm="modalForm = false" />
+    </v-dialog>
   </div>
 </template>
 
 <script>
+import Form from "./Form.vue";
 const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   name: "DocumentKeputusanPage",
+  components: { Form },
   data: () => ({
     headers: [
       { text: "No", value: "no" },
@@ -103,6 +113,7 @@ export default {
     expanded: [],
     singleExpand: true,
     apiUrl,
+    modalForm: false,
   }),
   computed: {
     reports() {
@@ -115,6 +126,12 @@ export default {
       set(val) {
         this.$store.commit("SET_OPTIONS_TABLE_DOKUMEN_KEPUTUSAN", val);
       },
+    },
+  },
+  methods: {
+    handleModalForm() {
+      this.$store.dispatch("fetchFormDokumenKeputusan");
+      this.modalForm = !this.modalForm;
     },
   },
   created() {
