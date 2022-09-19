@@ -113,6 +113,73 @@ const dokumenKeputusan = {
         context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", false);
       }
     },
+    async setFormDokumenKeputusan(context, id) {
+      try {
+        context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", true);
+        const result = await axios({
+          url: `${apiUrl}/surat-keputusan/${id}`,
+          method: "GET",
+        });
+
+        context.commit("SET_FORM_DOKUMEN_KEPUTUSAN", {
+          key: "nama",
+          value: result.data.data.nama,
+        });
+        context.commit("SET_FORM_DOKUMEN_KEPUTUSAN", {
+          key: "deskripsi",
+          value: result.data.data.deskripsi,
+        });
+        context.commit("SET_FORM_DOKUMEN_KEPUTUSAN", {
+          key: "tagId",
+          value: result.data.data.TagGroup.id,
+        });
+        context.commit("SET_FORM_DOKUMEN_KEPUTUSAN", {
+          key: "createdBy",
+          value: result.data.data.createdBy,
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", false);
+      }
+    },
+    async updateDokumenKeputusan(context, id) {
+      try {
+        context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", true);
+
+        let formData = new FormData();
+        formData.append("nama", context.state.form.nama);
+        formData.append("deskripsi", context.state.form.deskripsi);
+        formData.append("tagId", context.state.form.tagId);
+
+        if (context.state.form.filePath) {
+          formData.append("filePath", context.state.form.filePath);
+        }
+
+        const result = await axios({
+          url: `${apiUrl}/surat-keputusan/${id}`,
+          method: "PUT",
+          data: formData,
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+
+        context.dispatch("fetchAllDokumenKeputusan");
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal",
+          text: error.response.data.message,
+        });
+        console.log(error);
+      } finally {
+        context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", false);
+      }
+    },
   },
 };
 

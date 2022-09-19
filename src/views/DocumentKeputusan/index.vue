@@ -133,6 +133,11 @@ export default {
       this.$store.dispatch("fetchFormDokumenKeputusan");
       this.modalForm = !this.modalForm;
     },
+    handleUpdate(id) {
+      this.handleModalForm();
+      this.$store.dispatch("setFormDokumenKeputusan", id);
+      this.$store.commit("SET_IS_UPDATE_DOKUMEN_KEPUTUSAN", id);
+    },
   },
   created() {
     this.$store.dispatch("fetchAllDokumenKeputusan");

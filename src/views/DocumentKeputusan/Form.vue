@@ -2,7 +2,9 @@
   <v-card class="bg-white" :loading="isLoading">
     <div class="card-header py-3">
       <div class="d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-0">Form Dokumen Keputusan</h5>
+        <h5 class="card-title mb-0">
+          {{ isUpdate ? "Update" : "Create" }} Dokumen Keputusan
+        </h5>
         <v-btn icon @click="handleClose">
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -11,7 +13,7 @@
     <div class="card-body">
       <v-form ref="initialForm" @submit.prevent="handleSubmit">
         <v-file-input
-          label="Dokumen"
+          :label="isUpdate ? 'Upload Dokumen untuk Update' : 'Dokumen'"
           outlined
           dense
           v-model="filePath"
@@ -35,7 +37,7 @@
             Kembali
           </v-btn>
           <v-btn class="text-capitalize" color="primary" type="submit">
-            Simpan
+            {{ isUpdate ? "Update" : "Simpan" }}
           </v-btn>
         </div>
       </v-form>
@@ -111,7 +113,7 @@ export default {
       if (this.$refs.initialForm.validate()) {
         if (this.isUpdate) {
           await this.$store
-            .dispatch("updateTagGroup", this.isUpdate)
+            .dispatch("updateDokumenKeputusan", this.isUpdate)
             .then(() => {
               this.handleClose();
             });
