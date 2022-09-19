@@ -1,6 +1,57 @@
 <template>
-  <section class="row flexbox-container">
-    <div class="col-xl-8 col-11 d-flex justify-content-center">
+  <div>
+    <div class="login-box">
+      <div class="login-logo">
+        <a href="../../index2.html"><b>Admin</b>LTE</a>
+      </div>
+      <!-- /.login-logo -->
+      <div class="card">
+        <div class="card-body login-card-body">
+          <p class="login-box-msg">Sign in to start your session</p>
+
+          <form @submit.prevent="handleSubmit">
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Username"
+                :value="username"
+                @change="username = $event.target.value"
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-user"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                :value="password"
+                @change="password = $event.target.value"
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <button type="submit" class="btn btn-primary btn-block">
+                  Sign In
+                </button>
+              </div>
+              <!-- /.col -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- /.login-box -->
+    <!-- <div class="col-xl-8 col-11 d-flex justify-content-center">
       <div class="card bg-authentication rounded-0 mb-0">
         <div class="row m-0">
           <div
@@ -68,8 +119,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </div> -->
+  </div>
 </template>
 
 <script>
@@ -105,9 +156,8 @@ export default {
     },
   },
   mounted() {
-    document.body.classList.add("blank-page");
-    document.body.classList.add("blank-page");
-    document.body.classList.add("bg-full-screen-image");
+    document.body.classList.add("login-page");
+    document.body.classList.add("hold-transition");
   },
 };
 </script>

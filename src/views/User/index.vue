@@ -21,8 +21,8 @@
                     <a
                       :class="
                         tabActive == item
-                          ? 'nav-link font-weight-bold pl-0 mr-3 text-primary'
-                          : 'nav-link pl-0 mr-3'
+                          ? 'nav-link font-weight-bold pl-0 mr-3 text-dark'
+                          : 'nav-link pl-0 mr-3 text-dark'
                       "
                       @click="tabActive = item"
                       >{{ item }}</a

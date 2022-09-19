@@ -1,17 +1,18 @@
 <template>
-  <div class="wrapper">
-    <app-topbar v-if="user" />
-    <app-sidebar v-if="user" />
+  <div>
+    <div class="wrapper" v-if="user">
+      <app-topbar />
+      <app-sidebar />
 
-    <div class="content-wrapper">
-      <v-app v-if="user">
-        <router-view />
-      </v-app>
+      <div class="content-wrapper">
+        <v-app>
+          <router-view />
+        </v-app>
+      </div>
 
-      <Login v-else />
+      <app-footer />
     </div>
-
-    <app-footer v-if="user" />
+    <Login v-else />
   </div>
 </template>
 
@@ -26,6 +27,14 @@ export default {
   computed: {
     user() {
       return this.$store.state.app.user;
+    },
+  },
+  watch: {
+    user() {
+      if (this.user) {
+        document.body.classList.remove("login-page");
+        document.body.classList.remove("hold-transition");
+      }
     },
   },
   created() {
