@@ -97,6 +97,7 @@
 <script>
 import Form from "./Form.vue";
 const apiUrl = process.env.VUE_APP_API_URL;
+import Swal from "sweetalert2";
 
 export default {
   name: "DocumentKeputusanPage",
@@ -137,6 +138,21 @@ export default {
       this.handleModalForm();
       this.$store.dispatch("setFormDokumenKeputusan", id);
       this.$store.commit("SET_IS_UPDATE_DOKUMEN_KEPUTUSAN", id);
+    },
+    handleDelete(id) {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Data yang dihapus tidak dapat dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch("deleteDokumenKeputusan", id);
+        }
+      });
     },
   },
   created() {

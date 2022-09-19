@@ -180,6 +180,32 @@ const dokumenKeputusan = {
         context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", false);
       }
     },
+    async deleteDokumenKeputusan(context, id) {
+      try {
+        context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", true);
+        const result = await axios({
+          url: `${apiUrl}/surat-keputusan/${id}`,
+          method: "DELETE",
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+
+        context.dispatch("fetchAllDokumenKeputusan");
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal",
+          text: error.response.data.message,
+        });
+        console.log(error);
+      } finally {
+        context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", false);
+      }
+    },
   },
 };
 
