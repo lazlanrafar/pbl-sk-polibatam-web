@@ -1,35 +1,32 @@
 <template>
   <div>
-    <div class="card border">
-      <div class="card-body">
-        <div class="row justify-content-end">
-          <div class="col-md-3">
-            <v-text-field
-              label="Cari"
-              prepend-inner-icon="mdi-magnify"
-              v-model="optionsTableMahasiswa.search"
-              outlined
-              dense
-            />
-          </div>
-        </div>
-        <v-data-table
-          :headers="headers"
-          :items="dataMahasiswa"
-          :search="optionsTableMahasiswa.search"
-          :loading="isLoading"
-        >
-          <template v-slot:[`item.no`]="props">
-            {{ (props.index += 1) }}
-          </template>
-          <template v-slot:[`item.aksi`]="{ item }">
-            <v-btn icon @click="handleDetail(item)">
-              <v-icon>mdi-eye</v-icon>
-            </v-btn>
-          </template>
-        </v-data-table>
+    <div class="row justify-content-end">
+      <div class="col-md-3">
+        <v-text-field
+          label="Cari"
+          prepend-inner-icon="mdi-magnify"
+          v-model="optionsTableMahasiswa.search"
+          outlined
+          dense
+        />
       </div>
     </div>
+    <v-data-table
+      :headers="headers"
+      :items="dataMahasiswa"
+      :search="optionsTableMahasiswa.search"
+      :loading="isLoading"
+    >
+      <template v-slot:[`item.no`]="props">
+        {{ (props.index += 1) }}
+      </template>
+      <template v-slot:[`item.aksi`]="{ item }">
+        <v-btn icon @click="handleDetail(item)">
+          <v-icon>mdi-eye</v-icon>
+        </v-btn>
+      </template>
+    </v-data-table>
+
     <v-dialog v-model="modalDetail" max-width="700" style="z-index: 9999">
       <MahasiswaDetail @modalDetail="modalDetail = false" />
     </v-dialog>
