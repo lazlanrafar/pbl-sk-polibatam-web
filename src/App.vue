@@ -42,4 +42,7 @@ export default {
   background: transparent;
   min-height: 0;
 }
+label {
+  font-weight: normal !important;
+}
 </style>

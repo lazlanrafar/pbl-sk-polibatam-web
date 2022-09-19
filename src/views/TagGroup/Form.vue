@@ -26,16 +26,10 @@
         >
         </v-combobox>
         <div class="d-flex justify-content-between">
-          <v-btn
-            class="btn btn-secondary text-capitalize text-white"
-            @click="handleClose"
-          >
+          <v-btn class="text-capitalize" color="secondary" @click="handleClose">
             Kembali
           </v-btn>
-          <v-btn
-            class="btn btn-primary text-capitalize text-white"
-            type="submit"
-          >
+          <v-btn class="text-capitalize" color="primary" type="submit">
             Simpan
           </v-btn>
         </div>
