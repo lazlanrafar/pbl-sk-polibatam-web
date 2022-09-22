@@ -151,6 +151,7 @@ const dokumenKeputusan = {
         formData.append("nama", context.state.form.nama);
         formData.append("deskripsi", context.state.form.deskripsi);
         formData.append("tagId", context.state.form.tagId);
+        formData.append("updatedBy", context.rootState.app.user.nim_nik_unit);
 
         if (context.state.form.filePath) {
           formData.append("filePath", context.state.form.filePath);
