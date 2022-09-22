@@ -54,7 +54,7 @@ export default {
     return {
       listSidebar: [
         {
-          name: "Home",
+          name: "Dashboard",
           icon: "nav-icon fas fa-tachometer-alt",
           link: "/",
         },

@@ -6,8 +6,8 @@ Vue.use(vueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: () => import("../views/Home/index.vue"),
+    name: "Dashboard",
+    component: () => import("../views/Dashboard/index.vue"),
   },
   {
     path: "/document-tugas",

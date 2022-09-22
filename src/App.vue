@@ -47,9 +47,11 @@ export default {
 </script>
 
 <style>
-.v-application--wrap {
+.v-application--wrap,
+.theme--light.v-application {
   background: transparent;
   min-height: 0;
+  font-family: "Poppins", sans-serif;
 }
 label {
   font-weight: normal !important;
