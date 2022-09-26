@@ -6,11 +6,10 @@
         <img
           src="@/assets/logo.svg"
           alt="Logo"
-          class=""
-          width="45"
+          class="brand-image"
           style="opacity: 0.8"
         />
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">SK Tugas</span>
       </router-link>
 
       <!-- Sidebar -->
