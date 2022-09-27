@@ -25,9 +25,24 @@
         <v-icon v-else color="red">mdi-close</v-icon>
       </template>
       <template v-slot:[`item.aksi`]="{ item }">
-        <v-btn icon @click="handleDetail(item)">
-          <v-icon>mdi-eye</v-icon>
-        </v-btn>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon>
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="handleDetail(item)">
+              <v-list-item-title>Detail</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="handleSetAdmin(item)" v-if="!item.isAdmin">
+              <v-list-item-title>Set Admin</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="handleUnsetAdmin(item)" v-else>
+              <v-list-item-title>Unset Admin</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </template>
     </v-data-table>
 
@@ -39,6 +54,8 @@
 
 <script>
 import MahasiswaDetail from "./MahasiswaDetail.vue";
+import Swal from "sweetalert2";
+
 export default {
   name: "UserMahasiswa",
   components: { MahasiswaDetail },
@@ -73,6 +90,36 @@ export default {
     handleDetail(item) {
       this.$store.dispatch("getMahasiswaByNIM", item.nim_nik_unit);
       this.modalDetail = true;
+    },
+    handleSetAdmin(item) {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Anda akan mengubah status admin dari mahasiswa ini",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, ubah!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch("setAdminByNIM", item.nim_nik_unit);
+        }
+      });
+    },
+    handleUnsetAdmin(item) {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Anda akan mengubah status admin dari mahasiswa ini",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, ubah!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch("unsetAdminByNIM", item.nim_nik_unit);
+        }
+      });
     },
   },
   mounted() {

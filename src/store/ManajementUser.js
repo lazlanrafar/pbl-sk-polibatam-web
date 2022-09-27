@@ -1,5 +1,6 @@
 import axios from "axios";
 const apiUrl = process.env.VUE_APP_API_URL;
+import Swal from "sweetalert2";
 
 const manajemenUser = {
   state: {
@@ -98,6 +99,56 @@ const manajemenUser = {
         context.commit("SET_DATA_DOSEN", result.data.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        context.commit("SET_LOADING_MANAJEMEN_USER", false);
+      }
+    },
+    async setAdminByNIM(context, nim) {
+      try {
+        context.commit("SET_LOADING_MANAJEMEN_USER", true);
+        const result = await axios({
+          url: `${apiUrl}/polibatam/setAdmin/${nim}`,
+          method: "POST",
+        });
+        context.dispatch("getAllMahasiswa");
+        context.dispatch("getAllDosen");
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal",
+          text: error.response.data.message,
+        });
+      } finally {
+        context.commit("SET_LOADING_MANAJEMEN_USER", false);
+      }
+    },
+    async unsetAdminByNIM(context, nim) {
+      try {
+        context.commit("SET_LOADING_MANAJEMEN_USER", true);
+        const result = await axios({
+          url: `${apiUrl}/polibatam/unsetAdmin/${nim}`,
+          method: "DELETE",
+        });
+        context.dispatch("getAllMahasiswa");
+        context.dispatch("getAllDosen");
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal",
+          text: error.response.data.message,
+        });
       } finally {
         context.commit("SET_LOADING_MANAJEMEN_USER", false);
       }
