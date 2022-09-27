@@ -20,6 +20,10 @@
       <template v-slot:[`item.no`]="props">
         {{ (props.index += 1) }}
       </template>
+      <template v-slot:[`item.isAdmin`]="{ item }">
+        <v-icon v-if="item.isAdmin" color="green">mdi-check</v-icon>
+        <v-icon v-else color="red">mdi-close</v-icon>
+      </template>
       <template v-slot:[`item.aksi`]="{ item }">
         <v-btn icon @click="handleDetail(item)">
           <v-icon>mdi-eye</v-icon>
@@ -44,7 +48,7 @@ export default {
       { text: "Nama", value: "name" },
       { text: "Username", value: "username" },
       { text: "NIM", value: "nim_nik_unit" },
-      { text: "Status", value: "jabatan" },
+      { text: "Is Admin", value: "isAdmin", align: "center" },
       { text: "Aksi", value: "aksi" },
     ],
     modalDetail: false,

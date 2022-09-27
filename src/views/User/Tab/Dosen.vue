@@ -20,6 +20,10 @@
       <template v-slot:[`item.no`]="props">
         {{ (props.index += 1) }}
       </template>
+      <template v-slot:[`item.isAdmin`]="{ item }">
+        <v-icon v-if="item.isAdmin" color="green">mdi-check</v-icon>
+        <v-icon v-else color="red">mdi-close</v-icon>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -32,10 +36,10 @@ export default {
     headers: [
       { text: "No", value: "no" },
       { text: "Nama", value: "name" },
-      { text: "Username", value: "username" },
+      { text: "Jabatan", value: "jabatan" },
       { text: "Email", value: "email" },
       { text: "NIM / NIK / UNIT", value: "nim_nik_unit" },
-      { text: "Jabatan", value: "jabatan" },
+      { text: "Is Admin", value: "isAdmin", align: "center" },
     ],
   }),
   computed: {
