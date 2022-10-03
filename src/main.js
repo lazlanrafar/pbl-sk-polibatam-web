@@ -3,7 +3,9 @@ import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
 import store from "./store";
 import router from "./router";
+import JsonExcel from "vue-json-excel";
 
+Vue.component("downloadExcel", JsonExcel);
 Vue.config.productionTip = false;
 
 new Vue({
