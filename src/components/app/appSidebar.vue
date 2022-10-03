@@ -9,7 +9,7 @@
           class="brand-image"
           style="opacity: 0.8"
         />
-        <span class="brand-text font-weight-light">SK Tugas</span>
+        <span class="brand-text font-weight-light">SK TUGAS</span>
       </router-link>
 
       <!-- Sidebar -->
