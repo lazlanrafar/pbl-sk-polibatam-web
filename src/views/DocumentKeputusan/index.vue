@@ -53,12 +53,44 @@
                     >
                   </template>
                   <template v-slot:[`item.aksi`]="{ item }">
-                    <v-btn class="mr-2" icon @click="handleUpdate(item.id)">
+                    <!-- <v-btn class="mr-2" icon @click="handleUpdate(item.id)">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-btn icon @click="handleDelete(item.id)">
                       <v-icon>mdi-delete</v-icon>
-                    </v-btn>
+                    </v-btn> -->
+                    <v-menu offset-y :nudge-width="100">
+                      <template v-slot:activator="{ on }">
+                        <v-btn v-on="on" icon>
+                          <v-icon>mdi-dots-vertical</v-icon>
+                        </v-btn>
+                      </template>
+                      <v-list>
+                        <v-list-item @click="handleExport()">
+                          <v-list-item-title>
+                            <download-excel
+                              :name="`${item.nama}.xls`"
+                              :data="item.TagGroup.tag"
+                            >
+                              <i class="fa fa-file-excel w-25"></i>
+                              Export
+                            </download-excel>
+                          </v-list-item-title>
+                        </v-list-item>
+                        <v-list-item @click="handleUpdate(item.id)">
+                          <v-list-item-title>
+                            <i class="fa fa-edit w-25"></i>
+                            Update
+                          </v-list-item-title>
+                        </v-list-item>
+                        <v-list-item @click="handleDelete(item.id)">
+                          <v-list-item-title>
+                            <i class="fa fa-trash w-25"></i>
+                            Delete
+                          </v-list-item-title>
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
                   </template>
                   <template v-slot:expanded-item="{ headers, item }">
                     <td :colspan="headers.length" class="collapsable">
@@ -113,7 +145,6 @@ export default {
       { text: "Deskripsi", value: "deskripsi" },
       { text: "Dibuat oleh", value: "createdBy" },
       { text: "Dokumen", value: "dokumen" },
-      { text: "Aksi", value: "aksi", align: "right" },
     ],
     expanded: [],
     singleExpand: true,
@@ -164,6 +195,10 @@ export default {
   },
   created() {
     this.$store.dispatch("fetchAllDokumenKeputusan");
+
+    if (this.isAdmin) {
+      this.headers.push({ text: "Aksi", value: "aksi" });
+    }
   },
 };
 </script>

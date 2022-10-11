@@ -150,7 +150,6 @@ export default {
       { text: "Deskripsi", value: "deskripsi" },
       { text: "Dibuat oleh", value: "createdBy" },
       { text: "Dokumen", value: "dokumen" },
-      { text: "Aksi", value: "aksi" },
     ],
     expanded: [],
     singleExpand: true,
@@ -204,6 +203,10 @@ export default {
   },
   created() {
     this.$store.dispatch("fetchAllDokumenTugas");
+
+    if (this.isAdmin) {
+      this.headers.push({ text: "Aksi", value: "aksi" });
+    }
   },
 };
 </script>
