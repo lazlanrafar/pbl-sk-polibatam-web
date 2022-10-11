@@ -15,7 +15,11 @@
           <div class="col">
             <div class="card">
               <div class="card-body">
-                <button class="btn btn-primary" @click="handleModalForm">
+                <button
+                  class="btn btn-primary"
+                  @click="handleModalForm"
+                  v-if="isAdmin"
+                >
                   <i class="fa fa-plus"></i>
                   Tambah
                 </button>
@@ -156,6 +160,9 @@ export default {
   computed: {
     reports() {
       return this.$store.state.dokumenTugas.reports;
+    },
+    isAdmin() {
+      return this.$store.state.app.user.isAdmin;
     },
     optionsTableDokumenTugas: {
       get() {

@@ -12,7 +12,7 @@
 
     <section class="content">
       <div class="container-fluid">
-        <div class="row">
+        <div class="row" v-if="isAdmin">
           <div class="col-lg-3 col-6">
             <div class="small-box bg-info">
               <div class="inner">
@@ -112,6 +112,9 @@ export default {
     },
     reports() {
       return this.$store.state.dashboard.reports;
+    },
+    isAdmin() {
+      return this.$store.state.app.user.isAdmin;
     },
   },
   created() {

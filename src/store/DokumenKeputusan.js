@@ -45,8 +45,13 @@ const dokumenKeputusan = {
     async fetchAllDokumenKeputusan(context) {
       try {
         context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", true);
+        const user = context.rootState.app.user;
+        let url = user.isAdmin
+          ? `${apiUrl}/surat-keputusan`
+          : `${apiUrl}/surat-keputusan?nim=${user.nim_nik_unit}`;
+
         const result = await axios({
-          url: `${apiUrl}/surat-keputusan`,
+          url: url,
           method: "GET",
         });
 

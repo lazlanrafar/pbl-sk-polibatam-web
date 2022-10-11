@@ -40,7 +40,7 @@ const app = {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: error.response.data.message,
+          text: "Username atau password salah!",
         });
       }
     },

@@ -18,8 +18,13 @@ const dashboard = {
     async FetchDashboard(context) {
       try {
         context.commit("SET_LOADING_DASHBOARD", true);
+        const user = context.rootState.app.user;
+        let url = user.isAdmin
+          ? `${apiUrl}/dashboard`
+          : `${apiUrl}/dashboard?nim=${user.nim_nik_unit}`;
+
         const result = await axios({
-          url: `${apiUrl}/dashboard`,
+          url: url,
           method: "GET",
         });
 

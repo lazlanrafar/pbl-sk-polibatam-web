@@ -48,6 +48,16 @@ export default {
     tabActive() {
       return this.$route.name;
     },
+    isAdmin() {
+      return this.$store.state.app.user.isAdmin;
+    },
+  },
+  watch: {
+    isAdmin() {
+      if (!this.isAdmin) {
+        this.listSidebar = this.listSidebar.filter((item) => !item.isAdmin);
+      }
+    },
   },
   data() {
     return {
@@ -56,29 +66,39 @@ export default {
           name: "Dashboard",
           icon: "nav-icon fas fa-tachometer-alt",
           link: "/",
+          isAdmin: false,
         },
         {
           name: "Document Tugas",
           icon: "nav-icon fa fa-book",
           link: "/document-tugas",
+          isAdmin: false,
         },
         {
           name: "Keputusan",
           icon: "nav-icon fa fa-book",
           link: "/document-keputusan",
+          isAdmin: false,
         },
         {
           name: "Tag Group",
           icon: "nav-icon fa fa-tags",
           link: "/tag-group",
+          isAdmin: true,
         },
         {
           name: "Manajemen User",
           icon: "nav-icon fa fa-users",
           link: "/user",
+          isAdmin: true,
         },
       ],
     };
+  },
+  mounted() {
+    if (!this.isAdmin) {
+      this.listSidebar = this.listSidebar.filter((item) => !item.isAdmin);
+    }
   },
 };
 </script>
