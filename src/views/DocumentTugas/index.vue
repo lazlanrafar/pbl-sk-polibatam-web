@@ -18,7 +18,7 @@
                 <div class="row align-items-center mb-3">
                   <div class="col-4 col-md-2 col-lg-1">
                     <button
-                      class="btn btn-primary d-flex align-items-center w-100"
+                      class="btn btn-primary d-flex align-items-center justify-content-around w-100"
                       @click="handleModalForm"
                       v-if="isAdmin"
                     >
@@ -34,7 +34,7 @@
                       :fields="fieldsExport"
                     >
                       <button
-                        class="btn btn-secondary d-flex align-items-center w-100"
+                        class="btn btn-secondary d-flex align-items-center justify-content-around w-100"
                       >
                         <i class="fa fa-file-excel mr-1"></i>
                         Export
@@ -48,7 +48,12 @@
                         class="file-input__input"
                         @change="onFileChange"
                       />
-                      <span>Import</span>
+                      <div
+                        class="d-flex align-items-center justify-content-around"
+                      >
+                        <i class="fa fa-file-excel mr-1"></i>
+                        <span>Import</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -259,7 +264,7 @@ export default {
 .file-input {
   position: relative;
   overflow: hidden;
-  background-color: #007bff;
+  background-color: #6c757d;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   color: white;
