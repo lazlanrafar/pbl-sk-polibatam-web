@@ -41,6 +41,16 @@
                       </button>
                     </download-excel>
                   </div>
+                  <div class="col-4 col-md-2 col-lg-1">
+                    <div class="file-input">
+                      <input
+                        type="file"
+                        class="file-input__input"
+                        @change="onFileChange"
+                      />
+                      <span>Import</span>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="row justify-content-end">
@@ -127,17 +137,27 @@
     >
       <Form @modalForm="modalForm = false" />
     </v-dialog>
+    <v-dialog
+      v-model="jsonImport"
+      max-width="1000"
+      persistent
+      style="z-index: 9999"
+    >
+      <form-import />
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import Form from "./Form.vue";
+import FormImport from "./FormImport.vue";
 const apiUrl = process.env.VUE_APP_API_URL;
 import Swal from "sweetalert2";
+const XLSX = require("xlsx");
 
 export default {
   name: "DocumentKeputusanPage",
-  components: { Form },
+  components: { Form, FormImport },
   data: () => ({
     headers: [
       { text: "No", value: "no" },
@@ -165,6 +185,9 @@ export default {
   computed: {
     reports() {
       return this.$store.state.dokumenKeputusan.reports;
+    },
+    jsonImport() {
+      return this.$store.state.dokumenKeputusan.jsonImport;
     },
     isAdmin() {
       return this.$store.state.app.user.isAdmin;
@@ -203,6 +226,25 @@ export default {
         }
       });
     },
+    onFileChange(e) {
+      var files = e.target.files,
+        f = files[0];
+      var reader = new FileReader();
+
+      const commit = this.$store.commit;
+      reader.onload = function (e) {
+        var data = new Uint8Array(e.target.result);
+        var workbook = XLSX.read(data, { type: "array" });
+        let sheetName = workbook.SheetNames[0];
+        /* DO SOMETHING WITH workbook HERE */
+        let worksheet = workbook.Sheets[sheetName];
+        let json = XLSX.utils.sheet_to_json(worksheet);
+
+        // handle commit inside filereader onload vue
+        commit("SET_JSON_IMPORT_DOKUMEN_KEPUTUSAN", json);
+      };
+      reader.readAsArrayBuffer(f);
+    },
   },
   created() {
     this.$store.dispatch("fetchAllDokumenKeputusan");
@@ -213,3 +255,23 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.file-input {
+  position: relative;
+  overflow: hidden;
+  background-color: #007bff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  color: white;
+}
+
+.file-input input[type="file"] {
+  position: absolute;
+  font-size: 100px;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+</style>
