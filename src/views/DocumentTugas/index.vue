@@ -15,12 +15,11 @@
           <div class="col">
             <div class="card">
               <div class="card-body">
-                <div class="row align-items-center mb-3">
+                <div class="row align-items-center mb-3" v-if="isAdmin">
                   <div class="col-4 col-md-2 col-lg-1">
                     <button
                       class="btn btn-primary d-flex align-items-center justify-content-around w-100"
                       @click="handleModalForm"
-                      v-if="isAdmin"
                     >
                       <i class="fa fa-plus"></i>
                       Tambah
