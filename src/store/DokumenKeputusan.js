@@ -56,8 +56,13 @@ const dokumenKeputusan = {
         });
 
         let data = result.data.data;
+        let no = 1;
+
         for (const iterator of data) {
+          iterator.no = no;
           iterator.TagGroup.tag = JSON.parse(iterator.TagGroup.tag);
+
+          no++;
         }
         context.commit("SET_REPORTS_DOKUMEN_KEPUTUSAN", data);
       } catch (error) {

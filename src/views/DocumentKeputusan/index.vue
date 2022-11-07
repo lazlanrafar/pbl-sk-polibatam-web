@@ -15,14 +15,34 @@
           <div class="col">
             <div class="card">
               <div class="card-body">
-                <button
-                  class="btn btn-primary"
-                  @click="handleModalForm"
-                  v-if="isAdmin"
-                >
-                  <i class="fa fa-plus"></i>
-                  Tambah
-                </button>
+                <div class="row align-items-center mb-3">
+                  <div class="col-4 col-md-2 col-lg-1">
+                    <button
+                      class="btn btn-primary w-100"
+                      @click="handleModalForm"
+                      v-if="isAdmin"
+                    >
+                      <i class="fa fa-plus"></i>
+                      Tambah
+                    </button>
+                  </div>
+                  <div class="col-4 col-md-2 col-lg-1">
+                    <download-excel
+                      name="Dokumen-Keputusan"
+                      type="xls"
+                      :data="reports"
+                      :fields="fieldsExport"
+                    >
+                      <button
+                        class="btn btn-secondary d-flex align-items-center w-100"
+                      >
+                        <i class="fa fa-file-excel mr-1"></i>
+                        Export
+                      </button>
+                    </download-excel>
+                  </div>
+                </div>
+
                 <div class="row justify-content-end">
                   <div class="col-md-3">
                     <v-text-field
@@ -42,9 +62,6 @@
                   :expanded.sync="expanded"
                   show-expand
                 >
-                  <template v-slot:[`item.no`]="props">
-                    {{ (props.index += 1) }}
-                  </template>
                   <template v-slot:[`item.dokumen`]="{ item }">
                     <a
                       :href="`${apiUrl}/documents/${item.filePath}`"
@@ -53,12 +70,6 @@
                     >
                   </template>
                   <template v-slot:[`item.aksi`]="{ item }">
-                    <!-- <v-btn class="mr-2" icon @click="handleUpdate(item.id)">
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
-                    <v-btn icon @click="handleDelete(item.id)">
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn> -->
                     <v-menu offset-y :nudge-width="100">
                       <template v-slot:activator="{ on }">
                         <v-btn v-on="on" icon>
@@ -66,17 +77,6 @@
                         </v-btn>
                       </template>
                       <v-list>
-                        <v-list-item @click="handleExport()">
-                          <v-list-item-title>
-                            <download-excel
-                              :name="`${item.nama}.xls`"
-                              :data="item.TagGroup.tag"
-                            >
-                              <i class="fa fa-file-excel w-25"></i>
-                              Export
-                            </download-excel>
-                          </v-list-item-title>
-                        </v-list-item>
                         <v-list-item @click="handleUpdate(item.id)">
                           <v-list-item-title>
                             <i class="fa fa-edit w-25"></i>
@@ -146,6 +146,17 @@ export default {
       { text: "Dibuat oleh", value: "createdBy" },
       { text: "Dokumen", value: "dokumen" },
     ],
+    fieldsExport: {
+      No: "no",
+      Nama: "nama",
+      Deskripsi: "deskripsi",
+      "Dibuat Oleh": "createdBy",
+      "Nama Tag": "TagGroup.nama",
+      Dokumen: {
+        field: "filePath",
+        callback: (value) => `${apiUrl}/documents/${value}`,
+      },
+    },
     expanded: [],
     singleExpand: true,
     apiUrl,
