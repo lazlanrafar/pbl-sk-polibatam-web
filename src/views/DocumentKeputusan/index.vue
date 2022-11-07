@@ -79,8 +79,12 @@
                 >
                   <template v-slot:[`item.dokumen`]="{ item }">
                     <a
+                      v-if="item.filePath"
                       :href="`${apiUrl}/documents/${item.filePath}`"
                       target="_BLANK"
+                      >Download</a
+                    >
+                    <a v-if="item.fileUrl" :href="item.fileUrl" target="_BLANK"
                       >Download</a
                     >
                   </template>
