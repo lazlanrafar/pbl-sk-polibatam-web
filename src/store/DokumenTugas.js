@@ -45,6 +45,7 @@ const dokumenTugas = {
     async fetchAllDokumenTugas(context) {
       try {
         context.commit("SET_LOADING_DOKUMEN_TUGAS", true);
+
         const user = context.rootState.app.user;
         let url = user.isAdmin
           ? `${apiUrl}/surat-tugas`
@@ -56,8 +57,13 @@ const dokumenTugas = {
         });
 
         let data = result.data.data;
+
+        let no = 1;
         for (const iterator of data) {
+          iterator.no = no;
           iterator.TagGroup.tag = JSON.parse(iterator.TagGroup.tag);
+
+          no++;
         }
         context.commit("SET_REPORTS_DOKUMEN_TUGAS", data);
       } catch (error) {
