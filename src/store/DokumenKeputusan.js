@@ -20,6 +20,7 @@ const dokumenKeputusan = {
       createdBy: "",
     },
     isUpdate: false,
+    jsonImport: "",
   },
   mutations: {
     SET_LOADING_DOKUMEN_KEPUTUSAN(state, payload) {
@@ -40,6 +41,9 @@ const dokumenKeputusan = {
     SET_IS_UPDATE_DOKUMEN_KEPUTUSAN(state, payload) {
       state.isUpdate = payload;
     },
+    SET_JSON_IMPORT_DOKUMEN_KEPUTUSAN(state, payload) {
+      state.jsonImport = payload;
+    },
   },
   actions: {
     async fetchAllDokumenKeputusan(context) {
@@ -56,8 +60,13 @@ const dokumenKeputusan = {
         });
 
         let data = result.data.data;
+        let no = 1;
+
         for (const iterator of data) {
+          iterator.no = no;
           iterator.TagGroup.tag = JSON.parse(iterator.TagGroup.tag);
+
+          no++;
         }
         context.commit("SET_REPORTS_DOKUMEN_KEPUTUSAN", data);
       } catch (error) {
@@ -114,6 +123,33 @@ const dokumenKeputusan = {
           text: error.response.data.message,
         });
         console.log(error);
+      } finally {
+        context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", false);
+      }
+    },
+    async importDokumenKeputusan(context) {
+      try {
+        context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", true);
+
+        const result = await axios({
+          url: `${apiUrl}/surat-keputusan/import`,
+          method: "POST",
+          data: context.state.jsonImport,
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+
+        context.dispatch("fetchAllDokumenKeputusan");
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal",
+          text: error.response.data.message,
+        });
       } finally {
         context.commit("SET_LOADING_DOKUMEN_KEPUTUSAN", false);
       }

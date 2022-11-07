@@ -15,25 +15,42 @@
           <div class="col">
             <div class="card">
               <div class="card-body">
-                <div class="d-flex">
-                  <button
-                    class="btn btn-primary mr-3"
-                    @click="handleModalForm"
-                    v-if="isAdmin"
-                  >
-                    <i class="fa fa-plus"></i>
-                    Tambah
-                  </button>
-                  <download-excel
-                    :name="`DokumenTugas.xls`"
-                    :data="reports"
-                    :fields="fieldsExport"
-                  >
-                    <button class="btn btn-secondary d-flex align-items-center">
-                      <i class="fa fa-file-excel mr-2"></i>
-                      Export
+                <div class="row align-items-center mb-3">
+                  <div class="col-4 col-md-2 col-lg-1">
+                    <button
+                      class="btn btn-primary d-flex align-items-center w-100"
+                      @click="handleModalForm"
+                      v-if="isAdmin"
+                    >
+                      <i class="fa fa-plus"></i>
+                      Tambah
                     </button>
-                  </download-excel>
+                  </div>
+                  <div class="col-4 col-md-2 col-lg-1">
+                    <download-excel
+                      name="DokumenTugas"
+                      type="xls"
+                      :data="reports"
+                      :fields="fieldsExport"
+                    >
+                      <button
+                        class="btn btn-secondary d-flex align-items-center w-100"
+                      >
+                        <i class="fa fa-file-excel mr-1"></i>
+                        Export
+                      </button>
+                    </download-excel>
+                  </div>
+                  <div class="col-4 col-md-2 col-lg-1">
+                    <div class="file-input">
+                      <input
+                        type="file"
+                        class="file-input__input"
+                        @change="onFileChange"
+                      />
+                      <span>Import</span>
+                    </div>
+                  </div>
                 </div>
                 <div class="row justify-content-end">
                   <div class="col-md-3">
@@ -119,17 +136,27 @@
     >
       <Form @modalForm="modalForm = false" />
     </v-dialog>
+    <v-dialog
+      v-model="jsonImport"
+      max-width="1000"
+      persistent
+      style="z-index: 9999"
+    >
+      <form-import />
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import Form from "./Form.vue";
+import FormImport from "./FormImport.vue";
 const apiUrl = process.env.VUE_APP_API_URL;
 import Swal from "sweetalert2";
+const XLSX = require("xlsx");
 
 export default {
   name: "DocumentTugasPage",
-  components: { Form },
+  components: { Form, FormImport },
   data: () => ({
     headers: [
       { text: "No", value: "no" },
@@ -157,6 +184,9 @@ export default {
   computed: {
     reports() {
       return this.$store.state.dokumenTugas.reports;
+    },
+    jsonImport() {
+      return this.$store.state.dokumenTugas.jsonImport;
     },
     isAdmin() {
       return this.$store.state.app.user.isAdmin;
@@ -195,6 +225,25 @@ export default {
         }
       });
     },
+    onFileChange(e) {
+      var files = e.target.files,
+        f = files[0];
+      var reader = new FileReader();
+
+      const commit = this.$store.commit;
+      reader.onload = function (e) {
+        var data = new Uint8Array(e.target.result);
+        var workbook = XLSX.read(data, { type: "array" });
+        let sheetName = workbook.SheetNames[0];
+        /* DO SOMETHING WITH workbook HERE */
+        let worksheet = workbook.Sheets[sheetName];
+        let json = XLSX.utils.sheet_to_json(worksheet);
+
+        // handle commit inside filereader onload vue
+        commit("SET_JSON_IMPORT_DOKUMEN_TUGAS", json);
+      };
+      reader.readAsArrayBuffer(f);
+    },
   },
   created() {
     this.$store.dispatch("fetchAllDokumenTugas");
@@ -205,3 +254,23 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.file-input {
+  position: relative;
+  overflow: hidden;
+  background-color: #007bff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  color: white;
+}
+
+.file-input input[type="file"] {
+  position: absolute;
+  font-size: 100px;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+</style>

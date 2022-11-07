@@ -20,6 +20,7 @@ const dokumenTugas = {
       createdBy: "",
     },
     isUpdate: false,
+    jsonImport: "",
   },
   mutations: {
     SET_LOADING_DOKUMEN_TUGAS(state, payload) {
@@ -39,6 +40,9 @@ const dokumenTugas = {
     },
     SET_IS_UPDATE_DOKUMEN_TUGAS(state, payload) {
       state.isUpdate = payload;
+    },
+    SET_JSON_IMPORT_DOKUMEN_TUGAS(state, payload) {
+      state.jsonImport = payload;
     },
   },
   actions: {
@@ -117,6 +121,32 @@ const dokumenTugas = {
           text: error.response.data.message,
         });
         console.log(error);
+      } finally {
+        context.commit("SET_LOADING_DOKUMEN_TUGAS", false);
+      }
+    },
+    async importDokumenTugas(context) {
+      try {
+        context.commit("SET_LOADING_DOKUMEN_TUGAS", true);
+        const result = await axios({
+          url: `${apiUrl}/surat-tugas/import`,
+          method: "POST",
+          data: context.state.jsonImport,
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+
+        context.dispatch("fetchAllDokumenTugas");
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal",
+          text: error.response.data.message,
+        });
       } finally {
         context.commit("SET_LOADING_DOKUMEN_TUGAS", false);
       }

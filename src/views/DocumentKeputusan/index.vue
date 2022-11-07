@@ -15,14 +15,44 @@
           <div class="col">
             <div class="card">
               <div class="card-body">
-                <button
-                  class="btn btn-primary"
-                  @click="handleModalForm"
-                  v-if="isAdmin"
-                >
-                  <i class="fa fa-plus"></i>
-                  Tambah
-                </button>
+                <div class="row align-items-center mb-3">
+                  <div class="col-4 col-md-2 col-lg-1">
+                    <button
+                      class="btn btn-primary w-100"
+                      @click="handleModalForm"
+                      v-if="isAdmin"
+                    >
+                      <i class="fa fa-plus"></i>
+                      Tambah
+                    </button>
+                  </div>
+                  <div class="col-4 col-md-2 col-lg-1">
+                    <download-excel
+                      name="Dokumen-Keputusan"
+                      type="xls"
+                      :data="reports"
+                      :fields="fieldsExport"
+                    >
+                      <button
+                        class="btn btn-secondary d-flex align-items-center w-100"
+                      >
+                        <i class="fa fa-file-excel mr-1"></i>
+                        Export
+                      </button>
+                    </download-excel>
+                  </div>
+                  <div class="col-4 col-md-2 col-lg-1">
+                    <div class="file-input">
+                      <input
+                        type="file"
+                        class="file-input__input"
+                        @change="onFileChange"
+                      />
+                      <span>Import</span>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="row justify-content-end">
                   <div class="col-md-3">
                     <v-text-field
@@ -42,9 +72,6 @@
                   :expanded.sync="expanded"
                   show-expand
                 >
-                  <template v-slot:[`item.no`]="props">
-                    {{ (props.index += 1) }}
-                  </template>
                   <template v-slot:[`item.dokumen`]="{ item }">
                     <a
                       :href="`${apiUrl}/documents/${item.filePath}`"
@@ -53,12 +80,6 @@
                     >
                   </template>
                   <template v-slot:[`item.aksi`]="{ item }">
-                    <!-- <v-btn class="mr-2" icon @click="handleUpdate(item.id)">
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
-                    <v-btn icon @click="handleDelete(item.id)">
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn> -->
                     <v-menu offset-y :nudge-width="100">
                       <template v-slot:activator="{ on }">
                         <v-btn v-on="on" icon>
@@ -66,17 +87,6 @@
                         </v-btn>
                       </template>
                       <v-list>
-                        <v-list-item @click="handleExport()">
-                          <v-list-item-title>
-                            <download-excel
-                              :name="`${item.nama}.xls`"
-                              :data="item.TagGroup.tag"
-                            >
-                              <i class="fa fa-file-excel w-25"></i>
-                              Export
-                            </download-excel>
-                          </v-list-item-title>
-                        </v-list-item>
                         <v-list-item @click="handleUpdate(item.id)">
                           <v-list-item-title>
                             <i class="fa fa-edit w-25"></i>
@@ -127,17 +137,27 @@
     >
       <Form @modalForm="modalForm = false" />
     </v-dialog>
+    <v-dialog
+      v-model="jsonImport"
+      max-width="1000"
+      persistent
+      style="z-index: 9999"
+    >
+      <form-import />
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import Form from "./Form.vue";
+import FormImport from "./FormImport.vue";
 const apiUrl = process.env.VUE_APP_API_URL;
 import Swal from "sweetalert2";
+const XLSX = require("xlsx");
 
 export default {
   name: "DocumentKeputusanPage",
-  components: { Form },
+  components: { Form, FormImport },
   data: () => ({
     headers: [
       { text: "No", value: "no" },
@@ -146,6 +166,17 @@ export default {
       { text: "Dibuat oleh", value: "createdBy" },
       { text: "Dokumen", value: "dokumen" },
     ],
+    fieldsExport: {
+      No: "no",
+      Nama: "nama",
+      Deskripsi: "deskripsi",
+      "Dibuat Oleh": "createdBy",
+      "Nama Tag": "TagGroup.nama",
+      Dokumen: {
+        field: "filePath",
+        callback: (value) => `${apiUrl}/documents/${value}`,
+      },
+    },
     expanded: [],
     singleExpand: true,
     apiUrl,
@@ -154,6 +185,9 @@ export default {
   computed: {
     reports() {
       return this.$store.state.dokumenKeputusan.reports;
+    },
+    jsonImport() {
+      return this.$store.state.dokumenKeputusan.jsonImport;
     },
     isAdmin() {
       return this.$store.state.app.user.isAdmin;
@@ -192,6 +226,25 @@ export default {
         }
       });
     },
+    onFileChange(e) {
+      var files = e.target.files,
+        f = files[0];
+      var reader = new FileReader();
+
+      const commit = this.$store.commit;
+      reader.onload = function (e) {
+        var data = new Uint8Array(e.target.result);
+        var workbook = XLSX.read(data, { type: "array" });
+        let sheetName = workbook.SheetNames[0];
+        /* DO SOMETHING WITH workbook HERE */
+        let worksheet = workbook.Sheets[sheetName];
+        let json = XLSX.utils.sheet_to_json(worksheet);
+
+        // handle commit inside filereader onload vue
+        commit("SET_JSON_IMPORT_DOKUMEN_KEPUTUSAN", json);
+      };
+      reader.readAsArrayBuffer(f);
+    },
   },
   created() {
     this.$store.dispatch("fetchAllDokumenKeputusan");
@@ -202,3 +255,23 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.file-input {
+  position: relative;
+  overflow: hidden;
+  background-color: #007bff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  color: white;
+}
+
+.file-input input[type="file"] {
+  position: absolute;
+  font-size: 100px;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+</style>
