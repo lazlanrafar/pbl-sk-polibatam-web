@@ -30,12 +30,26 @@
               </a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">
-                <i class="fa fa-file-excel-o"></i>
-                Export
+                <download-excel
+                  name="Dokumen-Tugas"
+                  type="xls"
+                  :data="reports"
+                  :fields="fieldsExport"
+                >
+                  <i class="fa fa-file-excel-o"></i>
+                  Export
+                </download-excel>
               </a>
               <a class="dropdown-item" href="#">
-                <i class="fa fa-file-excel-o"></i>
-                Import
+                <div class="file-input">
+                  <input
+                    type="file"
+                    class="file-input__input"
+                    @change="onFileChange"
+                  />
+                  <i class="fa fa-file-excel-o"></i>
+                  Import
+                </div>
               </a>
             </div>
           </div>
@@ -46,45 +60,6 @@
       <div class="col">
         <div class="card">
           <div class="card-body">
-            <div class="row align-items-center mb-3" v-if="isAdmin">
-              <div class="col-4 col-md-2 col-lg-1">
-                <button
-                  class="btn btn-primary d-flex align-items-center justify-content-around w-100"
-                  @click="handleModalForm"
-                >
-                  <i class="fa fa-plus"></i>
-                  Tambah
-                </button>
-              </div>
-              <div class="col-4 col-md-2 col-lg-1">
-                <download-excel
-                  name="DokumenTugas"
-                  type="xls"
-                  :data="reports"
-                  :fields="fieldsExport"
-                >
-                  <button
-                    class="btn btn-secondary d-flex align-items-center justify-content-around w-100"
-                  >
-                    <i class="fa fa-file-excel mr-1"></i>
-                    Export
-                  </button>
-                </download-excel>
-              </div>
-              <div class="col-4 col-md-2 col-lg-1">
-                <div class="file-input">
-                  <input
-                    type="file"
-                    class="file-input__input"
-                    @change="onFileChange"
-                  />
-                  <div class="d-flex align-items-center justify-content-around">
-                    <i class="fa fa-file-excel mr-1"></i>
-                    <span>Import</span>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div class="row justify-content-end">
               <div class="col-md-3">
                 <v-text-field
@@ -295,10 +270,7 @@ export default {
 .file-input {
   position: relative;
   overflow: hidden;
-  background-color: #6c757d;
-  padding: 0.5rem 1rem;
   border-radius: 5px;
-  color: white;
 }
 
 .file-input input[type="file"] {
