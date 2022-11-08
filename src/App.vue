@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="wrapper" v-if="user">
+    <div v-if="user">
       <app-topbar />
       <app-sidebar />
 
       <div class="content-wrapper">
         <v-app>
-          <router-view />
+          <!-- <router-view /> -->
         </v-app>
       </div>
 

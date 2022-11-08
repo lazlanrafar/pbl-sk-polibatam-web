@@ -1,7 +1,6 @@
 <template>
   <div>
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-      <!-- Brand Logo -->
+    <!-- <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <router-link to="/" class="brand-link">
         <img
           src="@/assets/logo.svg"
@@ -12,7 +11,6 @@
         <span class="brand-text font-weight-light">SK TUGAS</span>
       </router-link>
 
-      <!-- Sidebar -->
       <div class="sidebar">
         <nav class="mt-2">
           <ul
@@ -37,7 +35,7 @@
           </ul>
         </nav>
       </div>
-    </aside>
+    </aside> -->
   </div>
 </template>
 
