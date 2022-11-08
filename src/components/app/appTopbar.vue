@@ -1,35 +1,4 @@
 <template>
-  <!-- <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"
-          ><i class="fas fa-bars"></i
-        ></a>
-      </li>
-    </ul>
-
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item dropdown user user-menu">
-        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-            class="user-image img-circle"
-            alt="User Image"
-          />
-          <span class="hidden-xs" style="color: black">{{ user.name }}</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <button
-            type="submit"
-            class="dropdown-item text-danger"
-            @click="handleLogout"
-          >
-            <i class="fas fa-sign-out-alt mr-2"></i> Logout
-          </button>
-        </div>
-      </li>
-    </ul>
-  </nav> -->
   <nav
     class="header-navbar navbar-expand-lg navbar navbar-with-menu floating-nav navbar-light navbar-shadow"
   >
