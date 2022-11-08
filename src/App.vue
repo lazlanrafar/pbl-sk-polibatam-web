@@ -38,14 +38,6 @@ export default {
       return this.$store.state.app.user;
     },
   },
-  watch: {
-    user() {
-      if (this.user) {
-        document.body.classList.remove("login-page");
-        document.body.classList.remove("hold-transition");
-      }
-    },
-  },
   created() {
     const user = localStorage.getItem("user");
     if (user) {

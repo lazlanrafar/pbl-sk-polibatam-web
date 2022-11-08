@@ -29,13 +29,13 @@
                 data-toggle="dropdown"
               >
                 <div class="user-nav d-sm-flex d-none">
-                  <span class="user-name text-bold-600">John Doe</span
-                  ><span class="user-status">Available</span>
+                  <span class="user-name text-bold-600">{{ user.name }}</span
+                  ><span class="user-status">{{ user.jabatan }}</span>
                 </div>
                 <span
                   ><img
                     class="round"
-                    src="/app-assets/images/portrait/small/avatar-s-11.jpg"
+                    src="https://i.pinimg.com/originals/07/19/56/0719566e881e8b9be673d75ca327a7a4.jpg"
                     alt="avatar"
                     height="40"
                     width="40"
