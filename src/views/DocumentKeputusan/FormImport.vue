@@ -16,7 +16,9 @@
       >
     </div>
     <div class="card-footer d-flex justify-content-end">
-      <button class="btn btn-secondary mr-3" @click="handleClose">Batal</button>
+      <button class="btn btn-outline-secondary mr-3" @click="handleClose">
+        Batal
+      </button>
       <button class="btn btn-primary" @click="handleConfirm">Import</button>
     </div>
   </v-card>

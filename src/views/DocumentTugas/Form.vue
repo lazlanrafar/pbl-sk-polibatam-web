@@ -18,9 +18,16 @@
           dense
           v-model="filePath"
           accept="application/pdf"
+          :rules="[(v) => isUpdate || !!v || 'Dokumen is required']"
           required
         />
-        <v-text-field label="Nama" outlined v-model="nama" dense />
+        <v-text-field
+          label="Nama"
+          outlined
+          v-model="nama"
+          dense
+          :rules="[(v) => !!v || 'Nama is required']"
+        />
         <v-select
           :items="listTagGroup"
           v-model="tagId"
@@ -29,16 +36,26 @@
           label="Tag Group"
           outlined
           dense
+          :rules="[(v) => !!v || 'Tag Group is required']"
         />
 
-        <v-textarea v-model="deskripsi" outlined label="Deskripsi" />
+        <v-textarea
+          v-model="deskripsi"
+          outlined
+          label="Deskripsi"
+          :rules="[(v) => !!v || 'Deskripsi is required']"
+        />
         <div class="d-flex justify-content-between">
-          <v-btn class="text-capitalize" color="secondary" @click="handleClose">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            @click="handleClose"
+          >
             Kembali
-          </v-btn>
-          <v-btn class="text-capitalize" color="primary" type="submit">
+          </button>
+          <button class="btn btn-primary text-white" type="submit">
             {{ isUpdate ? "Update" : "Simpan" }}
-          </v-btn>
+          </button>
         </div>
       </v-form>
     </div>

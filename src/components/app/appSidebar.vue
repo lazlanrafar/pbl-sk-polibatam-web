@@ -1,7 +1,6 @@
 <template>
   <div>
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-      <!-- Brand Logo -->
+    <!-- <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <router-link to="/" class="brand-link">
         <img
           src="@/assets/logo.svg"
@@ -12,7 +11,6 @@
         <span class="brand-text font-weight-light">SK TUGAS</span>
       </router-link>
 
-      <!-- Sidebar -->
       <div class="sidebar">
         <nav class="mt-2">
           <ul
@@ -37,7 +35,63 @@
           </ul>
         </nav>
       </div>
-    </aside>
+    </aside> -->
+    <div
+      class="main-menu menu-fixed menu-dark menu-accordion menu-shadow"
+      data-scroll-to-active="true"
+    >
+      <div class="navbar-header">
+        <ul class="nav navbar-nav flex-row">
+          <li class="nav-item mr-auto">
+            <router-link class="navbar-brand" to="/">
+              <div class="brand-logo"></div>
+              <h2 class="brand-text mb-0">Vuexy</h2>
+            </router-link>
+          </li>
+          <li class="nav-item nav-toggle">
+            <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"
+              ><i
+                class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"
+              ></i
+              ><i
+                class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary"
+                data-ticon="icon-disc"
+              ></i
+            ></a>
+          </li>
+        </ul>
+      </div>
+      <div class="shadow-bottom"></div>
+      <div class="main-menu-content">
+        <ul
+          class="navigation navigation-main"
+          id="main-menu-navigation"
+          data-menu="menu-navigation"
+        >
+          <li
+            :class="tabActive == 'Dashboard' ? 'nav-item active' : 'nav-item'"
+          >
+            <router-link to="/">
+              <i class="feather icon-home"></i>
+              <span class="menu-title" data-i18n="Email">Dashboard</span>
+            </router-link>
+          </li>
+          <li class="navigation-header"><span>Apps</span></li>
+          <li
+            v-for="(item, index) in listSidebar"
+            :key="index"
+            :class="tabActive == item.name ? 'nav-item active' : 'nav-item'"
+          >
+            <router-link :to="item.link">
+              <i :class="item.icon"></i>
+              <span class="menu-title" :data-i18n="item.name">
+                {{ item.name }}
+              </span>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -63,32 +117,26 @@ export default {
     return {
       listSidebar: [
         {
-          name: "Dashboard",
-          icon: "nav-icon fas fa-tachometer-alt",
-          link: "/",
-          isAdmin: false,
-        },
-        {
           name: "Document Tugas",
-          icon: "nav-icon fa fa-book",
+          icon: "feather icon-file-minus",
           link: "/document-tugas",
           isAdmin: false,
         },
         {
           name: "Keputusan",
-          icon: "nav-icon fa fa-book",
+          icon: "feather icon-file",
           link: "/document-keputusan",
           isAdmin: false,
         },
         {
           name: "Tag Group",
-          icon: "nav-icon fa fa-tags",
+          icon: "feather icon-box",
           link: "/tag-group",
           isAdmin: true,
         },
         {
           name: "Manajemen User",
-          icon: "nav-icon fa fa-users",
+          icon: "feather icon-users",
           link: "/user",
           isAdmin: true,
         },

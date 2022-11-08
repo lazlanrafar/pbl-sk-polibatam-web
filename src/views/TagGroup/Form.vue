@@ -10,7 +10,13 @@
     </div>
     <div class="card-body">
       <v-form ref="initialForm" @submit.prevent="handleSubmit">
-        <v-text-field label="Nama" outlined v-model="nama" dense />
+        <v-text-field
+          label="Nama"
+          outlined
+          v-model="nama"
+          dense
+          :rules="[(v) => !!v || 'Nama is required']"
+        />
         <v-combobox
           v-model="tag"
           :items="listMahasiswa"
@@ -23,15 +29,20 @@
           persistent-hint
           small-chips
           outlined
+          :rules="[(v) => !!v || 'Tags is required']"
         >
         </v-combobox>
         <div class="d-flex justify-content-between">
-          <v-btn class="text-capitalize" color="secondary" @click="handleClose">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="handleClose"
+          >
             Kembali
-          </v-btn>
-          <v-btn class="text-capitalize" color="primary" type="submit">
+          </button>
+          <button class="btn btn-primary text-white" type="submit">
             Simpan
-          </v-btn>
+          </button>
         </div>
       </v-form>
     </div>

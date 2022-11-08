@@ -1,141 +1,144 @@
 <template>
   <div>
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dokumen Tugas</h1>
+    <div class="content-header row">
+      <div class="content-header-left col-md-9 col-10 mb-2">
+        <div class="row breadcrumbs-top">
+          <div class="col-12">
+            <h2 class="content-header-title float-left mb-0">Dokumen Tugas</h2>
           </div>
         </div>
       </div>
-    </div>
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col">
-            <div class="card">
-              <div class="card-body">
-                <div class="row align-items-center mb-3" v-if="isAdmin">
-                  <div class="col-4 col-md-2 col-lg-1">
-                    <button
-                      class="btn btn-primary d-flex align-items-center justify-content-around w-100"
-                      @click="handleModalForm"
-                    >
-                      <i class="fa fa-plus"></i>
-                      Tambah
-                    </button>
-                  </div>
-                  <div class="col-4 col-md-2 col-lg-1">
-                    <download-excel
-                      name="DokumenTugas"
-                      type="xls"
-                      :data="reports"
-                      :fields="fieldsExport"
-                    >
-                      <button
-                        class="btn btn-secondary d-flex align-items-center justify-content-around w-100"
-                      >
-                        <i class="fa fa-file-excel mr-1"></i>
-                        Export
-                      </button>
-                    </download-excel>
-                  </div>
-                  <div class="col-4 col-md-2 col-lg-1">
-                    <div class="file-input">
-                      <input
-                        type="file"
-                        class="file-input__input"
-                        @change="onFileChange"
-                      />
-                      <div
-                        class="d-flex align-items-center justify-content-around"
-                      >
-                        <i class="fa fa-file-excel mr-1"></i>
-                        <span>Import</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row justify-content-end">
-                  <div class="col-md-3">
-                    <v-text-field
-                      label="Cari"
-                      prepend-inner-icon="mdi-magnify"
-                      v-model="optionsTableDokumenTugas.search"
-                      outlined
-                      dense
-                    />
-                  </div>
-                </div>
-                <v-data-table
-                  :headers="headers"
-                  :items="reports"
-                  :search="optionsTableDokumenTugas.search"
-                  :single-expand="singleExpand"
-                  :expanded.sync="expanded"
-                  show-expand
+      <div
+        class="content-header-right text-md-right col-md-3 col-2"
+        v-if="isAdmin"
+      >
+        <div class="form-group breadcrum-right">
+          <div class="dropdown">
+            <button
+              class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle waves-effect waves-light"
+              type="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="feather icon-settings text-white"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" @click="handleModalForm">
+                <i class="fa fa-plus"></i>
+                Tambah
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">
+                <download-excel
+                  name="Dokumen-Tugas"
+                  type="xls"
+                  :data="reports"
+                  :fields="fieldsExport"
                 >
-                  <template v-slot:[`item.dokumen`]="{ item }">
-                    <a
-                      v-if="item.filePath"
-                      :href="`${apiUrl}/documents/${item.filePath}`"
-                      target="_BLANK"
-                      >Download</a
-                    >
-                    <a v-if="item.fileUrl" :href="item.fileUrl" target="_BLANK"
-                      >Download</a
-                    >
-                  </template>
-                  <template v-slot:[`item.aksi`]="{ item }">
-                    <v-menu offset-y :nudge-width="100">
-                      <template v-slot:activator="{ on }">
-                        <v-btn v-on="on" icon>
-                          <v-icon>mdi-dots-vertical</v-icon>
-                        </v-btn>
-                      </template>
-                      <v-list>
-                        <v-list-item @click="handleUpdate(item.id)">
-                          <v-list-item-title>
-                            <i class="fa fa-edit w-25"></i>
-                            Update
-                          </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item @click="handleDelete(item.id)">
-                          <v-list-item-title>
-                            <i class="fa fa-trash w-25"></i>
-                            Delete
-                          </v-list-item-title>
-                        </v-list-item>
-                      </v-list>
-                    </v-menu>
-                  </template>
-                  <template v-slot:expanded-item="{ headers, item }">
-                    <td :colspan="headers.length" class="collapsable">
-                      <table class="table w-100">
-                        <tr>
-                          <th>No</th>
-                          <th>Nama</th>
-                          <th>Username</th>
-                          <th>NIM</th>
-                          <th>Status</th>
-                        </tr>
-                        <tr v-for="(x, i) in item.TagGroup.tag" :key="i">
-                          <td>{{ i + 1 }}</td>
-                          <td>{{ x.name }}</td>
-                          <td>{{ x.username }}</td>
-                          <td>{{ x.nim_nik_unit }}</td>
-                          <td>{{ x.jabatan }}</td>
-                        </tr>
-                      </table>
-                    </td>
-                  </template>
-                </v-data-table>
-              </div>
+                  <i class="fa fa-file-excel-o"></i>
+                  Export
+                </download-excel>
+              </a>
+              <a class="dropdown-item" href="#">
+                <div class="file-input">
+                  <input
+                    type="file"
+                    class="file-input__input"
+                    @change="onFileChange"
+                  />
+                  <i class="fa fa-file-excel-o"></i>
+                  Import
+                </div>
+              </a>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-end">
+              <div class="col-md-3">
+                <v-text-field
+                  label="Cari"
+                  prepend-inner-icon="mdi-magnify"
+                  v-model="optionsTableDokumenTugas.search"
+                  outlined
+                  dense
+                />
+              </div>
+            </div>
+            <v-data-table
+              :headers="headers"
+              :items="reports"
+              :search="optionsTableDokumenTugas.search"
+              :single-expand="singleExpand"
+              :expanded.sync="expanded"
+              show-expand
+            >
+              <template v-slot:[`item.dokumen`]="{ item }">
+                <a
+                  v-if="item.filePath"
+                  :href="`${apiUrl}/documents/${item.filePath}`"
+                  target="_BLANK"
+                  >Download</a
+                >
+                <a v-if="item.fileUrl" :href="item.fileUrl" target="_BLANK"
+                  >Download</a
+                >
+              </template>
+              <template v-slot:[`item.aksi`]="{ item }">
+                <v-menu offset-y :nudge-width="100">
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" icon>
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-item @click="handleUpdate(item.id)">
+                      <v-list-item-title>
+                        <i class="fa fa-edit w-25"></i>
+                        Update
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="handleDelete(item.id)">
+                      <v-list-item-title>
+                        <i class="fa fa-trash w-25"></i>
+                        Delete
+                      </v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </template>
+              <template v-slot:expanded-item="{ headers, item }">
+                <td :colspan="headers.length" class="collapsable">
+                  <table class="table w-100">
+                    <tr>
+                      <th>No</th>
+                      <th>Nama</th>
+                      <th>Username</th>
+                      <th>NIM</th>
+                      <th>Status</th>
+                    </tr>
+                    <tr v-for="(x, i) in item.TagGroup.tag" :key="i">
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ x.name }}</td>
+                      <td>{{ x.username }}</td>
+                      <td>{{ x.nim_nik_unit }}</td>
+                      <td>{{ x.jabatan }}</td>
+                    </tr>
+                  </table>
+                </td>
+              </template>
+            </v-data-table>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <v-dialog
       v-model="modalForm"
       max-width="500"
@@ -267,10 +270,7 @@ export default {
 .file-input {
   position: relative;
   overflow: hidden;
-  background-color: #6c757d;
-  padding: 0.5rem 1rem;
   border-radius: 5px;
-  color: white;
 }
 
 .file-input input[type="file"] {

@@ -1,92 +1,95 @@
 <template>
   <div>
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+    <div class="row mb-2" v-if="!isAdmin">
+      <div class="col-sm-6">
+        <h1 class="m-0">Dashboard</h1>
+      </div>
+    </div>
+
+    <div class="row" v-if="isAdmin">
+      <div class="col-lg-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-header d-flex flex-column align-items-start pb-0">
+            <div class="avatar bg-rgba-warning p-50 m-0">
+              <div class="avatar-content">
+                <i class="feather icon-file text-warning font-medium-5"></i>
+              </div>
+            </div>
+            <h2 class="text-bold-700 mt-1">{{ reports.totalSuratTugas }}</h2>
+            <p>Surat Tugas</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-header d-flex flex-column align-items-start pb-0">
+            <div class="avatar bg-rgba-success p-50 m-0">
+              <div class="avatar-content">
+                <i
+                  class="feather icon-file-minus text-success font-medium-5"
+                ></i>
+              </div>
+            </div>
+            <h2 class="text-bold-700 mt-1">
+              {{ reports.totalSuratKeputusan }}
+            </h2>
+            <p>Surat Keputusan</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-header d-flex flex-column align-items-start pb-0">
+            <div class="avatar bg-rgba-danger p-50 m-0">
+              <div class="avatar-content">
+                <i class="feather icon-folder text-danger font-medium-5"></i>
+              </div>
+            </div>
+            <h2 class="text-bold-700 mt-1">{{ reports.totalTagGroup }}</h2>
+            <p>Document Group</p>
+          </div>
+          <div class="card-content">
+            <div id="line-area-chart-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6 col-12">
+        <div class="card">
+          <div class="card-header d-flex flex-column align-items-start pb-0">
+            <div class="avatar bg-rgba-primary p-50 m-0">
+              <div class="avatar-content">
+                <i class="feather icon-users text-primary font-medium-5"></i>
+              </div>
+            </div>
+            <h2 class="text-bold-700 mt-1">{{ reports.totalAdmin }}</h2>
+            <p>Management User</p>
           </div>
         </div>
       </div>
     </div>
-
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row" v-if="isAdmin">
-          <div class="col-lg-3 col-6">
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>{{ reports.totalSuratTugas }}</h3>
-                <p>Surat Tugas</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-document-text"></i>
-              </div>
-            </div>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Recents File</div>
           </div>
-
-          <div class="col-lg-3 col-6">
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3>{{ reports.totalSuratKeputusan }}</h3>
-                <p>Surat Keputusan</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-android-document"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-6">
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>{{ reports.totalTagGroup }}</h3>
-                <p>Document Group</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-social-buffer"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-6">
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>{{ reports.totalAdmin }}</h3>
-                <p>Management User</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-android-people"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title">Recents File</div>
-              </div>
-              <div class="card-body">
-                <v-data-table :headers="headers" :items="reports.recentFile">
-                  <template v-slot:[`item.no`]="props">
-                    {{ (props.index += 1) }}
-                  </template>
-                  <template v-slot:[`item.dokumen`]="{ item }">
-                    <a
-                      :href="`${apiUrl}/documents/${item.filePath}`"
-                      target="_BLANK"
-                      >Download</a
-                    >
-                  </template>
-                </v-data-table>
-              </div>
-            </div>
+          <div class="card-body">
+            <v-data-table :headers="headers" :items="reports.recentFile">
+              <template v-slot:[`item.no`]="props">
+                {{ (props.index += 1) }}
+              </template>
+              <template v-slot:[`item.dokumen`]="{ item }">
+                <a
+                  :href="`${apiUrl}/documents/${item.filePath}`"
+                  target="_BLANK"
+                  >Download</a
+                >
+              </template>
+            </v-data-table>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
