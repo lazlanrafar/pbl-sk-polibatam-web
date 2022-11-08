@@ -4,12 +4,21 @@
       <app-topbar />
       <app-sidebar />
 
-      <div class="content-wrapper">
-        <v-app>
-          <!-- <router-view /> -->
-        </v-app>
+      <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+          <div class="content-header row"></div>
+          <div class="content-body">
+            <v-app>
+              <router-view />
+            </v-app>
+          </div>
+        </div>
       </div>
 
+      <div class="sidenav-overlay"></div>
+      <div class="drag-target"></div>
       <app-footer />
     </div>
     <Login v-else />
