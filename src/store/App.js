@@ -10,6 +10,7 @@ const app = {
       username: "",
       password: "",
     },
+    isLoading: false,
   },
   mutations: {
     SET_USER(state, payload) {
@@ -18,9 +19,13 @@ const app = {
     SET_FORM_LOGIN(state, payload) {
       state.login[payload.key] = payload.value;
     },
+    SET_LOADING_APP(state, payload) {
+      state.isLoading = payload;
+    },
   },
   actions: {
     async Login(context) {
+      context.commit("SET_LOADING_APP", true);
       try {
         const result = await axios({
           url: `${apiUrl}/polibatam/login`,
@@ -42,6 +47,8 @@ const app = {
           title: "Oops...",
           text: "Username atau password salah!",
         });
+      } finally {
+        context.commit("SET_LOADING_APP", false);
       }
     },
   },

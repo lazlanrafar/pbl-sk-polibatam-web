@@ -68,8 +68,14 @@
                           <button
                             type="submit"
                             class="btn btn-primary text-white float-right btn-inline"
+                            :disabled="isLoading"
                           >
-                            Login
+                            <!-- animation loading -->
+
+                            <span v-if="isLoading">
+                              <i class="fa fa-spinner fa-spin"></i> Loading...
+                            </span>
+                            <span v-else> Login </span>
                           </button>
                           <br />
                           <br />
@@ -91,6 +97,9 @@
 export default {
   name: "LoginPage",
   computed: {
+    isLoading() {
+      return this.$store.state.app.isLoading;
+    },
     username: {
       get() {
         return this.$store.state.app.login.username;
