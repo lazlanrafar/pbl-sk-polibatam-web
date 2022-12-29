@@ -4,7 +4,7 @@
       <div class="content-header-left col-md-9 col-10 mb-2">
         <div class="row breadcrumbs-top">
           <div class="col-12">
-            <h2 class="content-header-title float-left mb-0">Dokumen Tugas</h2>
+            <h2 class="content-header-title float-left mb-0">Dokumen Keputusan</h2>
           </div>
         </div>
       </div>
