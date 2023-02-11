@@ -2,15 +2,15 @@
   <nav class="navbar" style="background: #183a64">
     <div class="container py-1">
       <div class="navbar-brand">
-        <router-link to="/" class="d-flex align-items-center text-black">
-          <img src="@/assets/logo.svg" width="50" alt="logo" />
+        <div class="d-flex align-items-center text-black">
+          <img src="@/assets/logo.svg" width="60" alt="logo" />
           <div>
             <h1 class="mb-0 h5 ml-3 fw-semibold text-white">Polibatam</h1>
             <p class="mb-0 ml-3 text-white fw-normal fs-14">
               Aplikasi Ditribusi Sk dan Surat Tugas
             </p>
           </div>
-        </router-link>
+        </div>
       </div>
 
       <div class="dropdown my-auto">

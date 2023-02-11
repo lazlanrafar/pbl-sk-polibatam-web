@@ -23,7 +23,7 @@ const routes = [
     component: ForgotPassword,
   },
   {
-    path: "/",
+    path: "/home",
     name: "Home",
     component: Home,
   },
@@ -46,8 +46,13 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
   routes,
+  linkActiveClass: "active",
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.path === "/") return next("/home");
+  return next();
 });
 
 export default router;

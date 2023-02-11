@@ -11,6 +11,15 @@ textarea {
 }
 
 a {
-  color: #000;
   text-decoration: none !important;
+}
+
+.container {
+  max-width: 90% !important;
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    max-width: 95% !important;
+  }
 }

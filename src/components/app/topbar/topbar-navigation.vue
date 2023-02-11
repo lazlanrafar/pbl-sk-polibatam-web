@@ -22,7 +22,10 @@
             :key="index"
             class="nav-item mr-sm-7"
           >
-            <router-link class="nav-link text-muted" :to="nav.path">
+            <router-link
+              class="nav-link text-white fs-14 fw-light px-3"
+              :to="nav.path"
+            >
               <i :class="nav.icon"></i>
               <span class="ms-2">{{ nav.title }}</span>
             </router-link>
@@ -41,7 +44,7 @@ export default {
       navItems: [
         {
           title: "Home",
-          path: "/",
+          path: "/home",
           icon: "fa-solid fa-house",
         },
         {
@@ -67,7 +70,8 @@ export default {
 
 <style lang="scss">
 .router-link-exact-active {
-  color: #000 !important;
   font-weight: 500 !important;
+  background: #ff7f00;
+  border-radius: 5px;
 }
 </style>
