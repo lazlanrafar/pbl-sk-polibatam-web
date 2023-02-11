@@ -47,7 +47,7 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   routes,
-  linkActiveClass: "active",
+  // linkActiveClass: "active",
 });
 
 router.beforeEach((to, from, next) => {
