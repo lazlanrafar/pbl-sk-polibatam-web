@@ -1,15 +1,20 @@
 <template>
   <div class="row h-100 justify-content-center align-items-center">
-    <div class="col-12 col-sm-7 col-md-5 col-lg-3">
+    <div class="col-12 col-sm-7 col-md-5 col-lg-3 col-xxl-2">
       <div class="card">
         <div class="card-body py-10">
-          <router-link
-            to="/"
-            class="d-flex align-items-center justify-content-center mb-10"
-          >
-            <img src="@/assets/logo.svg" width="40" alt="logo" />
-            <h1 class="mb-0 h5 ml-3 fw-bold">IT Inventory</h1>
-          </router-link>
+          <div class="d-flex align-items-center justify-content-center mb-3">
+            <img src="@/assets/logo.svg" width="60" alt="logo" />
+            <h1 class="mb-0 h5 ml-3 fs-26 fw-bold text-black">
+              <span style="color: #183a64">P</span>
+              <span style="color: #de7520">o</span>
+              <span style="color: #183a64">li</span>
+              <span style="color: #a5bbc6">batam</span>
+            </h1>
+          </div>
+          <p class="small text-muted text-center mb-10">
+            Aplikasi Distribusi SK dan Surat Tugas
+          </p>
           <div class="row">
             <div class="col-12">
               <v-text-field
@@ -33,12 +38,7 @@
               />
             </div>
             <div class="col-12">
-              <div class="text-right small">
-                <router-link to="/forgot-password">Lupa password?</router-link>
-              </div>
-            </div>
-            <div class="col-12">
-              <v-btn class="btn btn-primary w-100">Login</v-btn>
+              <v-btn class="btn w-100 bg-orange text-white">Login</v-btn>
             </div>
           </div>
         </div>

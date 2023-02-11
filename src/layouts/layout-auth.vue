@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main class="container px-3">
+    <v-main class="bg-polibatam px-3">
       <router-view />
     </v-main>
   </v-app>

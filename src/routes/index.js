@@ -7,7 +7,6 @@ import User from "@/views/user/index.vue";
 import History from "@/views/history/index.vue";
 
 import Login from "@/views/auth/login.vue";
-import ForgotPassword from "@/views/auth/forgot-password.vue";
 
 Vue.use(VueRouter);
 
@@ -16,11 +15,6 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
-  },
-  {
-    path: "/forgot-password",
-    name: "ForgotPassword",
-    component: ForgotPassword,
   },
   {
     path: "/home",

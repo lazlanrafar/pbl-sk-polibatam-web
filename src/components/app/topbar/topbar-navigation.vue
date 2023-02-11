@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md border-0" style="background: #181824">
+  <nav class="navbar navbar-expand-md border-0 bg-navbar">
     <div class="container py-0">
       <button
         class="ml-auto p-2 d-block d-sm-none"
@@ -39,9 +39,8 @@
               {{ nav.title }}
             </a>
             <ul
-              class="dropdown-menu pl-2 pr-2 shadow"
+              class="dropdown-menu pl-2 pr-2 shadow bg-darkblue"
               :aria-labelledby="nav.title"
-              style="background: #181824"
             >
               <li v-for="(nav2, j) in nav.children" :key="j">
                 <router-link
@@ -58,10 +57,10 @@
       </div>
 
       <div
-        class="offcanvas offcanvas-end d-block d-sm-none"
+        class="offcanvas offcanvas-end d-block d-sm-none bg-darkblue"
         tabindex="-1"
         id="offcanvasRight"
-        style="background: #181824; width: 300px"
+        style="width: 300px"
       >
         <div class="offcanvas-header">
           <h5 id="offcanvasRightLabel">
@@ -175,5 +174,15 @@ export default {
   &:after {
     background: transparent !important;
   }
+}
+
+.bg-navbar {
+  background: linear-gradient(
+    135deg,
+    rgba(24, 58, 100, 1) 90%,
+    rgba(173, 231, 247, 1) 90%,
+    rgba(173, 231, 247, 1) 95%,
+    #ff7f00 5%
+  );
 }
 </style>

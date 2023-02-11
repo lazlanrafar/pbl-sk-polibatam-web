@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar border-0" style="background: #183a64">
+  <nav class="navbar border-0 border-bottom bg-darkblue">
     <div class="container py-1">
       <div class="navbar-brand">
         <div class="d-flex align-items-center text-black">
@@ -73,3 +73,5 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped></style>

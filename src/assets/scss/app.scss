@@ -2,7 +2,32 @@
 @import "partials/reset.scss";
 @import "partials/fonts.scss";
 
+:root {
+  --color-darkblue: #183a64;
+  --color-orange: #ff7f00;
+  --color-skyblue: #ade7f7;
+}
+
 #app {
   background-color: #f4f6fa !important;
   font-family: "Poppins", sans-serif;
+}
+
+.bg-polibatam {
+  min-height: 100vh;
+  background-image: url("~@/assets/bg.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-darkblue {
+  background-color: var(--color-darkblue) !important;
+}
+
+.bg-orange {
+  background-color: var(--color-orange) !important;
+}
+
+.bg-skyblue {
+  background-color: var(--color-skyblue) !important;
 }

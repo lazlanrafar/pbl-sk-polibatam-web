@@ -6,8 +6,8 @@
     </div>
 
     <div class="card mt-5 mt-sm-10">
-      <div class="card-header py-3">
-        <span class="font-weight-medium">Riwayat</span>
+      <div class="card-header py-3 bg-darkblue">
+        <span class="fw-semibold text-white">Riwayat</span>
       </div>
       <div class="card-body">
         <v-data-table
