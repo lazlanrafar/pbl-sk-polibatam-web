@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex flex-column flex-sm-row justify-content-between">
-      <HeaderTitle title="User" subtitle="User" />
+      <HeaderTitle title="Data Barang" subtitle="Data Barang" />
 
       <div class="mb-5 mb-sm-0">
         <v-btn class="btn btn-primary" @click="handleModalForm">
@@ -18,7 +18,7 @@
               outlined
               dense
               prepend-inner-icon="mdi-magnify"
-              placeholder="Cari user..."
+              placeholder="Cari Barang"
               v-model="optionsTable.search"
             />
           </div>
@@ -38,11 +38,23 @@
                   <i class="fa-solid fa-chevron-down small"></i>
                 </v-btn>
               </template>
-              <v-list style="min-width: 200px">
+              <v-list>
                 <v-list-item @click="handleModalForm">
                   <v-list-item-title class="text-primary text-opacity-75">
                     <i class="fa-regular fa-pen-to-square small mr-2"></i>
                     <span class="small">Edit</span>
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="handleModalFormUpdateStock">
+                  <v-list-item-title class="text-primary text-opacity-75">
+                    <i class="fa-solid fa-plus-minus small mr-2"></i>
+                    <span class="small">Tambah / Kurangi Stock</span>
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="handleModalHistory">
+                  <v-list-item-title class="text-primary text-opacity-75">
+                    <i class="fa-solid fa-clock-rotate-left small mr-2"></i>
+                    <span class="small">History</span>
                   </v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="click">
@@ -58,8 +70,18 @@
       </div>
     </div>
 
-    <v-dialog v-model="modalForm" persistent max-width="500">
-      <UserForm @handleModalForm="handleModalForm" />
+    <v-dialog v-model="modalForm" persistent max-width="700">
+      <Form @handleModalForm="handleModalForm" />
+    </v-dialog>
+
+    <v-dialog v-model="modalFormUpdateStock" persistent max-width="500">
+      <FormUpdateStock
+        @handleModalFormUpdateStock="handleModalFormUpdateStock"
+      />
+    </v-dialog>
+
+    <v-dialog v-model="modalHistory" persistent max-width="800">
+      <History @handleModalHistory="handleModalHistory" />
     </v-dialog>
   </div>
 </template>
@@ -69,38 +91,50 @@ export default {
   name: "Barang Page",
   components: {
     HeaderTitle: () => import("@/components/molecules/header-title"),
-    UserForm: () => import("./user-form.vue"),
+    Form: () => import("./form.vue"),
+    FormUpdateStock: () =>
+      import("@/components/organisms/barang-form-update-stock"),
+    History: () => import("@/components/organisms/barang-history"),
   },
   data() {
     return {
       headers: [
         { text: "No", value: "name" },
-        { text: "Nama", value: "name" },
-        { text: "NPWP", value: "calories" },
-        { text: "Email", value: "fat" },
-        { text: "No Telp", value: "carbs" },
-        { text: "Alamat", value: "protein" },
+        { text: "No Dokumen", value: "name" },
+        { text: "Customer", value: "calories" },
+        { text: "Tanggal", value: "fat" },
+        { text: "Nama Barang", value: "carbs" },
+        { text: "Stock", value: "protein" },
+        { text: "Satuan Kemasan", value: "iron" },
         { text: "Action", value: "action" },
       ],
       modalForm: false,
+      modalFormUpdateStock: false,
+      modalHistory: false,
     };
   },
   computed: {
     isLoading() {
-      return this.$store.state.user.isLoading;
+      return this.$store.state.barang.isLoading;
     },
     optionsTable: {
       get() {
-        return this.$store.state.user.optionsTable;
+        return this.$store.state.barang.optionsTable;
       },
       set(value) {
-        this.$store.commit("SET_OPTIONS_TABLE_USER", value);
+        this.$store.commit("SET_OPTIONS_TABLE_BARANG", value);
       },
     },
   },
   methods: {
     handleModalForm() {
       this.modalForm = !this.modalForm;
+    },
+    handleModalFormUpdateStock() {
+      this.modalFormUpdateStock = !this.modalFormUpdateStock;
+    },
+    handleModalHistory() {
+      this.modalHistory = !this.modalHistory;
     },
     click() {
       console.log("click");

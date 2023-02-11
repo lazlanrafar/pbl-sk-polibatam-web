@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+@import "partials/reset.scss";
+@import "partials/fonts.scss";
+
+#app {
+  background-color: #f4f6fa !important;
+  font-family: "Poppins", sans-serif;
+}
+
+.v-btn {
+  box-shadow: none !important;
+  text-transform: capitalize !important;
+  border: none !important;
+  font-weight: normal !important;
+}
+
+.btn-primary {
+  background-color: #2d89ef !important;
+  color: #fff !important;
+}
+
+.btn-outline-primary {
+  background-color: #fff !important;
+  color: #2d89ef !important;
+  border: 1px solid #2d89ef !important;
+}
+
+.container {
+  max-width: 90% !important;
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    max-width: 95% !important;
+  }
+}

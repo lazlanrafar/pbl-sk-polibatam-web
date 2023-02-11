@@ -1,17 +1,14 @@
 import Vue from "vue";
 import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
+import router from "./routes";
 import store from "./store";
-import router from "./router";
-import JsonExcel from "vue-json-excel";
-import './registerServiceWorker'
 
-Vue.component("downloadExcel", JsonExcel);
 Vue.config.productionTip = false;
 
 new Vue({
   vuetify,
-  store,
   router,
+  store,
   render: (h) => h(App),
 }).$mount("#app");

@@ -1,60 +1,23 @@
 <template>
   <div>
-    <div v-if="user">
-      <app-topbar />
-      <app-sidebar />
-
-      <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
-        <div class="content-wrapper">
-          <div class="content-header row"></div>
-          <div class="content-body">
-            <v-app>
-              <router-view />
-            </v-app>
-          </div>
-        </div>
-      </div>
-
-      <div class="sidenav-overlay"></div>
-      <div class="drag-target"></div>
-      <app-footer />
-    </div>
-    <Login v-else />
+    <AppLayout v-if="token" />
+    <AuthLayout v-else />
   </div>
 </template>
 
 <script>
-import AppFooter from "./components/app/appFooter.vue";
-import AppSidebar from "./components/app/appSidebar.vue";
-import AppTopbar from "./components/app/appTopbar.vue";
-import Login from "./views/Auth/Login.vue";
 export default {
   name: "App",
-  components: { AppSidebar, AppTopbar, AppFooter, Login },
-  computed: {
-    user() {
-      return this.$store.state.app.user;
-    },
+  components: {
+    AppLayout: () => import("@/layouts/layout-app.vue"),
+    AuthLayout: () => import("@/layouts/layout-auth.vue"),
   },
-  created() {
-    const user = localStorage.getItem("user");
-    if (user) {
-      this.$store.commit("SET_USER", JSON.parse(user));
-    }
-  },
+  data: () => ({
+    token: true,
+  }),
 };
 </script>
 
-<style>
-.v-application--wrap,
-.theme--light.v-application {
-  background: transparent;
-  min-height: 0;
-  font-family: "Poppins", sans-serif;
-}
-label {
-  font-weight: normal !important;
-}
+<style lang="scss">
+@import "@/assets/scss/app.scss";
 </style>

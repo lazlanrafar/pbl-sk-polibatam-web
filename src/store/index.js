@@ -1,22 +1,21 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import app from "./App";
-import dashboard from "./Dashboard";
-import manajemenUser from "./ManajementUser";
-import tagGroup from "./TagGroup";
-import dokumenKeputusan from "./DokumenKeputusan";
-import dokumenTugas from "./DokumenTugas";
-
 Vue.use(Vuex);
+
+import app from "./modules/app";
+
+import home from "./modules/home";
+import barang from "./modules/barang";
+import user from "./modules/user";
+import history from "./modules/history";
 
 export default new Vuex.Store({
   modules: {
     app,
-    dashboard,
-    manajemenUser,
-    tagGroup,
-    dokumenKeputusan,
-    dokumenTugas,
+    home,
+    barang,
+    user,
+    history,
   },
 });

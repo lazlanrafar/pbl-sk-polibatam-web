@@ -12,33 +12,22 @@
           </router-link>
           <div class="row">
             <div class="col-12">
+              <label class="mb-3 small">Masukan email address</label>
               <v-text-field
                 outlined
                 dense
-                placeholder="Email Address / NPWP"
-                prepend-icon="mdi-account"
+                placeholder="Email Address"
+                type="email"
                 hide-details="auto"
-              />
-            </div>
-            <div class="col-12">
-              <v-text-field
-                outlined
-                dense
-                placeholder="Password"
-                prepend-icon="mdi-lock"
-                hide-details="auto"
-                :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="isShowPassword ? 'text' : 'password'"
-                @click:append="isShowPassword = !isShowPassword"
               />
             </div>
             <div class="col-12">
               <div class="text-right small">
-                <router-link to="/forgot-password">Lupa password?</router-link>
+                <router-link to="/login">Sudah punya akun?</router-link>
               </div>
             </div>
             <div class="col-12">
-              <v-btn class="btn btn-primary w-100">Login</v-btn>
+              <v-btn class="btn btn-primary w-100">Konfirmasi</v-btn>
             </div>
           </div>
         </div>
@@ -49,11 +38,9 @@
 
 <script>
 export default {
-  name: "Login",
+  name: "ForgotPassword",
   data() {
-    return {
-      isShowPassword: false,
-    };
+    return {};
   },
   methods: {
     //

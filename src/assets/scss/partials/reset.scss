@@ -1,0 +1,16 @@
+button,
+input,
+optgroup,
+select,
+textarea {
+  outline: none;
+
+  &:focus {
+    outline: none !important;
+  }
+}
+
+a {
+  color: #000;
+  text-decoration: none !important;
+}
