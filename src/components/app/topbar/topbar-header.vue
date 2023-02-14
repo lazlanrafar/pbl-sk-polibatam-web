@@ -30,8 +30,8 @@
               class="rounded-circle mr-3"
             />
             <div class="d-none d-sm-block">
-              <p class="mb-0 text-white font-weight-medium">L Azlan Rafar</p>
-              <p class="mb-0 text-white-50 small">Mahasiswa</p>
+              <p class="mb-0 text-white font-weight-medium">{{ user.nama }}</p>
+              <p class="mb-0 text-white-50 small">{{ user.role }}</p>
             </div>
           </div>
         </a>
@@ -52,10 +52,10 @@
           </li> -->
           <!-- <li><hr class="dropdown-divider" /></li> -->
           <li>
-            <router-link class="dropdown-item text-danger small" to="/login">
+            <a class="dropdown-item text-danger small" @click="handleLogout">
               <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i>
               Logout
-            </router-link>
+            </a>
           </li>
         </ul>
       </div>
@@ -70,6 +70,20 @@ export default {
     return {
       //
     };
+  },
+  computed: {
+    user() {
+      return this.$store.state.app.user;
+    },
+  },
+  methods: {
+    handleLogout() {
+      localStorage.clear();
+      this.$store.commit("SET_USER_APP", "");
+      this.$store.commit("SET_TOKEN_APP", "");
+
+      this.$router.push("/login");
+    },
   },
 };
 </script>
