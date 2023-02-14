@@ -2,7 +2,11 @@
   <div class="row h-100 justify-content-center align-items-center">
     <div class="col-12 col-sm-7 col-md-5 col-lg-3 col-xxl-2">
       <div class="card">
-        <div class="card-body py-10">
+        <v-form
+          class="card-body py-10"
+          ref="initialReport"
+          @submit.prevent="handleSubmit"
+        >
           <div class="d-flex align-items-center justify-content-center mb-3">
             <img src="@/assets/logo.svg" width="60" alt="logo" />
             <h1 class="mb-0 h5 ml-3 fs-26 fw-bold text-black">
@@ -20,9 +24,15 @@
               <v-text-field
                 outlined
                 dense
-                placeholder="Email Address / NPWP"
+                placeholder="Username"
                 prepend-icon="mdi-account"
                 hide-details="auto"
+                v-model="username"
+                :rules="[
+                  (value) => {
+                    return genericRequiredRule(value, 'Username');
+                  },
+                ]"
               />
             </div>
             <div class="col-12">
@@ -35,34 +45,78 @@
                 :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="isShowPassword ? 'text' : 'password'"
                 @click:append="isShowPassword = !isShowPassword"
+                v-model="password"
+                :rules="[
+                  (value) => {
+                    return genericRequiredRule(value, 'Password');
+                  },
+                ]"
               />
             </div>
             <div class="col-12">
-              <v-btn class="btn w-100 bg-orange text-white">Login</v-btn>
+              <v-btn
+                class="btn w-100 bg-darkblue text-white"
+                type="submit"
+                :loading="isLoading"
+              >
+                Login
+              </v-btn>
             </div>
           </div>
-        </div>
+        </v-form>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { ValidationRules } from "@/mixins/validation-rules.js";
+
 export default {
-  name: "Login",
+  name: "LoginPage",
+  mixins: [ValidationRules],
   data() {
     return {
       isShowPassword: false,
     };
   },
+  computed: {
+    isLoading() {
+      return this.$store.state.app.isLoading;
+    },
+    username: {
+      get() {
+        return this.$store.state.app.login.username;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_LOGIN_APP", {
+          key: "username",
+          value,
+        });
+      },
+    },
+    password: {
+      get() {
+        return this.$store.state.app.login.password;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_LOGIN_APP", {
+          key: "password",
+          value,
+        });
+      },
+    },
+  },
   methods: {
-    //
-  },
-  mounted() {
-    this.$store.commit("SET_LAYOUT_APP", "auth");
-  },
-  destroyed() {
-    this.$store.commit("SET_LAYOUT_APP", "app");
+    handleSubmit() {
+      if (this.$refs.initialReport.validate()) {
+        this.$store.dispatch("Login").then((response) => {
+          if (response) {
+            this.$refs.initialReport.reset();
+          }
+        });
+      }
+    },
   },
 };
 </script>
