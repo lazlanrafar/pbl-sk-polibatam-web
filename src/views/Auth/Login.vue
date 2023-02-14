@@ -1,6 +1,6 @@
 <template>
   <div class="row h-100 justify-content-center align-items-center">
-    <div class="col-12 col-sm-7 col-md-5 col-lg-3 col-xxl-2">
+    <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 col-xxl-2">
       <div class="card">
         <v-form
           class="card-body py-10"
