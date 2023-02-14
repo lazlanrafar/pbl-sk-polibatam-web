@@ -4,9 +4,10 @@ import VueRouter from "vue-router";
 import auth from "@/middleware/auth";
 import guest from "@/middleware/guest";
 
-import Home from "@/views/home/index.vue";
-
 import Login from "../views/Auth/login.vue";
+
+import Home from "@/views/home/index.vue";
+import UserManagement from "@/views/user-management/index.vue";
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,14 @@ const routes = [
     path: "/home",
     name: "Home",
     component: Home,
+    meta: {
+      middleware: [auth],
+    },
+  },
+  {
+    path: "/user-management",
+    name: "User Management",
+    component: UserManagement,
     meta: {
       middleware: [auth],
     },

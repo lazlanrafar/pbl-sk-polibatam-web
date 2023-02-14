@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderTitle title="History" subtitle="History" />
+    <HeaderTitle title="Setup" subtitle="User Management" />
     <div class="card">
       <div class="card-body py-5">
         <div class="row justify-content-end">
@@ -9,14 +9,14 @@
               outlined
               dense
               prepend-inner-icon="mdi-magnify"
-              placeholder="Cari Barang"
+              placeholder="Cari..."
               v-model="optionsTable.search"
             />
           </div>
         </div>
         <v-data-table
           :headers="headers"
-          :items="[]"
+          :items="list_mahasiswa"
           :loading="isLoading"
           :options.sync="optionsTable"
           :search="optionsTable.search"
@@ -29,33 +29,37 @@
 
 <script>
 export default {
-  name: "History Page",
+  name: "UserManagement",
   components: {
     HeaderTitle: () => import("@/components/molecules/header-title"),
   },
   data() {
     return {
       headers: [
-        { text: "No", value: "name" },
-        { text: "No Dokumen", value: "calories" },
-        { text: "Nama Barang", value: "calories" },
-        { text: "Type", value: "fat" },
-        { text: "Quantity Sebelum", value: "carbs" },
-        { text: "Quantity Sesudah", value: "protein" },
-        { text: "Dokumen", value: "iron" },
+        { text: "No", value: "NO" },
+        { text: "Nrp", value: "NRP" },
+        { text: "Nama", value: "NAMA" },
+        { text: "Jenis Kelamin", value: "JENIS_KELAMIN" },
+        { text: "Agama", value: "AGAMA" },
+        { text: "Kelas", value: "KELAS" },
+        { text: "Jurusan", value: "JURUSAN" },
+        { text: "Status", value: "STATUS" },
       ],
     };
   },
   computed: {
     isLoading() {
-      return this.$store.state.history.isLoading;
+      return this.$store.state.userManagement.isLoading;
+    },
+    list_mahasiswa() {
+      return this.$store.state.userManagement.list_mahasiswa;
     },
     optionsTable: {
       get() {
-        return this.$store.state.history.optionsTable;
+        return this.$store.state.userManagement.optionsTable;
       },
       set(value) {
-        this.$store.commit("SET_OPTIONS_TABLE_HISTORY", value);
+        this.$store.commit("SET_OPTIONS_TABLE_USER_MANAGAMENT", value);
       },
     },
   },
@@ -63,6 +67,9 @@ export default {
     click() {
       console.log("click");
     },
+  },
+  mounted() {
+    this.$store.dispatch("GetAllMahasiswa");
   },
 };
 </script>

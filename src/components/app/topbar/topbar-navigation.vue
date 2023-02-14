@@ -45,7 +45,7 @@
               <li v-for="(nav2, j) in nav.children" :key="j">
                 <router-link
                   :to="nav2.path"
-                  class="dropdown-item my-2 fs-14 fw-light text-white rounded"
+                  class="dropdown-item my-2 py-2 fs-14 fw-light text-white rounded"
                 >
                   <i :class="nav2.icon"></i>
                   {{ nav2.title }}
