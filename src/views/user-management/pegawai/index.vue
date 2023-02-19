@@ -67,17 +67,17 @@ export default {
   },
   computed: {
     isLoading() {
-      return this.$store.state.userManagement.isLoading;
+      return this.$store.state.userManagement.isLoading.pegawai;
     },
     list_mahasiswa() {
-      return this.$store.state.userManagement.list_mahasiswa;
+      return this.$store.state.userManagement.list_pegawai;
     },
     optionsTable: {
       get() {
-        return this.$store.state.userManagement.optionsTable;
+        return this.$store.state.userManagement.optionsTablePegawai;
       },
       set(value) {
-        this.$store.commit("SET_OPTIONS_TABLE_USER_MANAGAMENT", value);
+        this.$store.commit("SET_OPTIONS_TABLE_PEGAWAI_USER_MANAGAMENT", value);
       },
     },
   },
@@ -87,7 +87,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("GetAllMahasiswa");
+    // this.$store.dispatch("GetAllMahasiswa");
   },
 };
 </script>

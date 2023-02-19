@@ -67,17 +67,20 @@ export default {
   },
   computed: {
     isLoading() {
-      return this.$store.state.userManagement.isLoading;
+      return this.$store.state.userManagement.isLoading.mahasiswa;
     },
     list_mahasiswa() {
       return this.$store.state.userManagement.list_mahasiswa;
     },
     optionsTable: {
       get() {
-        return this.$store.state.userManagement.optionsTable;
+        return this.$store.state.userManagement.optionsTableMahasiswa;
       },
       set(value) {
-        this.$store.commit("SET_OPTIONS_TABLE_USER_MANAGAMENT", value);
+        this.$store.commit(
+          "SET_OPTIONS_TABLE_MAHASISWA_USER_MANAGAMENT",
+          value
+        );
       },
     },
   },
