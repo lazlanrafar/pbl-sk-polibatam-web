@@ -33,7 +33,7 @@
               </v-btn>
             </template>
             <v-list min-width="150">
-              <v-list-item @click="handleDetail(item.id)">
+              <v-list-item @click="handleModalDetail(true, item.NRP)">
                 <v-list-item-title class="text-primary fs-12">
                   <i class="fa-regular fa-eye small mr-2"></i>
                   <span>Detail</span>
@@ -44,13 +44,19 @@
         </template>
       </v-data-table>
     </div>
+
+    <v-dialog v-model="modalDetail" persistent max-width="800">
+      <Detail @handleModalDetail="handleModalDetail" />
+    </v-dialog>
   </div>
 </template>
 
 <script>
 export default {
   name: "UMMahasiswa",
-  components: {},
+  components: {
+    Detail: () => import("@/views/user-management/mahasiswa/detail.vue"),
+  },
   data() {
     return {
       headers: [
@@ -63,6 +69,7 @@ export default {
         { text: "Status", value: "STATUS" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
+      modalDetail: false,
     };
   },
   computed: {
@@ -77,16 +84,14 @@ export default {
         return this.$store.state.userManagement.optionsTableMahasiswa;
       },
       set(value) {
-        this.$store.commit(
-          "SET_OPTIONS_TABLE_MAHASISWA_USER_MANAGAMENT",
-          value
-        );
+        this.$store.commit("SET_OPTIONS_TABLE_MAHASISWA_UM", value);
       },
     },
   },
   methods: {
-    click() {
-      console.log("click");
+    handleModalDetail(value, nim) {
+      if (value) this.$store.dispatch("GetMahasiswaByNIM", nim);
+      this.modalDetail = value;
     },
   },
   mounted() {
