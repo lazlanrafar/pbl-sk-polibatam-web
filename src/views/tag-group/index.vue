@@ -33,7 +33,7 @@
 
     <v-dialog
       v-model="modalForm"
-      max-width="800"
+      max-width="1200"
       persistent
       style="z-index: 9999"
     >

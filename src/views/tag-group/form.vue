@@ -10,13 +10,17 @@
         </div>
       </div>
       <div class="card-body">
-        <label class="mb-2 fw-medium fs-14">Nama</label>
-        <v-text-field
-          placeholder="Nama"
-          outlined
-          dense
-          :rules="[(v) => !!v || 'Nama is required']"
-        />
+        <div class="row">
+          <div class="col-md-6">
+            <label class="mb-2 fw-medium fs-14">Nama</label>
+            <v-text-field
+              placeholder="Nama"
+              outlined
+              dense
+              :rules="[(v) => !!v || 'Nama is required']"
+            />
+          </div>
+        </div>
 
         <ul class="nav nav-tabs pl-0">
           <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
@@ -31,30 +35,8 @@
         </ul>
 
         <div class="card mb-5 border-top-0 rounded-0">
-          <div class="card-body">
-            <div class="row justify-content-end">
-              <div class="col-12 col-md-6">
-                <v-text-field
-                  outlined
-                  dense
-                  prepend-inner-icon="mdi-magnify"
-                  placeholder="Cari..."
-                />
-              </div>
-            </div>
-            <v-data-table
-              :headers="[
-                { text: 'Nrp', value: 'NRP' },
-                { text: 'Nama', value: 'NAMA' },
-                { text: 'Kelas', value: 'KELAS' },
-                { text: 'Jurusan', value: 'JURUSAN' },
-              ]"
-              items-per-page="5"
-              :items="list_mahasiswa"
-              show-select
-            ></v-data-table>
-            <!-- <label class="mb-2 fw-medium fs-14">Mahasiswa</label> -->
-          </div>
+          <FormMahasiswa v-if="tab_active == 'Mahasiswa'" />
+          <FormPegawai v-if="tab_active == 'Pegawai'" />
         </div>
       </div>
       <div class="card-footer">
@@ -74,6 +56,10 @@
 <script>
 export default {
   name: "TagGroupForm",
+  components: {
+    FormMahasiswa: () => import("./form-mahasiswa.vue"),
+    FormPegawai: () => import("./form-pegawai.vue"),
+  },
   data: () => ({
     tab_list: ["Mahasiswa", "Pegawai"],
     tab_active: "Mahasiswa",
@@ -81,9 +67,6 @@ export default {
   computed: {
     isLoading() {
       return this.$store.state.tagGroup.isLoading;
-    },
-    list_mahasiswa() {
-      return this.$store.state.userManagement.list_mahasiswa;
     },
   },
   methods: {
