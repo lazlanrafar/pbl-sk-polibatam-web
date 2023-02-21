@@ -169,6 +169,7 @@ const userManagement = {
         });
 
         context.dispatch("GetAllMahasiswa");
+        context.dispatch("GetAllPegawai");
       } catch (error) {
         catchUnauthorized(error);
 
@@ -203,6 +204,7 @@ const userManagement = {
         });
 
         context.dispatch("GetAllMahasiswa");
+        context.dispatch("GetAllPegawai");
       } catch (error) {
         catchUnauthorized(error);
 
