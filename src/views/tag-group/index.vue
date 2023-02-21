@@ -24,9 +24,37 @@
         </div>
         <v-data-table
           :headers="headers"
-          :items="[]"
+          :items="reports"
           :options.sync="optionsTable"
+          :search="optionsTable.search"
+          :loading="isLoading"
         >
+          <template v-slot:[`item.created_at`]="{ item }">
+            {{ moment(item.created_at).format("DD MMMM YYYY | HH:mm") }}
+          </template>
+          <template v-slot:[`item.action`]="{ item }">
+            <v-menu offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  small
+                  class="btn btn-outline-primary py-4"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <span class="fw-light mr-1">Action</span>
+                  <i class="fa-solid fa-chevron-down small"></i>
+                </v-btn>
+              </template>
+              <v-list min-width="150">
+                <v-list-item @click="handleModalDetail(true, item.NRP)">
+                  <v-list-item-title class="text-primary fs-12">
+                    <i class="fa-regular fa-eye small mr-2"></i>
+                    <span>Detail</span>
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </template>
         </v-data-table>
       </div>
     </div>
@@ -38,6 +66,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "TagGroup",
   components: {
@@ -46,25 +76,30 @@ export default {
   },
   data() {
     return {
+      moment,
       headers: [
-        { text: "No", value: "name" },
-        { text: "No Dokumen", value: "calories" },
-        { text: "Nama Barang", value: "calories" },
-        { text: "Type", value: "fat" },
-        { text: "Quantity Sebelum", value: "carbs" },
-        { text: "Quantity Sesudah", value: "protein" },
-        { text: "Dokumen", value: "iron" },
+        { text: "No", value: "no" },
+        { text: "Name", value: "name" },
+        { text: "Created At", value: "created_at" },
+        { text: "Created By", value: "created_by" },
+        { text: "Action", value: "action", align: "right", sortable: false },
       ],
       modalForm: false,
     };
   },
   computed: {
+    reports() {
+      return this.$store.state.tagGroup.reports;
+    },
+    isLoading() {
+      return this.$store.state.tagGroup.isLoading;
+    },
     optionsTable: {
       get() {
-        return this.$store.state.home.optionsTable;
+        return this.$store.state.tagGroup.optionsTable;
       },
       set(value) {
-        this.$store.commit("SET_OPTIONS_TABLE_HOME", value);
+        this.$store.commit("SET_OPTIONS_TABLE_TAG_GROUP", value);
       },
     },
   },
@@ -74,6 +109,9 @@ export default {
       if (value) this.$store.dispatch("GetAllPegawai");
       this.modalForm = value;
     },
+  },
+  mounted() {
+    this.$store.dispatch("GetAllTagGroup");
   },
 };
 </script>

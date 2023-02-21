@@ -5,7 +5,7 @@
     <ul class="nav nav-pills mb-5 pl-0">
       <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
         <a
-          :class="`nav-link ${
+          :class="`nav-link fs-14 ${
             item === tab_active
               ? 'bg-orange text-white fw-medium'
               : 'text-muted'
