@@ -19,6 +19,16 @@
         :options.sync="optionsTable"
         :search="optionsTable.search"
       >
+        <template v-slot:[`item.isAdmin`]="{ item }">
+          <v-chip
+            :color="item.isAdmin ? 'success' : 'error'"
+            :text-color="item.isAdmin ? 'white' : 'white'"
+            small
+          >
+            <span v-if="item.isAdmin">Admin</span>
+            <span v-else>Tidak Admin</span>
+          </v-chip>
+        </template>
         <template v-slot:[`item.action`]="{ item }">
           <v-menu offset-y>
             <template v-slot:activator="{ on, attrs }">
@@ -67,6 +77,7 @@ export default {
         { text: "Kelas", value: "KELAS" },
         { text: "Jurusan", value: "JURUSAN" },
         { text: "Status", value: "STATUS" },
+        { text: "Is Admin", value: "isAdmin" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
       modalDetail: false,
