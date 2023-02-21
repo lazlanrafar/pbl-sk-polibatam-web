@@ -19,6 +19,16 @@
         :options.sync="optionsTable"
         :search="optionsTable.search"
       >
+        <template v-slot:[`item.isAdmin`]="{ item }">
+          <v-chip
+            :color="item.isAdmin ? 'success' : 'error'"
+            :text-color="item.isAdmin ? 'white' : 'white'"
+            small
+          >
+            <span v-if="item.isAdmin">Admin</span>
+            <span v-else>Tidak Admin</span>
+          </v-chip>
+        </template>
         <template v-slot:[`item.action`]="{ item }">
           <v-menu offset-y>
             <template v-slot:activator="{ on, attrs }">
@@ -39,6 +49,18 @@
                   <span>Detail</span>
                 </v-list-item-title>
               </v-list-item>
+              <v-list-item @click="setIsAdmin(item.NRP)" v-if="!item.isAdmin">
+                <v-list-item-title class="text-primary fs-12">
+                  <i class="fa-regular fa-eye small mr-2"></i>
+                  <span>Set to Admin</span>
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="setIsNotAdmin(item.NRP)" v-if="item.isAdmin">
+                <v-list-item-title class="text-primary fs-12">
+                  <i class="fa-regular fa-eye small mr-2"></i>
+                  <span>Set to Not Admin</span>
+                </v-list-item-title>
+              </v-list-item>
             </v-list>
           </v-menu>
         </template>
@@ -52,6 +74,8 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
+
 export default {
   name: "UMMahasiswa",
   components: {
@@ -67,6 +91,7 @@ export default {
         { text: "Kelas", value: "KELAS" },
         { text: "Jurusan", value: "JURUSAN" },
         { text: "Status", value: "STATUS" },
+        { text: "Is Admin", value: "isAdmin" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
       modalDetail: false,
@@ -74,7 +99,7 @@ export default {
   },
   computed: {
     isLoading() {
-      return this.$store.state.userManagement.isLoading.mahasiswa;
+      return this.$store.state.userManagement.isLoading;
     },
     list_mahasiswa() {
       return this.$store.state.userManagement.list_mahasiswa;
@@ -92,6 +117,36 @@ export default {
     handleModalDetail(value, nim) {
       if (value) this.$store.dispatch("GetMahasiswaByNIM", nim);
       this.modalDetail = value;
+    },
+    setIsAdmin(uid) {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Anda akan mengubah status admin user ini!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, ubah!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch("SetIsAdminUM", uid);
+        }
+      });
+    },
+    setIsNotAdmin(uid) {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Anda akan mengubah status admin user ini!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, ubah!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch("SetIsNotAdminUM", uid);
+        }
+      });
     },
   },
   mounted() {

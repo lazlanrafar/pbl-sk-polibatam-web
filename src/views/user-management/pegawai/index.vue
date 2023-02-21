@@ -14,11 +14,26 @@
       </div>
       <v-data-table
         :headers="headers"
-        :items="list_mahasiswa"
+        :items="reports"
         :loading="isLoading"
         :options.sync="optionsTable"
         :search="optionsTable.search"
       >
+        <template v-slot:[`item.NAMA`]="{ item }">
+          <span> {{ item.GELAR_DPN }} </span>
+          <span> {{ item.NAMA }}</span>
+          <span> {{ item.GELAR_BLK }}</span>
+        </template>
+        <template v-slot:[`item.isAdmin`]="{ item }">
+          <v-chip
+            :color="item.isAdmin ? 'success' : 'error'"
+            :text-color="item.isAdmin ? 'white' : 'white'"
+            small
+          >
+            <span v-if="item.isAdmin">Admin</span>
+            <span v-else>Tidak Admin</span>
+          </v-chip>
+        </template>
         <template v-slot:[`item.action`]="{ item }">
           <v-menu offset-y>
             <template v-slot:activator="{ on, attrs }">
@@ -33,10 +48,22 @@
               </v-btn>
             </template>
             <v-list min-width="150">
-              <v-list-item @click="handleDetail(item.id)">
+              <v-list-item @click="handleModalDetail(true, item.NIK)">
                 <v-list-item-title class="text-primary fs-12">
                   <i class="fa-regular fa-eye small mr-2"></i>
                   <span>Detail</span>
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="setIsAdmin(item.NIK)" v-if="!item.isAdmin">
+                <v-list-item-title class="text-primary fs-12">
+                  <i class="fa-regular fa-eye small mr-2"></i>
+                  <span>Set to Admin</span>
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="setIsNotAdmin(item.NIK)" v-if="item.isAdmin">
+                <v-list-item-title class="text-primary fs-12">
+                  <i class="fa-regular fa-eye small mr-2"></i>
+                  <span>Set to Not Admin</span>
                 </v-list-item-title>
               </v-list-item>
             </v-list>
@@ -44,32 +71,40 @@
         </template>
       </v-data-table>
     </div>
+
+    <v-dialog v-model="modalDetail" persistent max-width="800">
+      <Detail @handleModalDetail="handleModalDetail" />
+    </v-dialog>
   </div>
 </template>
 
 <script>
+import Swal from "sweetalert2";
+
 export default {
   name: "UMMahasiswa",
-  components: {},
+  components: {
+    Detail: () => import("./detail.vue"),
+  },
   data() {
     return {
       headers: [
         { text: "No", value: "NO" },
-        { text: "Nrp", value: "NRP" },
+        { text: "NIK", value: "NIK" },
         { text: "Nama", value: "NAMA" },
-        { text: "Agama", value: "AGAMA" },
-        { text: "Kelas", value: "KELAS" },
-        { text: "Jurusan", value: "JURUSAN" },
-        { text: "Status", value: "STATUS" },
+        { text: "Staff", value: "STAFF" },
+        { text: "Unit", value: "UNIT" },
+        { text: "Is Admin", value: "isAdmin" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
+      modalDetail: false,
     };
   },
   computed: {
     isLoading() {
-      return this.$store.state.userManagement.isLoading.pegawai;
+      return this.$store.state.userManagement.isLoading;
     },
-    list_mahasiswa() {
+    reports() {
       return this.$store.state.userManagement.list_pegawai;
     },
     optionsTable: {
@@ -82,12 +117,43 @@ export default {
     },
   },
   methods: {
-    click() {
-      console.log("click");
+    handleModalDetail(value, nik) {
+      if (value) this.$store.dispatch("GetPegawaiByNIK", nik);
+      this.modalDetail = value;
+    },
+    setIsAdmin(uid) {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Anda akan mengubah status admin user ini!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, ubah!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch("SetIsAdminUM", uid);
+        }
+      });
+    },
+    setIsNotAdmin(uid) {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Anda akan mengubah status admin user ini!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, ubah!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch("SetIsNotAdminUM", uid);
+        }
+      });
     },
   },
   mounted() {
-    // this.$store.dispatch("GetAllMahasiswa");
+    this.$store.dispatch("GetAllPegawai");
   },
 };
 </script>

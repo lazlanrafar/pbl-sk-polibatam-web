@@ -122,23 +122,27 @@ export default {
           path: "/home",
           icon: "fa-solid fa-house",
           children: false,
+          adminOnly: false,
         },
         {
           title: "Surat Tugas",
           path: "/surat-tugas",
           icon: "fa-solid fa-file-alt",
           children: false,
+          adminOnly: false,
         },
         {
           title: "Surat Keterangan",
           path: "/surat-keterangan",
           icon: "fa-solid fa-file-alt",
           children: false,
+          adminOnly: false,
         },
         {
           title: "Setup",
           path: "/setup",
           icon: "fa-solid fa-tags",
+          adminOnly: true,
           children: [
             {
               title: "Tag Group",
@@ -156,6 +160,20 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    isAdmin() {
+      return this.$store.state.app.user.isAdmin;
+    },
+  },
+  mounted() {
+    this.navItems = this.navItems.filter((item) => {
+      if (item.adminOnly) {
+        return this.isAdmin;
+      } else {
+        return true;
+      }
+    });
   },
 };
 </script>

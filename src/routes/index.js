@@ -7,6 +7,8 @@ import guest from "@/middleware/guest";
 import Login from "../views/Auth/Login.vue";
 
 import Home from "@/views/home/index.vue";
+
+import TagGroup from "@/views/tag-group/index.vue";
 import UserManagement from "@/views/user-management/index.vue";
 
 Vue.use(VueRouter);
@@ -24,6 +26,14 @@ const routes = [
     path: "/home",
     name: "Home",
     component: Home,
+    meta: {
+      middleware: [auth],
+    },
+  },
+  {
+    path: "/tag-group",
+    name: "Tag Group",
+    component: TagGroup,
     meta: {
       middleware: [auth],
     },
