@@ -4,7 +4,7 @@ import VueRouter from "vue-router";
 import auth from "@/middleware/auth";
 import guest from "@/middleware/guest";
 
-import Login from "../views/auth/Login.vue";
+import Login from "../views/Auth/Login.vue";
 
 import Home from "@/views/home/index.vue";
 import UserManagement from "@/views/user-management/index.vue";
