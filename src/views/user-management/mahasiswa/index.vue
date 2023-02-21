@@ -129,7 +129,7 @@ export default {
         confirmButtonText: "Ya, ubah!",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.$store.dispatch("SetIsAdminMahasiswaUM", uid);
+          this.$store.dispatch("SetIsAdminUM", uid);
         }
       });
     },

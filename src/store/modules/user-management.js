@@ -8,17 +8,18 @@ const userManagement = {
     isLoading: false,
     optionsTableMahasiswa: {
       page: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 5,
       search: "",
     },
     optionsTablePegawai: {
       page: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 5,
       search: "",
     },
     list_mahasiswa: [],
     detail_mahasiswa: "",
     list_pegawai: [],
+    detail_pegawai: "",
   },
   mutations: {
     SET_IS_LOADING_USER_MANAGEMENT(state, payload) {
@@ -38,6 +39,9 @@ const userManagement = {
     },
     SET_LIST_PEGAWAI_UM(state, payload) {
       state.list_pegawai = payload;
+    },
+    SET_DETAIL_PEGAWAI_UM(state, payload) {
+      state.detail_pegawai = payload;
     },
   },
   actions: {
@@ -115,7 +119,35 @@ const userManagement = {
         context.commit("SET_IS_LOADING_USER_MANAGEMENT", false);
       }
     },
-    SetIsAdminMahasiswaUM: async (context, uid) => {
+    GetPegawaiByNIK: async (context, nik) => {
+      context.commit("SET_IS_LOADING_USER_MANAGEMENT", true);
+
+      try {
+        const result = await axios({
+          url: `${apiUrl}/user/pegawai/${nik}`,
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+        });
+
+        let entries = Object.entries(result.data.data);
+        let data = [];
+        entries.forEach((item) => {
+          data.push({
+            key: item[0],
+            value: item[1],
+          });
+        });
+
+        context.commit("SET_DETAIL_PEGAWAI_UM", data);
+      } catch (error) {
+        catchUnauthorized(error);
+      } finally {
+        context.commit("SET_IS_LOADING_USER_MANAGEMENT", false);
+      }
+    },
+    SetIsAdminUM: async (context, uid) => {
       context.commit("SET_IS_LOADING_USER_MANAGEMENT", true);
 
       try {

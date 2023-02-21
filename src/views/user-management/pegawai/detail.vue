@@ -2,7 +2,7 @@
   <v-card class="card" :loading="isLoading">
     <div class="card-header py-3">
       <div class="d-flex justify-content-between align-items-center">
-        <span class="font-weight-medium">Detail Mahasiswa</span>
+        <span class="font-weight-medium">Detail Pegawai</span>
         <v-btn icon class="" @click="handleClose">
           <i class="fa-solid fa-xmark"></i>
         </v-btn>
@@ -22,13 +22,13 @@
 
 <script>
 export default {
-  name: "MahasiswaDetail",
+  name: "PegawaiDetail",
   data() {
     return {};
   },
   computed: {
     report() {
-      return this.$store.state.userManagement.detail_mahasiswa;
+      return this.$store.state.userManagement.detail_pegawai;
     },
     isLoading() {
       return this.$store.state.userManagement.isLoading;

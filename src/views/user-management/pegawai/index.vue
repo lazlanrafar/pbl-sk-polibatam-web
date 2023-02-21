@@ -48,7 +48,7 @@
               </v-btn>
             </template>
             <v-list min-width="150">
-              <v-list-item @click="handleDetail(item.id)">
+              <v-list-item @click="handleModalDetail(true, item.NIK)">
                 <v-list-item-title class="text-primary fs-12">
                   <i class="fa-regular fa-eye small mr-2"></i>
                   <span>Detail</span>
@@ -59,13 +59,19 @@
         </template>
       </v-data-table>
     </div>
+
+    <v-dialog v-model="modalDetail" persistent max-width="800">
+      <Detail @handleModalDetail="handleModalDetail" />
+    </v-dialog>
   </div>
 </template>
 
 <script>
 export default {
   name: "UMMahasiswa",
-  components: {},
+  components: {
+    Detail: () => import("./detail.vue"),
+  },
   data() {
     return {
       headers: [
@@ -77,6 +83,7 @@ export default {
         { text: "Is Admin", value: "isAdmin" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
+      modalDetail: false,
     };
   },
   computed: {
@@ -96,8 +103,9 @@ export default {
     },
   },
   methods: {
-    click() {
-      console.log("click");
+    handleModalDetail(value, nik) {
+      if (value) this.$store.dispatch("GetPegawaiByNIK", nik);
+      this.modalDetail = value;
     },
   },
   mounted() {
