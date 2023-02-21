@@ -95,6 +95,28 @@ const tagGroup = {
         context.commit("SET_IS_LOADING_TAG_GROUP", false);
       }
     },
+    SetFormUpdateTagGroup: async (context, id) => {
+      context.commit("SET_IS_LOADING_TAG_GROUP", true);
+
+      try {
+        const result = await axios({
+          url: `${apiUrl}/tag-group/${id}`,
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+        });
+        context.state.form = {
+          name: result.data.data.name,
+          data_mahasiswa: result.data.data.data_mahasiswa,
+          data_pegawai: result.data.data.data_pegawai,
+        };
+      } catch (error) {
+        catchUnauthorized(error);
+      } finally {
+        context.commit("SET_IS_LOADING_TAG_GROUP", false);
+      }
+    },
   },
 };
 

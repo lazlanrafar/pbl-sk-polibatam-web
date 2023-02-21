@@ -46,10 +46,16 @@
                 </v-btn>
               </template>
               <v-list min-width="150">
-                <v-list-item @click="handleModalDetail(true, item.NRP)">
+                <v-list-item @click="handleModalDetail(true, item.id)">
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fa-regular fa-eye small mr-2"></i>
                     <span>Detail</span>
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="handleEdit(item.id)">
+                  <v-list-item-title class="text-primary fs-12">
+                    <i class="fas fa-edit small mr-2"></i>
+                    <span>Edit</span>
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -108,6 +114,10 @@ export default {
       if (value) this.$store.dispatch("GetAllMahasiswa");
       if (value) this.$store.dispatch("GetAllPegawai");
       this.modalForm = value;
+    },
+    handleEdit(id) {
+      this.$store.dispatch("SetFormUpdateTagGroup", id);
+      this.handleModalForm(true);
     },
   },
   mounted() {
