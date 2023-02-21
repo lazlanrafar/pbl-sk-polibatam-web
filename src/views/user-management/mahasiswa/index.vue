@@ -99,7 +99,7 @@ export default {
   },
   computed: {
     isLoading() {
-      return this.$store.state.userManagement.isLoading.mahasiswa;
+      return this.$store.state.userManagement.isLoading;
     },
     list_mahasiswa() {
       return this.$store.state.userManagement.list_mahasiswa;

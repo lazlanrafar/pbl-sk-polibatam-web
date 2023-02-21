@@ -14,11 +14,26 @@
       </div>
       <v-data-table
         :headers="headers"
-        :items="list_mahasiswa"
+        :items="reports"
         :loading="isLoading"
         :options.sync="optionsTable"
         :search="optionsTable.search"
       >
+        <template v-slot:[`item.NAMA`]="{ item }">
+          <span> {{ item.GELAR_DPN }} </span>
+          <span> {{ item.NAMA }}</span>
+          <span> {{ item.GELAR_BLK }}</span>
+        </template>
+        <template v-slot:[`item.isAdmin`]="{ item }">
+          <v-chip
+            :color="item.isAdmin ? 'success' : 'error'"
+            :text-color="item.isAdmin ? 'white' : 'white'"
+            small
+          >
+            <span v-if="item.isAdmin">Admin</span>
+            <span v-else>Tidak Admin</span>
+          </v-chip>
+        </template>
         <template v-slot:[`item.action`]="{ item }">
           <v-menu offset-y>
             <template v-slot:activator="{ on, attrs }">
@@ -55,21 +70,20 @@ export default {
     return {
       headers: [
         { text: "No", value: "NO" },
-        { text: "Nrp", value: "NRP" },
+        { text: "NIK", value: "NIK" },
         { text: "Nama", value: "NAMA" },
-        { text: "Agama", value: "AGAMA" },
-        { text: "Kelas", value: "KELAS" },
-        { text: "Jurusan", value: "JURUSAN" },
-        { text: "Status", value: "STATUS" },
+        { text: "Staff", value: "STAFF" },
+        { text: "Unit", value: "UNIT" },
+        { text: "Is Admin", value: "isAdmin" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
     };
   },
   computed: {
     isLoading() {
-      return this.$store.state.userManagement.isLoading.pegawai;
+      return this.$store.state.userManagement.isLoading;
     },
-    list_mahasiswa() {
+    reports() {
       return this.$store.state.userManagement.list_pegawai;
     },
     optionsTable: {
@@ -87,7 +101,7 @@ export default {
     },
   },
   mounted() {
-    // this.$store.dispatch("GetAllMahasiswa");
+    this.$store.dispatch("GetAllPegawai");
   },
 };
 </script>
