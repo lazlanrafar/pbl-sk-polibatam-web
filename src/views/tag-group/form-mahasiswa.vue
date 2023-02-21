@@ -22,6 +22,8 @@
       :options.sync="optionsTable"
       :search="optionsTable.search"
       :loading="isLoading"
+      v-model="data_mahasiswa"
+      item-key="NRP"
       show-select
     ></v-data-table>
   </div>
@@ -43,6 +45,17 @@ export default {
       },
       set(value) {
         this.$store.commit("SET_OPTIONS_TABLE_MAHASISWA_UM", value);
+      },
+    },
+    data_mahasiswa: {
+      get() {
+        return this.$store.state.tagGroup.form.data_mahasiswa;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_TAG_GROUP", {
+          key: "data_mahasiswa",
+          value,
+        });
       },
     },
   },

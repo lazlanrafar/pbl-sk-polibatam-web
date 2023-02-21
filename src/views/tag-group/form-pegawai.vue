@@ -23,6 +23,8 @@
       :options.sync="optionsTable"
       :search="optionsTable.search"
       :loading="isLoading"
+      v-model="data_pegawai"
+      item-key="NIK"
       show-select
     ></v-data-table>
   </div>
@@ -44,6 +46,17 @@ export default {
       },
       set(value) {
         this.$store.commit("SET_OPTIONS_TABLE_PEGAWAI_USER_MANAGAMENT", value);
+      },
+    },
+    data_pegawai: {
+      get() {
+        return this.$store.state.tagGroup.form.data_pegawai;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_TAG_GROUP", {
+          key: "data_pegawai",
+          value,
+        });
       },
     },
   },

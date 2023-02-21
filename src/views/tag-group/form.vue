@@ -15,6 +15,7 @@
             <label class="mb-2 fw-medium fs-14">Nama</label>
             <v-text-field
               placeholder="Nama"
+              v-model="name"
               outlined
               dense
               :rules="[(v) => !!v || 'Nama is required']"
@@ -68,6 +69,17 @@ export default {
     isLoading() {
       return this.$store.state.tagGroup.isLoading;
     },
+    name: {
+      get() {
+        return this.$store.state.tagGroup.form.name;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_TAG_GROUP", {
+          key: "name",
+          value,
+        });
+      },
+    },
   },
   methods: {
     handleClose() {
@@ -76,7 +88,7 @@ export default {
     },
     async handleSubmit() {
       if (this.$refs.initialForm.validate()) {
-        console.log("submit");
+        console.log(this.$store.state.tagGroup.form);
       }
     },
   },
