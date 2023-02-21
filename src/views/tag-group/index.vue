@@ -31,12 +31,7 @@
       </div>
     </div>
 
-    <v-dialog
-      v-model="modalForm"
-      max-width="1200"
-      persistent
-      style="z-index: 9999"
-    >
+    <v-dialog v-model="modalForm" max-width="1200" persistent>
       <Form @handleModalForm="handleModalForm" />
     </v-dialog>
   </div>
@@ -76,6 +71,7 @@ export default {
   methods: {
     handleModalForm(value) {
       if (value) this.$store.dispatch("GetAllMahasiswa");
+      if (value) this.$store.dispatch("GetAllPegawai");
       this.modalForm = value;
     },
   },

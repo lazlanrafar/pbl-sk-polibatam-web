@@ -88,7 +88,12 @@ export default {
     },
     async handleSubmit() {
       if (this.$refs.initialForm.validate()) {
-        console.log(this.$store.state.tagGroup.form);
+        console.log("submit");
+        this.$store.dispatch("CreateTagGroup").then((res) => {
+          if (res) {
+            this.handleClose();
+          }
+        });
       }
     },
   },
