@@ -49,10 +49,16 @@
                   <span>Detail</span>
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item @click="setIsAdmin(item.NRP)">
+              <v-list-item @click="setIsAdmin(item.NRP)" v-if="!item.isAdmin">
                 <v-list-item-title class="text-primary fs-12">
                   <i class="fa-regular fa-eye small mr-2"></i>
                   <span>Set to Admin</span>
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="setIsNotAdmin(item.NRP)" v-if="item.isAdmin">
+                <v-list-item-title class="text-primary fs-12">
+                  <i class="fa-regular fa-eye small mr-2"></i>
+                  <span>Set to Not Admin</span>
                 </v-list-item-title>
               </v-list-item>
             </v-list>
@@ -124,6 +130,21 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.$store.dispatch("SetIsAdminMahasiswaUM", uid);
+        }
+      });
+    },
+    setIsNotAdmin(uid) {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Anda akan mengubah status admin user ini!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, ubah!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch("SetIsNotAdminUM", uid);
         }
       });
     },

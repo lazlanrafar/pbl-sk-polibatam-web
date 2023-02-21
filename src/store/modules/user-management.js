@@ -144,6 +144,46 @@ const userManagement = {
         });
       }
     },
+    SetIsNotAdminUM: async (context, uid) => {
+      context.commit("SET_IS_LOADING_USER_MANAGEMENT", {
+        key: "mahasiswa",
+        value: true,
+      });
+
+      try {
+        const result = await axios({
+          url: `${apiUrl}/user/admin`,
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+          data: {
+            uid: uid,
+          },
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+
+        context.dispatch("GetAllMahasiswa");
+      } catch (error) {
+        catchUnauthorized(error);
+
+        Swal.fire({
+          icon: "error",
+          title: "Gagal",
+          text: error.response.data.message,
+        });
+      } finally {
+        context.commit("SET_IS_LOADING_USER_MANAGEMENT", {
+          key: "mahasiswa",
+          value: false,
+        });
+      }
+    },
   },
 };
 
