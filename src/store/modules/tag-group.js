@@ -17,6 +17,7 @@ const tagGroup = {
       data_mahasiswa: [],
       data_pegawai: [],
     },
+    isUpdate: false,
   },
   mutations: {
     SET_IS_LOADING_TAG_GROUP(state, payload) {
@@ -30,6 +31,9 @@ const tagGroup = {
     },
     SET_FORM_TAG_GROUP(state, payload) {
       state.form[payload.key] = payload.value;
+    },
+    SET_IS_UPDATE_TAG_GROUP(state, payload) {
+      state.isUpdate = payload;
     },
   },
   actions: {
@@ -113,6 +117,45 @@ const tagGroup = {
         };
       } catch (error) {
         catchUnauthorized(error);
+      } finally {
+        context.commit("SET_IS_LOADING_TAG_GROUP", false);
+      }
+    },
+    UpdateTagGroup: async (context, id) => {
+      context.commit("SET_IS_LOADING_TAG_GROUP", true);
+
+      try {
+        const result = await axios({
+          url: `${apiUrl}/tag-group/${id}`,
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+          data: context.state.form,
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+
+        context.state.form = {
+          name: "",
+          data_mahasiswa: [],
+          data_pegawai: [],
+        };
+
+        context.dispatch("GetAllTagGroup");
+        return true;
+      } catch (error) {
+        catchUnauthorized(error);
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
       } finally {
         context.commit("SET_IS_LOADING_TAG_GROUP", false);
       }

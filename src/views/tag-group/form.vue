@@ -69,6 +69,9 @@ export default {
     isLoading() {
       return this.$store.state.tagGroup.isLoading;
     },
+    isUpdate() {
+      return this.$store.state.tagGroup.isUpdate;
+    },
     name: {
       get() {
         return this.$store.state.tagGroup.form.name;
@@ -84,11 +87,20 @@ export default {
   methods: {
     handleClose() {
       this.$refs.initialForm.reset();
+      this.$store.commit("SET_IS_UPDATE_TAG_GROUP", "");
+
       this.$emit("handleModalForm", false);
     },
     async handleSubmit() {
       if (this.$refs.initialForm.validate()) {
-        console.log("submit");
+        if (this.isUpdate) {
+          this.$store.dispatch("UpdateTagGroup", this.isUpdate).then((res) => {
+            if (res) {
+              this.handleClose();
+            }
+          });
+          return;
+        }
         this.$store.dispatch("CreateTagGroup").then((res) => {
           if (res) {
             this.handleClose();

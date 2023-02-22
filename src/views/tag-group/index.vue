@@ -115,9 +115,10 @@ export default {
       if (value) this.$store.dispatch("GetAllPegawai");
       this.modalForm = value;
     },
-    handleEdit(id) {
-      this.$store.dispatch("SetFormUpdateTagGroup", id);
-      this.handleModalForm(true);
+    async handleEdit(id) {
+      await this.handleModalForm(true);
+      await this.$store.dispatch("SetFormUpdateTagGroup", id);
+      await this.$store.commit("SET_IS_UPDATE_TAG_GROUP", id);
     },
   },
   mounted() {
