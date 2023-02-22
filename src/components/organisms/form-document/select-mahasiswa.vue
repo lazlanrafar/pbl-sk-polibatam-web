@@ -49,10 +49,10 @@ export default {
     },
     data_mahasiswa: {
       get() {
-        return this.$store.state.tagGroup.form.data_mahasiswa;
+        return this.$store.state.document.form.data_mahasiswa;
       },
       set(value) {
-        this.$store.commit("SET_FORM_TAG_GROUP", {
+        this.$store.commit("SET_FORM_DOCUMENT", {
           key: "data_mahasiswa",
           value,
         });

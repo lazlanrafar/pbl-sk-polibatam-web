@@ -20,6 +20,7 @@
       :options.sync="optionsTable"
       :search="optionsTable.search"
       :loading="isLoading"
+      v-model="details"
       item-key="id"
       show-select
     ></v-data-table>
@@ -42,6 +43,17 @@ export default {
       },
       set(value) {
         this.$store.commit("SET_OPTIONS_TABLE_TAG_GROUP", value);
+      },
+    },
+    details: {
+      get() {
+        return this.$store.state.document.form.details;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_DOCUMENT", {
+          key: "details",
+          value,
+        });
       },
     },
   },

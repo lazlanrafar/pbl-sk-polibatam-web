@@ -119,8 +119,16 @@ export default {
   },
   methods: {
     handleModalForm(value) {
-      if (value) this.$store.dispatch("GetAllMahasiswa");
-      if (value) this.$store.dispatch("GetAllPegawai");
+      if (value) {
+        this.$store.dispatch("GetAllTagGroup");
+        this.$store.dispatch("GetAllMahasiswa");
+        this.$store.dispatch("GetAllPegawai");
+
+        this.$store.commit("SET_FORM_DOCUMENT", {
+          key: "type",
+          value: "Surat Keterangan",
+        });
+      }
       this.modalForm = value;
     },
     // handleModalDetail(value, id) {

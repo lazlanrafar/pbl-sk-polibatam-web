@@ -15,7 +15,7 @@
             <label class="mb-2 fw-medium">File Document</label>
             <v-file-input
               placeholder="File"
-              v-model="name"
+              v-model="filepath"
               outlined
               dense
               :rules="[(v) => !!v || 'File Document is required']"
@@ -35,7 +35,7 @@
             <label class="mb-2 fw-medium">remarks</label>
             <v-textarea
               placeholder="remarks"
-              v-model="name"
+              v-model="remarks"
               outlined
               dense
               rows="3"
@@ -77,7 +77,7 @@
 
 <script>
 export default {
-  name: "TagGroupForm",
+  name: "DocumentForm",
   components: {
     SelectTagGroup: () => import("./select-tag-group.vue"),
     SelectMahasiswa: () => import("./select-mahasiswa.vue"),
@@ -89,18 +89,40 @@ export default {
   }),
   computed: {
     isLoading() {
-      return this.$store.state.tagGroup.isLoading;
+      return this.$store.state.document.isLoading;
     },
     isUpdate() {
-      return this.$store.state.tagGroup.isUpdate;
+      return this.$store.state.document.isUpdate;
+    },
+    filepath: {
+      get() {
+        return this.$store.state.document.form.filepath;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_DOCUMENT", {
+          key: "filepath",
+          value,
+        });
+      },
     },
     name: {
       get() {
-        return this.$store.state.tagGroup.form.name;
+        return this.$store.state.document.form.name;
       },
       set(value) {
-        this.$store.commit("SET_FORM_TAG_GROUP", {
+        this.$store.commit("SET_FORM_DOCUMENT", {
           key: "name",
+          value,
+        });
+      },
+    },
+    remarks: {
+      get() {
+        return this.$store.state.document.form.remarks;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_DOCUMENT", {
+          key: "remarks",
           value,
         });
       },
@@ -109,21 +131,24 @@ export default {
   methods: {
     handleClose() {
       this.$refs.initialForm.reset();
-      this.$store.commit("SET_IS_UPDATE_TAG_GROUP", "");
+      this.$store.commit("SET_FORM_DOCUMENT", {
+        key: "type",
+        value: "",
+      });
 
       this.$emit("handleModalForm", false);
     },
     async handleSubmit() {
       if (this.$refs.initialForm.validate()) {
-        if (this.isUpdate) {
-          this.$store.dispatch("UpdateTagGroup", this.isUpdate).then((res) => {
-            if (res) {
-              this.handleClose();
-            }
-          });
-          return;
-        }
-        this.$store.dispatch("CreateTagGroup").then((res) => {
+        // if (this.isUpdate) {
+        //   this.$store.dispatch("UpdateTagGroup", this.isUpdate).then((res) => {
+        //     if (res) {
+        //       this.handleClose();
+        //     }
+        //   });
+        //   return;
+        // }
+        this.$store.dispatch("CreateDocument").then((res) => {
           if (res) {
             this.handleClose();
           }

@@ -50,10 +50,10 @@ export default {
     },
     data_pegawai: {
       get() {
-        return this.$store.state.tagGroup.form.data_pegawai;
+        return this.$store.state.document.form.data_pegawai;
       },
       set(value) {
-        this.$store.commit("SET_FORM_TAG_GROUP", {
+        this.$store.commit("SET_FORM_DOCUMENT", {
           key: "data_pegawai",
           value,
         });
