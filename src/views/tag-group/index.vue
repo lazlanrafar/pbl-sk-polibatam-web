@@ -74,6 +74,9 @@
     <v-dialog v-model="modalForm" max-width="1200" persistent>
       <Form @handleModalForm="handleModalForm" />
     </v-dialog>
+    <v-dialog v-model="modalDetail" max-width="1200" persistent>
+      <Detail @handleModalDetail="handleModalDetail" />
+    </v-dialog>
   </div>
 </template>
 
@@ -86,6 +89,7 @@ export default {
   components: {
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("./form.vue"),
+    Detail: () => import("./detail.vue"),
   },
   data() {
     return {
@@ -98,6 +102,7 @@ export default {
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
       modalForm: false,
+      modalDetail: false,
     };
   },
   computed: {
@@ -121,6 +126,10 @@ export default {
       if (value) this.$store.dispatch("GetAllMahasiswa");
       if (value) this.$store.dispatch("GetAllPegawai");
       this.modalForm = value;
+    },
+    handleModalDetail(value, id) {
+      if (value) this.$store.dispatch("GetDetailTagGroup", id);
+      this.modalDetail = value;
     },
     async handleEdit(id) {
       await this.handleModalForm(true);

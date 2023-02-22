@@ -12,6 +12,7 @@ const tagGroup = {
       search: "",
     },
     reports: [],
+    report: "",
     form: {
       name: "",
       data_mahasiswa: [],
@@ -28,6 +29,9 @@ const tagGroup = {
     },
     SET_REPORTS_TAG_GROUP(state, payload) {
       state.reports = payload;
+    },
+    SET_REPORT_TAG_GROUP(state, payload) {
+      state.report = payload;
     },
     SET_FORM_TAG_GROUP(state, payload) {
       state.form[payload.key] = payload.value;
@@ -54,6 +58,24 @@ const tagGroup = {
         });
 
         context.commit("SET_REPORTS_TAG_GROUP", result.data.data);
+      } catch (error) {
+        catchUnauthorized(error);
+      } finally {
+        context.commit("SET_IS_LOADING_TAG_GROUP", false);
+      }
+    },
+    GetDetailTagGroup: async (context, id) => {
+      context.commit("SET_IS_LOADING_TAG_GROUP", true);
+      try {
+        const result = await axios({
+          url: `${apiUrl}/tag-group/${id}`,
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+        });
+
+        context.commit("SET_REPORT_TAG_GROUP", result.data.data);
       } catch (error) {
         catchUnauthorized(error);
       } finally {
