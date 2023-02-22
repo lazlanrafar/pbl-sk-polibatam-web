@@ -160,6 +160,38 @@ const tagGroup = {
         context.commit("SET_IS_LOADING_TAG_GROUP", false);
       }
     },
+    DeleteTagGroup: async (context, id) => {
+      context.commit("SET_IS_LOADING_TAG_GROUP", true);
+
+      try {
+        const result = await axios({
+          url: `${apiUrl}/tag-group/${id}`,
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+
+        context.dispatch("GetAllTagGroup");
+        return true;
+      } catch (error) {
+        catchUnauthorized(error);
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      } finally {
+        context.commit("SET_IS_LOADING_TAG_GROUP", false);
+      }
+    },
   },
 };
 

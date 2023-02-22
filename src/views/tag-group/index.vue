@@ -58,6 +58,12 @@
                     <span>Edit</span>
                   </v-list-item-title>
                 </v-list-item>
+                <v-list-item @click="handleDelete(item.id)">
+                  <v-list-item-title class="text-primary fs-12">
+                    <i class="fas fa-trash small mr-2"></i>
+                    <span>Delete</span>
+                  </v-list-item-title>
+                </v-list-item>
               </v-list>
             </v-menu>
           </template>
@@ -73,6 +79,7 @@
 
 <script>
 import moment from "moment";
+import Swal from "sweetalert2";
 
 export default {
   name: "TagGroup",
@@ -119,6 +126,21 @@ export default {
       await this.handleModalForm(true);
       await this.$store.dispatch("SetFormUpdateTagGroup", id);
       await this.$store.commit("SET_IS_UPDATE_TAG_GROUP", id);
+    },
+    handleDelete(id) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch("DeleteTagGroup", id);
+        }
+      });
     },
   },
   mounted() {
