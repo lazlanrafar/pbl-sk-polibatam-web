@@ -30,7 +30,7 @@
           :loading="isLoading"
         >
           <template v-slot:[`item.created_at`]="{ item }">
-            {{ moment(item.created_at).format("DD MMMM YYYY | HH:mm") }}
+            {{ moment(item.created_at).format("DD MMMM YYYY") }}
           </template>
           <template v-slot:[`item.action`]="{ item }">
             <v-menu offset-y>
@@ -93,7 +93,9 @@ export default {
       headers: [
         { text: "No", value: "no" },
         { text: "Name", value: "name" },
+        { text: "Description", value: "remarks" },
         { text: "Created At", value: "created_at" },
+        { text: "Document", value: "filepath" },
         { text: "Created By", value: "created_by" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
@@ -103,17 +105,17 @@ export default {
   },
   computed: {
     reports() {
-      return this.$store.state.tagGroup.reports;
+      return this.$store.state.suratKeterangan.reports;
     },
     isLoading() {
-      return this.$store.state.tagGroup.isLoading;
+      return this.$store.state.suratKeterangan.isLoading;
     },
     optionsTable: {
       get() {
-        return this.$store.state.tagGroup.optionsTable;
+        return this.$store.state.suratKeterangan.optionsTable;
       },
       set(value) {
-        this.$store.commit("SET_OPTIONS_TABLE_TAG_GROUP", value);
+        this.$store.commit("SET_OPTIONS_TABLE_SURAT_KETERANGAN", value);
       },
     },
   },
@@ -157,7 +159,7 @@ export default {
     // },
   },
   mounted() {
-    this.$store.dispatch("GetAllTagGroup");
+    this.$store.dispatch("GetAllSuratKeterangan");
   },
 };
 </script>
