@@ -77,7 +77,16 @@
           </li>
         </ul>
 
-        <!-- <div class="card border-top-0 rounded-0">
+        <div class="card border-top-0 rounded-0">
+          <div class="card-body" v-if="tab_active == 'Tag Group'">
+            <v-data-table
+              :items="report.details"
+              :headers="[
+                { text: 'Name', value: 'tag_group.name' },
+                { text: 'Created By', value: 'tag_group.created_by' },
+              ]"
+            ></v-data-table>
+          </div>
           <div class="card-body" v-if="tab_active == 'Mahasiswa'">
             <v-data-table
               :items="report.data_mahasiswa"
@@ -109,7 +118,7 @@
               </template>
             </v-data-table>
           </div>
-        </div> -->
+        </div>
       </div>
     </v-card>
   </v-form>

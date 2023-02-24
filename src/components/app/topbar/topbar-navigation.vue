@@ -191,14 +191,30 @@ export default {
   background: #ff7f00;
   border-radius: 5px;
   color: white !important;
-}
-.dropdown-item {
-  // reset background active and after bootstrap 5
+
   &:active,
   &:hover,
+  &:focus,
   &:after {
-    background: transparent !important;
+    background: #ff7f00 !important;
   }
+}
+.dropdown-item {
+  &:active,
+  &:hover,
+  &:focus,
+  &:after {
+    background: none;
+  }
+}
+
+.dropdown:hover > .dropdown-menu {
+  display: block;
+}
+
+.dropdown > .dropdown-toggle:active {
+  /*Without this, clicking will make it sticky*/
+  pointer-events: none;
 }
 
 .bg-navbar {
