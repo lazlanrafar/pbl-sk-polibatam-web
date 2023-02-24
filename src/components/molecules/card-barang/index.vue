@@ -3,12 +3,12 @@
     <div class="card-body">
       <div class="d-flex align-items-center pr-sm-10">
         <img
-          v-if="type == 'pemasukan'"
+          v-if="type == 'Surat Tugas'"
           src="@/assets/icon/ic_productin.svg"
           alt="Icon Product In"
         />
         <img
-          v-if="type == 'pengeluaran'"
+          v-if="type == 'Surat Keterangan'"
           src="@/assets/icon/ic_productout.svg"
           alt="Icon Product Out"
         />
@@ -31,7 +31,7 @@ export default {
       required: true,
     },
     value: {
-      type: String,
+      type: Number,
     },
   },
 };
