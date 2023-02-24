@@ -93,7 +93,7 @@
 
 <script>
 import moment from "moment";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
@@ -167,21 +167,21 @@ export default {
       this.$store.commit("SET_IS_UPDATE_DOCUMENT", id);
       this.handleModalForm(true);
     },
-    // handleDelete(id) {
-    //   Swal.fire({
-    //     title: "Are you sure?",
-    //     text: "You won't be able to revert this!",
-    //     icon: "warning",
-    //     showCancelButton: true,
-    //     confirmButtonColor: "#3085d6",
-    //     cancelButtonColor: "#d33",
-    //     confirmButtonText: "Yes, delete it!",
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       this.$store.dispatch("DeleteTagGroup", id);
-    //     }
-    //   });
-    // },
+    handleDelete(id) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch("DeleteDocument", id);
+        }
+      });
+    },
   },
   mounted() {
     this.$store.dispatch("GetAllSuratKeterangan");

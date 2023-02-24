@@ -207,6 +207,41 @@ const document = {
         context.commit("SET_IS_LOADING_DOCUMENT", false);
       }
     },
+    DeleteDocument: async (context, id) => {
+      context.commit("SET_IS_LOADING_DOCUMENT", true);
+
+      try {
+        const result = await axios({
+          url: `${apiUrl}/document/${id}`,
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+        });
+
+        Swal.fire({
+          title: "Success",
+          text: result.data.message,
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+
+        context.dispatch("GetAllSuratKeterangan");
+        context.dispatch("GetAllSuratTugas");
+        return true;
+      } catch (error) {
+        catchUnauthorized(error);
+
+        Swal.fire({
+          title: "Error",
+          text: error.response.data.message,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      } finally {
+        context.commit("SET_IS_LOADING_DOCUMENT", false);
+      }
+    },
   },
 };
 
