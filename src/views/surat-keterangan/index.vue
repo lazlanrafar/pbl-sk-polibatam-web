@@ -30,8 +30,8 @@
           :loading="isLoading"
         >
           <template v-slot:[`item.remarks`]="{ item }">
-            <div v-if="item.remarks.length > 50">
-              {{ item.remarks.substring(0, 50) + "..." }}
+            <div v-if="item.remarks.length > 25">
+              {{ item.remarks.substring(0, 25) + "..." }}
             </div>
             <div v-else>{{ item.remarks }}</div>
           </template>
@@ -85,6 +85,9 @@
     <v-dialog v-model="modalForm" max-width="1200" persistent>
       <Form @handleModalForm="handleModalForm" />
     </v-dialog>
+    <v-dialog v-model="modalDetail" max-width="1200" persistent>
+      <Detail @handleModalDetail="handleModalDetail" />
+    </v-dialog>
   </div>
 </template>
 
@@ -98,6 +101,7 @@ export default {
   components: {
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("@/components/organisms/form-document/index.vue"),
+    Detail: () => import('@/components/organisms/detail-document/index.vue')
   },
   data() {
     return {
@@ -154,10 +158,10 @@ export default {
     handleDownload(filename) {
       return apiUrl.split("/api")[0] + "/documents/" + filename;
     },
-    // handleModalDetail(value, id) {
-    //   if (value) this.$store.dispatch("GetDetailTagGroup", id);
-    //   this.modalDetail = value;
-    // },
+    handleModalDetail(value, id) {
+      if (value) this.$store.dispatch("GetDetailDocument", id);
+      this.modalDetail = value;
+    },
     // async handleEdit(id) {
     //   await this.handleModalForm(true);
     //   await this.$store.dispatch("SetFormUpdateTagGroup", id);

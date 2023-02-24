@@ -20,6 +20,7 @@ const document = {
       data_pegawai: [],
       details: [],
     },
+    detail: '',
     isUpdate: "",
   },
   mutations: {
@@ -31,6 +32,9 @@ const document = {
     },
     SET_FORM_DOCUMENT(state, payload) {
       state.form[payload.key] = payload.value;
+    },
+    SET_DETAIL_DOCUMENT(state, payload) {
+      state.detail = payload;
     },
   },
   actions: {
@@ -80,6 +84,25 @@ const document = {
           icon: "error",
           confirmButtonText: "OK",
         });
+      } finally {
+        context.commit("SET_IS_LOADING_DOCUMENT", false);
+      }
+    },
+    GetDetailDocument: async (context, id) => {
+      context.commit("SET_IS_LOADING_DOCUMENT", true);
+
+      try {
+        const result = await axios({
+          url: `${apiUrl}/document/${id}`,
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+        });
+
+        context.commit("SET_DETAIL_DOCUMENT", result.data.data);
+      } catch (error) {
+        catchUnauthorized(error);
       } finally {
         context.commit("SET_IS_LOADING_DOCUMENT", false);
       }
