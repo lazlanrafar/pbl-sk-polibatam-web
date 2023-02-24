@@ -20,7 +20,7 @@ const document = {
       data_pegawai: [],
       details: [],
     },
-    detail: '',
+    detail: "",
     isUpdate: "",
   },
   mutations: {
@@ -74,6 +74,7 @@ const document = {
         });
 
         context.dispatch("GetAllSuratKeterangan");
+        context.dispatch("GetAllSuratTugas");
         return true;
       } catch (error) {
         catchUnauthorized(error);

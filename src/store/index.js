@@ -6,10 +6,13 @@ Vue.use(Vuex);
 import app from "./modules/app";
 
 import home from "./modules/home";
+
 import document from "./modules/document";
+import suratTugas from "./modules/surat-tugas";
 import suratKeterangan from "./modules/surat-keterangan";
 
 // Setup
+
 import tagGroup from "./modules/tag-group";
 
 import mahasiswa from "./modules/mahasiswa";
@@ -21,6 +24,7 @@ export default new Vuex.Store({
     app,
     home,
     document,
+    suratTugas,
     suratKeterangan,
     tagGroup,
     mahasiswa,

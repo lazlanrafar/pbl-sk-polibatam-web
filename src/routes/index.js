@@ -9,6 +9,7 @@ import Login from "../views/auth/Login.vue";
 import Home from "@/views/home/index.vue";
 
 import SuratKeterangan from "@/views/surat-keterangan/index.vue";
+import SuratTugas from "@/views/surat-tugas/index.vue";
 
 import TagGroup from "@/views/tag-group/index.vue";
 import UserManagement from "@/views/user-management/index.vue";
@@ -36,6 +37,14 @@ const routes = [
     path: "/surat-keterangan",
     name: "Surat Keterangan",
     component: SuratKeterangan,
+    meta: {
+      middleware: [auth],
+    },
+  },
+  {
+    path: "/surat-tugas",
+    name: "Surat Tugas",
+    component: SuratTugas,
     meta: {
       middleware: [auth],
     },
