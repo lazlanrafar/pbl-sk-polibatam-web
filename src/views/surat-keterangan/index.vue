@@ -5,7 +5,7 @@
     <div class="card mt-5 mt-sm-10">
       <div class="card-body">
         <button
-          class="btn bg-darkblue text-white fs-14"
+          class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
           @click="handleModalForm(true)"
         >
           <i class="fa fa-plus"></i>

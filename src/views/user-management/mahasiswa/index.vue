@@ -1,8 +1,22 @@
 <template>
-  <div class="card">
+  <div class="card border-top-0 rounded-0">
     <div class="card-body py-5">
       <div class="row justify-content-end">
         <div class="col-12 col-sm-5 col-lg-4 col-xl-3">
+          <label class="fw-medium fs-14 mb-3">Prodi</label>
+          <v-autocomplete
+            outlined
+            dense
+            v-model="prodi_active"
+            :items="list_prodi"
+            item-text="JURUSAN"
+            item-value="ID"
+            @input="handleFetch"
+            :loading="isLoading"
+          />
+        </div>
+        <div class="col-12 col-sm-5 col-lg-4 col-xl-3">
+          <label class="fw-medium fs-14 mb-3">Serach</label>
           <v-text-field
             outlined
             dense
@@ -14,7 +28,7 @@
       </div>
       <v-data-table
         :headers="headers"
-        :items="list_mahasiswa"
+        :items="reports"
         :loading="isLoading"
         :options.sync="optionsTable"
         :search="optionsTable.search"
@@ -99,17 +113,39 @@ export default {
   },
   computed: {
     isLoading() {
-      return this.$store.state.userManagement.isLoading;
+      return this.$store.state.mahasiwa.isLoading;
     },
-    list_mahasiswa() {
-      return this.$store.state.userManagement.list_mahasiswa;
+    list_jurusan() {
+      return this.$store.state.mahasiwa.list_jurusan;
+    },
+    list_prodi() {
+      return this.$store.state.mahasiwa.list_prodi;
+    },
+    reports() {
+      return this.$store.state.mahasiwa.reports;
+    },
+    jurusan_active: {
+      get() {
+        return this.$store.state.mahasiwa.jurusan_active;
+      },
+      set(value) {
+        this.$store.commit("SET_JURUSAN_ACTIVE", value);
+      },
+    },
+    prodi_active: {
+      get() {
+        return this.$store.state.mahasiwa.prodi_active;
+      },
+      set(value) {
+        this.$store.commit("SET_PRODI_ACTIVE", value);
+      },
     },
     optionsTable: {
       get() {
-        return this.$store.state.userManagement.optionsTableMahasiswa;
+        return this.$store.state.mahasiwa.optionsTable;
       },
       set(value) {
-        this.$store.commit("SET_OPTIONS_TABLE_MAHASISWA_UM", value);
+        this.$store.commit("SET_OPTIONS_TABLE_MAHASISWA", value);
       },
     },
   },
@@ -129,7 +165,9 @@ export default {
         confirmButtonText: "Ya, ubah!",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.$store.dispatch("SetIsAdminUM", uid);
+          this.$store.dispatch("SetIsAdminUM", uid).then(() => {
+            this.handleFetch();
+          });
         }
       });
     },
@@ -144,13 +182,20 @@ export default {
         confirmButtonText: "Ya, ubah!",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.$store.dispatch("SetIsNotAdminUM", uid);
+          this.$store.dispatch("SetIsNotAdminUM", uid).then(() => {
+            this.handleFetch();
+          });
         }
       });
     },
+    handleFetch() {
+      this.$store.dispatch("GetAllMahasiswa");
+    },
   },
   mounted() {
-    this.$store.dispatch("GetAllMahasiswa");
+    this.$store.dispatch("GetFilterMahasiswa").then(() => {
+      this.handleFetch();
+    });
   },
 };
 </script>

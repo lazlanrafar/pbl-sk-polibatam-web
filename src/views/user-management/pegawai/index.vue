@@ -91,6 +91,7 @@ export default {
       headers: [
         { text: "No", value: "NO" },
         { text: "NIK", value: "NIK" },
+        { text: "NIP", value: "NIP" },
         { text: "Nama", value: "NAMA" },
         { text: "Staff", value: "STAFF" },
         { text: "Unit", value: "UNIT" },

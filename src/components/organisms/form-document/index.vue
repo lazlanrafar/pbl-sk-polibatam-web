@@ -19,6 +19,7 @@
               outlined
               dense
               :rules="[(v) => !!v || 'File Document is required']"
+              hide-details="auto"
             />
           </div>
           <div class="col-md-6">
@@ -29,10 +30,11 @@
               outlined
               dense
               :rules="[(v) => !!v || 'Name is required']"
+              hide-details="auto"
             />
           </div>
           <div class="col-12">
-            <label class="mb-2 fw-medium">remarks</label>
+            <label class="mb-2 fw-medium">Catatan</label>
             <v-textarea
               placeholder="remarks"
               v-model="remarks"

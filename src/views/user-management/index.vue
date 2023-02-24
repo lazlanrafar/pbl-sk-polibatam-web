@@ -2,19 +2,15 @@
   <div>
     <HeaderTitle title="Setup" subtitle="User Management" />
 
-    <ul class="nav nav-pills mb-5 pl-0">
+    <ul class="nav nav-tabs pl-0">
       <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
         <a
-          :class="`nav-link fs-14 ${
-            item === tab_active
-              ? 'bg-orange text-white fw-medium'
-              : 'text-muted'
+          :class="`nav-link  ${
+            item == tab_active ? 'fw-semibold active' : 'text-muted'
           }`"
-          href="#"
-          @click="() => (tab_active = item)"
+          @click="tab_active = item"
+          >{{ item }}</a
         >
-          {{ item }}
-        </a>
       </li>
     </ul>
 
