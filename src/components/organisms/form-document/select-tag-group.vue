@@ -1,7 +1,8 @@
 <template>
   <div class="card-body">
     <div class="row justify-content-end">
-      <div class="col-12 col-md-6 col-xl-4">
+      <div class="col-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
+        <label class="fw-medium fs-14 mb-3">Serach</label>
         <v-text-field
           outlined
           dense
@@ -30,20 +31,21 @@
 <script>
 export default {
   name: "FormDocumentTagGroup",
+  data() {
+    return {
+      optionsTable: {
+        search: "",
+        page: 1,
+        itemsPerPage: 5,
+      },
+    };
+  },
   computed: {
     reports() {
       return this.$store.state.tagGroup.reports;
     },
     isLoading() {
       return this.$store.state.tagGroup.isLoading;
-    },
-    optionsTable: {
-      get() {
-        return this.$store.state.tagGroup.optionsTable;
-      },
-      set(value) {
-        this.$store.commit("SET_OPTIONS_TABLE_TAG_GROUP", value);
-      },
     },
     details: {
       get() {

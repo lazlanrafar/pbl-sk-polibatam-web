@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderTitle title="Main" subtitle="Surat Keterangan" />
+    <HeaderTitle title="Home" subtitle="Surat Keterangan" />
 
     <div class="card mt-5 mt-sm-10">
       <div class="card-body">
@@ -29,8 +29,19 @@
           :search="optionsTable.search"
           :loading="isLoading"
         >
+          <template v-slot:[`item.remarks`]="{ item }">
+            <div v-if="item.remarks.length > 50">
+              {{ item.remarks.substring(0, 50) + "..." }}
+            </div>
+            <div v-else>{{ item.remarks }}</div>
+          </template>
           <template v-slot:[`item.created_at`]="{ item }">
             {{ moment(item.created_at).format("DD MMMM YYYY") }}
+          </template>
+          <template v-slot:[`item.filepath`]="{ item }">
+            <a :href="handleDownload(item.filepath)" target="_blank">
+              {{ item.filepath }}
+            </a>
           </template>
           <template v-slot:[`item.action`]="{ item }">
             <v-menu offset-y>
@@ -71,7 +82,7 @@
       </div>
     </div>
 
-    <v-dialog v-model="modalForm" max-width="1000" persistent>
+    <v-dialog v-model="modalForm" max-width="1200" persistent>
       <Form @handleModalForm="handleModalForm" />
     </v-dialog>
   </div>
@@ -80,6 +91,7 @@
 <script>
 import moment from "moment";
 // import Swal from "sweetalert2";
+const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   name: "SuratKeteranganPage",
@@ -95,8 +107,8 @@ export default {
         { text: "Name", value: "name" },
         { text: "Description", value: "remarks" },
         { text: "Created At", value: "created_at" },
-        { text: "Document", value: "filepath" },
         { text: "Created By", value: "created_by" },
+        { text: "Document", value: "filepath" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
       modalForm: false,
@@ -120,18 +132,27 @@ export default {
     },
   },
   methods: {
-    handleModalForm(value) {
+    async handleModalForm(value) {
+      this.modalForm = value;
       if (value) {
         this.$store.dispatch("GetAllTagGroup");
-        this.$store.dispatch("GetAllMahasiswa");
-        this.$store.dispatch("GetAllPegawai");
+
+        await this.$store.dispatch("GetFilterMahasiswa").then(() => {
+          this.$store.dispatch("GetAllMahasiswa");
+        });
+
+        await this.$store.dispatch("GetFilterPegawai").then(() => {
+          this.$store.dispatch("GetAllPegawai");
+        });
 
         this.$store.commit("SET_FORM_DOCUMENT", {
           key: "type",
           value: "Surat Keterangan",
         });
       }
-      this.modalForm = value;
+    },
+    handleDownload(filename) {
+      return apiUrl.split("/api")[0] + "/documents/" + filename;
     },
     // handleModalDetail(value, id) {
     //   if (value) this.$store.dispatch("GetDetailTagGroup", id);

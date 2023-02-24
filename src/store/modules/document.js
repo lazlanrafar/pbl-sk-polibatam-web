@@ -69,6 +69,7 @@ const document = {
           confirmButtonText: "OK",
         });
 
+        context.dispatch("GetAllSuratKeterangan");
         return true;
       } catch (error) {
         catchUnauthorized(error);

@@ -58,9 +58,15 @@
         </ul>
 
         <div class="card mb-5 border-top-0 rounded-0">
-          <SelectTagGroup v-if="tab_active == 'Tag Group'" />
-          <SelectMahasiswa v-if="tab_active == 'Mahasiswa'" />
-          <SelectPegawai v-if="tab_active == 'Pegawai'" />
+          <div :class="tab_active == 'Tag Group' ? '' : 'd-none'">
+            <SelectTagGroup />
+          </div>
+          <div :class="tab_active == 'Mahasiswa' ? '' : 'd-none'">
+            <SelectMahasiswa />
+          </div>
+          <div :class="tab_active == 'Pegawai' ? '' : 'd-none'">
+            <SelectPegawai />
+          </div>
         </div>
       </div>
       <div class="card-footer">
