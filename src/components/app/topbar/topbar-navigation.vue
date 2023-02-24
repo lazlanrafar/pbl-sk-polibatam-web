@@ -28,7 +28,9 @@
             </router-link>
 
             <a
-              :class="`nav-link dropdown-toggle px-3 ${aClass}`"
+              :class="`nav-link dropdown-toggle px-3 ${aClass} ${handleActiveClass(
+                nav.path
+              )}`"
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
@@ -146,13 +148,13 @@ export default {
           children: [
             {
               title: "Tag Group",
-              path: "/tag-group",
+              path: "/setup/tag-group",
               icon: "fa-solid fa-tags",
               children: false,
             },
             {
               title: "User Management",
-              path: "/user-management",
+              path: "/setup/user-management",
               icon: "fa-solid fa-users",
               children: false,
             },
@@ -164,6 +166,11 @@ export default {
   computed: {
     isAdmin() {
       return this.$store.state.app.user.isAdmin;
+    },
+  },
+  methods: {
+    handleActiveClass(path) {
+      return this.$route.path.includes(path) ? "router-link-exact-active" : "";
     },
   },
   mounted() {

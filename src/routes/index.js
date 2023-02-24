@@ -41,7 +41,7 @@ const routes = [
     },
   },
   {
-    path: "/tag-group",
+    path: "/setup/tag-group",
     name: "Tag Group",
     component: TagGroup,
     meta: {
@@ -49,7 +49,7 @@ const routes = [
     },
   },
   {
-    path: "/user-management",
+    path: "/setup/user-management",
     name: "User Management",
     component: UserManagement,
     meta: {
