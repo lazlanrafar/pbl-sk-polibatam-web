@@ -15,8 +15,12 @@
     </ul>
 
     <v-card class="shadow-none">
-      <PageMahasiswa v-if="tab_active === 'Mahasiswa'" />
-      <PagePegawai v-if="tab_active === 'Pegawai'" />
+      <div :class="tab_active === 'Mahasiswa' ? '' : 'd-none'">
+        <PageMahasiswa />
+      </div>
+      <div :class="tab_active === 'Pegawai' ? '' : 'd-none'">
+        <PagePegawai />
+      </div>
     </v-card>
   </div>
 </template>

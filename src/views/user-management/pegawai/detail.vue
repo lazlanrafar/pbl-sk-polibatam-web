@@ -28,10 +28,10 @@ export default {
   },
   computed: {
     report() {
-      return this.$store.state.userManagement.detail_pegawai;
+      return this.$store.state.pegawai.report;
     },
     isLoading() {
-      return this.$store.state.userManagement.isLoading;
+      return this.$store.state.pegawai.isLoading;
     },
   },
   methods: {

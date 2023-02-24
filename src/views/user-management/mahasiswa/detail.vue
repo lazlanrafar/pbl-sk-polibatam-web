@@ -28,10 +28,10 @@ export default {
   },
   computed: {
     report() {
-      return this.$store.state.userManagement.detail_mahasiswa;
+      return this.$store.state.mahasiswa.report;
     },
     isLoading() {
-      return this.$store.state.userManagement.isLoading;
+      return this.$store.state.mahasiswa.isLoading;
     },
   },
   methods: {

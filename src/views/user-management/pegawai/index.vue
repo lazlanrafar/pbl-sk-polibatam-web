@@ -1,8 +1,22 @@
 <template>
-  <div class="card">
+  <div class="card border-top-0 rounded-t-0">
     <div class="card-body py-5">
       <div class="row justify-content-end">
         <div class="col-12 col-sm-5 col-lg-4 col-xl-3">
+          <label class="fw-medium fs-14 mb-3">Unit</label>
+          <v-autocomplete
+            outlined
+            dense
+            v-model="unit_active"
+            :items="list_unit"
+            item-text="UNIT"
+            item-value="ID"
+            @input="handleFetch"
+            :loading="isLoading"
+          />
+        </div>
+        <div class="col-12 col-sm-5 col-lg-4 col-xl-3">
+          <label class="fw-medium fs-14 mb-3">Serach</label>
           <v-text-field
             outlined
             dense
@@ -48,19 +62,19 @@
               </v-btn>
             </template>
             <v-list min-width="150">
-              <v-list-item @click="handleModalDetail(true, item.NIK)">
+              <v-list-item @click="handleModalDetail(true, item.NIP)">
                 <v-list-item-title class="text-primary fs-12">
                   <i class="fa-regular fa-eye small mr-2"></i>
                   <span>Detail</span>
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item @click="setIsAdmin(item.NIK)" v-if="!item.isAdmin">
+              <v-list-item @click="setIsAdmin(item.NIP)" v-if="!item.isAdmin">
                 <v-list-item-title class="text-primary fs-12">
                   <i class="fa-regular fa-eye small mr-2"></i>
                   <span>Set to Admin</span>
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item @click="setIsNotAdmin(item.NIK)" v-if="item.isAdmin">
+              <v-list-item @click="setIsNotAdmin(item.NIP)" v-if="item.isAdmin">
                 <v-list-item-title class="text-primary fs-12">
                   <i class="fa-regular fa-eye small mr-2"></i>
                   <span>Set to Not Admin</span>
@@ -82,7 +96,7 @@
 import Swal from "sweetalert2";
 
 export default {
-  name: "UMMahasiswa",
+  name: "UMPegawai",
   components: {
     Detail: () => import("./detail.vue"),
   },
@@ -103,23 +117,34 @@ export default {
   },
   computed: {
     isLoading() {
-      return this.$store.state.userManagement.isLoading;
+      return this.$store.state.pegawai.isLoading;
+    },
+    list_unit() {
+      return this.$store.state.pegawai.list_unit;
     },
     reports() {
-      return this.$store.state.userManagement.list_pegawai;
+      return this.$store.state.pegawai.reports;
     },
     optionsTable: {
       get() {
-        return this.$store.state.userManagement.optionsTablePegawai;
+        return this.$store.state.pegawai.optionsTable;
       },
       set(value) {
-        this.$store.commit("SET_OPTIONS_TABLE_PEGAWAI_USER_MANAGAMENT", value);
+        this.$store.commit("SET_OPTIONS_TABLE_PEGAWAI", value);
+      },
+    },
+    unit_active: {
+      get() {
+        return this.$store.state.pegawai.unit_active;
+      },
+      set(value) {
+        this.$store.commit("SET_UNIT_ACTIVE", value);
       },
     },
   },
   methods: {
-    handleModalDetail(value, nik) {
-      if (value) this.$store.dispatch("GetPegawaiByNIK", nik);
+    handleModalDetail(value, nip) {
+      if (value) this.$store.dispatch("GetPegawaiByNIP", nip);
       this.modalDetail = value;
     },
     setIsAdmin(uid) {
@@ -133,7 +158,9 @@ export default {
         confirmButtonText: "Ya, ubah!",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.$store.dispatch("SetIsAdminUM", uid);
+          this.$store.dispatch("SetIsAdminUM", uid).then(() => {
+            this.handleFetch();
+          });
         }
       });
     },
@@ -148,13 +175,20 @@ export default {
         confirmButtonText: "Ya, ubah!",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.$store.dispatch("SetIsNotAdminUM", uid);
+          this.$store.dispatch("SetIsNotAdminUM", uid).then(() => {
+            this.handleFetch();
+          });
         }
       });
     },
+    handleFetch() {
+      this.$store.dispatch("GetAllPegawai");
+    },
   },
   mounted() {
-    this.$store.dispatch("GetAllPegawai");
+    this.$store.dispatch("GetFilterPegawai").then(() => {
+      this.handleFetch();
+    });
   },
 };
 </script>

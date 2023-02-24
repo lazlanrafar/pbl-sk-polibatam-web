@@ -12,7 +12,8 @@ import suratKeterangan from "./modules/surat-keterangan";
 // Setup
 import tagGroup from "./modules/tag-group";
 
-import mahasiwa from "./modules/mahasiswa";
+import mahasiswa from "./modules/mahasiswa";
+import pegawai from "./modules/pegawai";
 import userManagement from "./modules/user-management";
 
 export default new Vuex.Store({
@@ -22,7 +23,8 @@ export default new Vuex.Store({
     document,
     suratKeterangan,
     tagGroup,
-    mahasiwa,
+    mahasiswa,
+    pegawai,
     userManagement,
   },
 });

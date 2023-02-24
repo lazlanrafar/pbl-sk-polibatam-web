@@ -2,7 +2,7 @@ import axios from "axios";
 import catchUnauthorized from "../../utils/catch-unauthorized";
 const apiUrl = process.env.VUE_APP_API_URL;
 
-const mahasiswa = {
+const pegawai = {
   state: {
     isLoading: false,
     optionsTable: {
@@ -10,58 +10,58 @@ const mahasiswa = {
       itemsPerPage: 5,
       search: "",
     },
-    list_prodi: [],
-    prodi_active: "",
+    list_unit: [],
+    unit_active: "",
     reports: [],
     report: {},
   },
   mutations: {
-    SET_IS_LOADING_MAHASISWA(state, payload) {
+    SET_IS_LOADING_PEGAWAI(state, payload) {
       state.isLoading = payload;
     },
-    SET_OPTIONS_TABLE_MAHASISWA(state, payload) {
+    SET_OPTIONS_TABLE_PEGAWAI(state, payload) {
       state.optionsTable = Object.assign({}, payload);
     },
-    SET_LIST_PRODI(state, payload) {
-      state.list_prodi = payload;
+    SET_LIST_UNIT(state, payload) {
+      state.list_unit = payload;
     },
-    SET_PRODI_ACTIVE(state, payload) {
-      state.prodi_active = payload;
+    SET_UNIT_ACTIVE(state, payload) {
+      state.unit_active = payload;
     },
-    SET_REPORTS_MAHASISWA(state, payload) {
+    SET_REPORTS_PEGAWAI(state, payload) {
       state.reports = payload;
     },
-    SET_DETAIL_MAHASISWA(state, payload) {
+    SET_DETAIL_PEGAWAI(state, payload) {
       state.report = payload;
     },
   },
   actions: {
-    GetFilterMahasiswa: async (context) => {
-      context.commit("SET_IS_LOADING_MAHASISWA", true);
+    GetFilterPegawai: async (context) => {
+      context.commit("SET_IS_LOADING_PEGAWAI", true);
 
       try {
-        const prodi = await axios({
-          url: `${apiUrl}/mahasiswa/prodi`,
+        const unit = await axios({
+          url: `${apiUrl}/pegawai/unit`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${context.rootState.app.token}`,
           },
         });
 
-        context.commit("SET_LIST_PRODI", prodi.data.data);
-        context.commit("SET_PRODI_ACTIVE", prodi.data.data[0].ID);
+        context.commit("SET_LIST_UNIT", unit.data.data);
+        context.commit("SET_UNIT_ACTIVE", unit.data.data[0].ID);
       } catch (error) {
         catchUnauthorized(error);
       } finally {
-        context.commit("SET_IS_LOADING_MAHASISWA", false);
+        context.commit("SET_IS_LOADING_PEGAWAI", false);
       }
     },
-    GetAllMahasiswa: async (context) => {
-      context.commit("SET_IS_LOADING_MAHASISWA", true);
+    GetAllPegawai: async (context) => {
+      context.commit("SET_IS_LOADING_PEGAWAI", true);
 
       try {
         const result = await axios({
-          url: `${apiUrl}/mahasiswa?prodi=${context.state.prodi_active}`,
+          url: `${apiUrl}/pegawai?unit=${context.state.unit_active}`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${context.rootState.app.token}`,
@@ -72,19 +72,19 @@ const mahasiswa = {
           item.NO = index + 1;
         });
 
-        context.commit("SET_REPORTS_MAHASISWA", result.data.data);
+        context.commit("SET_REPORTS_PEGAWAI", result.data.data);
       } catch (error) {
         catchUnauthorized(error);
       } finally {
-        context.commit("SET_IS_LOADING_MAHASISWA", false);
+        context.commit("SET_IS_LOADING_PEGAWAI", false);
       }
     },
-    GetMahasiswaByNIM: async (context, nim) => {
-      context.commit("SET_IS_LOADING_MAHASISWA", true);
+    GetPegawaiByNIP: async (context, nip) => {
+      context.commit("SET_IS_LOADING_PEGAWAI", true);
 
       try {
         const result = await axios({
-          url: `${apiUrl}/mahasiswa/${nim}`,
+          url: `${apiUrl}/pegawai/${nip}`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${context.rootState.app.token}`,
@@ -100,14 +100,14 @@ const mahasiswa = {
           });
         });
 
-        context.commit("SET_DETAIL_MAHASISWA", data);
+        context.commit("SET_DETAIL_PEGAWAI", data);
       } catch (error) {
         catchUnauthorized(error);
       } finally {
-        context.commit("SET_IS_LOADING_MAHASISWA", false);
+        context.commit("SET_IS_LOADING_PEGAWAI", false);
       }
     },
   },
 };
 
-export default mahasiswa;
+export default pegawai;

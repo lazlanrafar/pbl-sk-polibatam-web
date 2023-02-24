@@ -1,5 +1,5 @@
 <template>
-  <div class="card border-top-0 rounded-0">
+  <div class="card border-top-0 rounded-t-0">
     <div class="card-body py-5">
       <div class="row justify-content-end">
         <div class="col-12 col-sm-5 col-lg-4 col-xl-3">
@@ -113,28 +113,17 @@ export default {
   },
   computed: {
     isLoading() {
-      return this.$store.state.mahasiwa.isLoading;
-    },
-    list_jurusan() {
-      return this.$store.state.mahasiwa.list_jurusan;
+      return this.$store.state.mahasiswa.isLoading;
     },
     list_prodi() {
-      return this.$store.state.mahasiwa.list_prodi;
+      return this.$store.state.mahasiswa.list_prodi;
     },
     reports() {
-      return this.$store.state.mahasiwa.reports;
-    },
-    jurusan_active: {
-      get() {
-        return this.$store.state.mahasiwa.jurusan_active;
-      },
-      set(value) {
-        this.$store.commit("SET_JURUSAN_ACTIVE", value);
-      },
+      return this.$store.state.mahasiswa.reports;
     },
     prodi_active: {
       get() {
-        return this.$store.state.mahasiwa.prodi_active;
+        return this.$store.state.mahasiswa.prodi_active;
       },
       set(value) {
         this.$store.commit("SET_PRODI_ACTIVE", value);
@@ -142,7 +131,7 @@ export default {
     },
     optionsTable: {
       get() {
-        return this.$store.state.mahasiwa.optionsTable;
+        return this.$store.state.mahasiswa.optionsTable;
       },
       set(value) {
         this.$store.commit("SET_OPTIONS_TABLE_MAHASISWA", value);
