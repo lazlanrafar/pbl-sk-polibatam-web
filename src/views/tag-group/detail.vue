@@ -42,6 +42,7 @@
             <v-data-table
               :items="report.data_pegawai"
               :headers="[
+                { text: 'NIP', value: 'NIP' },
                 { text: 'NIK', value: 'NIK' },
                 { text: 'Nama', value: 'NAMA' },
                 { text: 'Staff', value: 'STAFF' },

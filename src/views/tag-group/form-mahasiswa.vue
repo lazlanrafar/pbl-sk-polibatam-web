@@ -1,7 +1,21 @@
 <template>
   <div class="card-body">
     <div class="row justify-content-end">
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
+        <label class="fw-medium fs-14 mb-3">Prodi</label>
+        <v-autocomplete
+          outlined
+          dense
+          v-model="prodi_active"
+          :items="list_prodi"
+          item-text="JURUSAN"
+          item-value="ID"
+          @input="handleFetch"
+          :loading="isLoading"
+        />
+      </div>
+      <div class="col-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
+        <label class="fw-medium fs-14 mb-3">Serach</label>
         <v-text-field
           outlined
           dense
@@ -19,9 +33,9 @@
         { text: 'Jurusan', value: 'JURUSAN' },
       ]"
       :items="list_mahasiswa"
+      :loading="isLoading"
       :options.sync="optionsTable"
       :search="optionsTable.search"
-      :loading="isLoading"
       v-model="data_mahasiswa"
       item-key="NRP"
       show-select
@@ -32,19 +46,31 @@
 <script>
 export default {
   name: "FormTagGroupMahasiswa",
+  data() {
+    return {
+      optionsTable: {
+        search: "",
+        page: 1,
+        itemsPerPage: 5,
+      },
+    };
+  },
   computed: {
     list_mahasiswa() {
-      return this.$store.state.userManagement.list_mahasiswa;
+      return this.$store.state.mahasiswa.reports;
     },
     isLoading() {
-      return this.$store.state.userManagement.isLoading;
+      return this.$store.state.mahasiswa.isLoading;
     },
-    optionsTable: {
+    list_prodi() {
+      return this.$store.state.mahasiswa.list_prodi;
+    },
+    prodi_active: {
       get() {
-        return this.$store.state.userManagement.optionsTableMahasiswa;
+        return this.$store.state.mahasiswa.prodi_active;
       },
       set(value) {
-        this.$store.commit("SET_OPTIONS_TABLE_MAHASISWA_UM", value);
+        this.$store.commit("SET_PRODI_ACTIVE", value);
       },
     },
     data_mahasiswa: {
@@ -57,6 +83,11 @@ export default {
           value,
         });
       },
+    },
+  },
+  methods: {
+    handleFetch() {
+      this.$store.dispatch("GetAllMahasiswa");
     },
   },
 };

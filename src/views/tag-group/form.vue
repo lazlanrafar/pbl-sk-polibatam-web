@@ -36,8 +36,12 @@
         </ul>
 
         <div class="card mb-5 border-top-0 rounded-0">
-          <FormMahasiswa v-if="tab_active == 'Mahasiswa'" />
-          <FormPegawai v-if="tab_active == 'Pegawai'" />
+          <div :class="tab_active == 'Mahasiswa' ? '' : 'd-none'">
+            <FormMahasiswa />
+          </div>
+          <div :class="tab_active == 'Pegawai' ? '' : 'd-none'">
+            <FormPegawai />
+          </div>
         </div>
       </div>
       <div class="card-footer">

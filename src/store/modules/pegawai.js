@@ -48,6 +48,10 @@ const pegawai = {
           },
         });
 
+        if (unit.data.data === "") {
+          return;
+        }
+
         context.commit("SET_LIST_UNIT", unit.data.data);
         context.commit("SET_UNIT_ACTIVE", unit.data.data[0].ID);
       } catch (error) {
@@ -67,6 +71,10 @@ const pegawai = {
             Authorization: `Bearer ${context.rootState.app.token}`,
           },
         });
+
+        if (result.data.data === "") {
+          return;
+        }
 
         result.data.data.forEach((item, index) => {
           item.NO = index + 1;

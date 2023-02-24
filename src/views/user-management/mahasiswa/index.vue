@@ -181,7 +181,7 @@ export default {
       this.$store.dispatch("GetAllMahasiswa");
     },
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch("GetFilterMahasiswa").then(() => {
       this.handleFetch();
     });

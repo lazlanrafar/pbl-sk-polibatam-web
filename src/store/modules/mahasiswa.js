@@ -48,6 +48,10 @@ const mahasiswa = {
           },
         });
 
+        if (prodi.data.data === "") {
+          return;
+        }
+
         context.commit("SET_LIST_PRODI", prodi.data.data);
         context.commit("SET_PRODI_ACTIVE", prodi.data.data[0].ID);
       } catch (error) {
@@ -67,6 +71,10 @@ const mahasiswa = {
             Authorization: `Bearer ${context.rootState.app.token}`,
           },
         });
+
+        if (result.data.data === "") {
+          return;
+        }
 
         result.data.data.forEach((item, index) => {
           item.NO = index + 1;

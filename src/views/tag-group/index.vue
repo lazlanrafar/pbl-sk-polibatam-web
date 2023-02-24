@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <v-dialog v-model="modalForm" max-width="1200" persistent>
+    <v-dialog v-if="modalForm" v-model="modalForm" max-width="1200" persistent>
       <Form @handleModalForm="handleModalForm" />
     </v-dialog>
     <v-dialog v-model="modalDetail" max-width="1200" persistent>
@@ -122,10 +122,17 @@ export default {
     },
   },
   methods: {
-    handleModalForm(value) {
-      if (value) this.$store.dispatch("GetAllMahasiswa");
-      if (value) this.$store.dispatch("GetAllPegawai");
+    async handleModalForm(value) {
       this.modalForm = value;
+      if (value) {
+        await this.$store.dispatch("GetFilterMahasiswa").then(() => {
+          this.$store.dispatch("GetAllMahasiswa");
+        });
+
+        await this.$store.dispatch("GetFilterPegawai").then(() => {
+          this.$store.dispatch("GetAllPegawai");
+        });
+      }
     },
     handleModalDetail(value, id) {
       if (value) this.$store.dispatch("GetDetailTagGroup", id);
