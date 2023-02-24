@@ -23,7 +23,7 @@
             <div v-else>{{ item.remarks }}</div>
           </template>
           <template v-slot:[`item.created_at`]="{ item }">
-            {{ moment(item.created_at).format("DD MMMM YYYY") }}
+            {{ moment(item.created_at).format("DD MMMM YYYY | HH:mm") }}
           </template>
           <template v-slot:[`item.filepath`]="{ item }">
             <a :href="handleDownload(item.filepath)" target="_blank">

@@ -7,6 +7,7 @@
         <button
           class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
           @click="handleModalForm(true)"
+          v-if="isAdmin"
         >
           <i class="fa fa-plus"></i>
           Add New
@@ -36,7 +37,7 @@
             <div v-else>{{ item.remarks }}</div>
           </template>
           <template v-slot:[`item.created_at`]="{ item }">
-            {{ moment(item.created_at).format("DD MMMM YYYY") }}
+            {{ moment(item.created_at).format("DD MMMM YYYY | HH:mm") }}
           </template>
           <template v-slot:[`item.filepath`]="{ item }">
             <a :href="handleDownload(item.filepath)" target="_blank">
@@ -125,6 +126,9 @@ export default {
     },
     isLoading() {
       return this.$store.state.suratTugas.isLoading;
+    },
+    isAdmin() {
+      return this.$store.state.app.user.isAdmin;
     },
     optionsTable: {
       get() {
