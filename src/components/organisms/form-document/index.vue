@@ -19,6 +19,16 @@
               outlined
               dense
               :rules="[(v) => !!v || 'File Document is required']"
+              v-if="!isUpdate"
+              hide-details="auto"
+            />
+            <v-file-input
+              placeholder="File"
+              v-model="filepath"
+              outlined
+              dense
+              messages="Upload file jika ingin mengganti file yang lama"
+              v-if="isUpdate"
               hide-details="auto"
             />
           </div>
@@ -139,23 +149,20 @@ export default {
   methods: {
     handleClose() {
       this.$refs.initialForm.reset();
-      this.$store.commit("SET_FORM_DOCUMENT", {
-        key: "type",
-        value: "",
-      });
+      this.$store.commit("RESET_FORM_DOCUMENT");
 
       this.$emit("handleModalForm", false);
     },
     async handleSubmit() {
       if (this.$refs.initialForm.validate()) {
-        // if (this.isUpdate) {
-        //   this.$store.dispatch("UpdateTagGroup", this.isUpdate).then((res) => {
-        //     if (res) {
-        //       this.handleClose();
-        //     }
-        //   });
-        //   return;
-        // }
+        if (this.isUpdate) {
+          this.$store.dispatch("UpdateDocument", this.isUpdate).then((res) => {
+            if (res) {
+              this.handleClose();
+            }
+          });
+          return;
+        }
         this.$store.dispatch("CreateDocument").then((res) => {
           if (res) {
             this.handleClose();

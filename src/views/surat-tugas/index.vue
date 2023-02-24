@@ -162,11 +162,11 @@ export default {
       if (value) this.$store.dispatch("GetDetailDocument", id);
       this.modalDetail = value;
     },
-    // async handleEdit(id) {
-    //   await this.handleModalForm(true);
-    //   await this.$store.dispatch("SetFormUpdateTagGroup", id);
-    //   await this.$store.commit("SET_IS_UPDATE_TAG_GROUP", id);
-    // },
+    handleEdit(id) {
+      this.$store.dispatch("SetFormDocumentUpdate", id);
+      this.$store.commit("SET_IS_UPDATE_DOCUMENT", id);
+      this.handleModalForm(true);
+    },
     // handleDelete(id) {
     //   Swal.fire({
     //     title: "Are you sure?",

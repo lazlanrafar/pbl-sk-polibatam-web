@@ -82,7 +82,7 @@
       </div>
     </div>
 
-    <v-dialog v-model="modalForm" max-width="1200" persistent>
+    <v-dialog v-if="modalForm" v-model="modalForm" max-width="1200" persistent>
       <Form @handleModalForm="handleModalForm" />
     </v-dialog>
     <v-dialog v-model="modalDetail" max-width="1200" persistent>
@@ -101,7 +101,7 @@ export default {
   components: {
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("@/components/organisms/form-document/index.vue"),
-    Detail: () => import('@/components/organisms/detail-document/index.vue')
+    Detail: () => import("@/components/organisms/detail-document/index.vue"),
   },
   data() {
     return {
@@ -162,11 +162,11 @@ export default {
       if (value) this.$store.dispatch("GetDetailDocument", id);
       this.modalDetail = value;
     },
-    // async handleEdit(id) {
-    //   await this.handleModalForm(true);
-    //   await this.$store.dispatch("SetFormUpdateTagGroup", id);
-    //   await this.$store.commit("SET_IS_UPDATE_TAG_GROUP", id);
-    // },
+    handleEdit(id) {
+      this.$store.dispatch("SetFormDocumentUpdate", id);
+      this.$store.commit("SET_IS_UPDATE_DOCUMENT", id);
+      this.handleModalForm(true);
+    },
     // handleDelete(id) {
     //   Swal.fire({
     //     title: "Are you sure?",
