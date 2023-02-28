@@ -141,6 +141,13 @@ export default {
           adminOnly: false,
         },
         {
+          title: "Pengajuan Surat",
+          path: "/pengajuan-surat",
+          icon: "fa-solid fa-paper-plane",
+          children: false,
+          adminOnly: false,
+        },
+        {
           title: "Setup",
           path: "/setup",
           icon: "fa-solid fa-tags",

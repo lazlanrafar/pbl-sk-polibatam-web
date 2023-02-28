@@ -15,5 +15,16 @@ export default {
     AppTopbar: () => import("@/components/app/topbar/index.vue"),
     AppFooter: () => import("@/components/app/footer/index.vue"),
   },
+  computed: {
+    token() {
+      return this.$store.state.app.token;
+    },
+  },
+  created() {
+    if (!this.token) {
+      // reload
+      window.location.reload();
+    }
+  },
 };
 </script>
