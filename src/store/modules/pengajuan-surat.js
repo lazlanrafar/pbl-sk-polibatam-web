@@ -148,6 +148,37 @@ const pengajuanSurat = {
         context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", false);
       }
     },
+    DeletePengajuan: async (context, id) => {
+      context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", true);
+      try {
+        const result = await axios({
+          url: `${apiUrl}/pengajuan/${id}`,
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+
+        context.dispatch("GetAllPengajuan");
+        return true;
+      } catch (error) {
+        catchUnauthorized(error);
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      } finally {
+        context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", false);
+      }
+    },
   },
 };
 

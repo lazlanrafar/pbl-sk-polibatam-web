@@ -161,7 +161,7 @@ export default {
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.$store.dispatch("DeleteDocument", id);
+          this.$store.dispatch("DeletePengajuan", id);
         }
       });
     },
