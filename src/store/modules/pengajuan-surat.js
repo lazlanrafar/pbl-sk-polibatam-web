@@ -3,17 +3,6 @@ import catchUnauthorized from "../../utils/catch-unauthorized";
 const apiUrl = process.env.VUE_APP_API_URL;
 import Swal from "sweetalert2";
 
-const form = {
-  title: "",
-  type: "",
-  is_lampiran: false,
-  filepath_lampiran: "",
-  pickup_plan: "",
-  list_consider: [""],
-  list_observe: [""],
-  list_decide: [""],
-};
-
 const pengajuanSurat = {
   state: {
     isLoading: false,
@@ -29,7 +18,14 @@ const pengajuanSurat = {
       },
     ],
     form: {
-      ...form,
+      title: "",
+      type: "",
+      is_lampiran: false,
+      filepath_lampiran: "",
+      pickup_plan: "",
+      list_consider: [""],
+      list_observe: [""],
+      list_decide: [""],
     },
     optionsTable: {
       page: 1,
@@ -48,7 +44,14 @@ const pengajuanSurat = {
     },
     RESET_FORM_PENGAJUAN_SURAT(state) {
       state.form = {
-        ...form,
+        title: "",
+        type: "",
+        is_lampiran: false,
+        filepath_lampiran: "",
+        pickup_plan: "",
+        list_consider: [""],
+        list_observe: [""],
+        list_decide: [""],
       };
     },
     SET_OPTIONS_TABLE_PENGAJUAN_SURAT(state, payload) {
