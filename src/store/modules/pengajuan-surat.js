@@ -37,6 +37,7 @@ const pengajuanSurat = {
     isUpdate: false,
     form_approve: {
       id_pengajuan: "",
+      remarks: "",
       data_mahasiswa: [],
       data_pegawai: [],
       details: [],
@@ -83,6 +84,7 @@ const pengajuanSurat = {
     RESET_FORM_APPROVE_PENGAJUAN_SURAT(state) {
       state.form_approve = {
         id_pengajuan: "",
+        remarks: "",
         data_mahasiswa: [],
         data_pegawai: [],
         details: [],

@@ -13,7 +13,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col">
+          <div class="col-12">
             <table class="mb-5 fs-14">
               <tr
                 v-for="(item, i) in [
@@ -69,6 +69,19 @@
             <SelectPegawai />
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-12">
+            <label class="mb-2 fw-medium">Catatan</label>
+            <v-textarea
+              placeholder="remarks"
+              v-model="remarks"
+              outlined
+              dense
+              rows="3"
+            />
+          </div>
+        </div>
       </div>
       <div class="card-footer">
         <div class="d-flex justify-content-end">
@@ -105,6 +118,17 @@ export default {
     },
     report() {
       return this.$store.state.pengajuanSurat.report;
+    },
+    remarks: {
+      get() {
+        return this.$store.state.pengajuanSurat.form_approve.remarks;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_APPROVE_PENGAJUAN_SURAT", {
+          key: "remarks",
+          value,
+        });
+      },
     },
   },
   methods: {

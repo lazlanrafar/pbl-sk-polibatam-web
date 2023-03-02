@@ -10,7 +10,23 @@
       <i class="fa fa-plus"></i>
       Ajukan Surat
     </button>
-    <div class="card mt-5 mt-sm-10">
+
+    <ul class="nav nav-tabs pl-0 mt-10">
+      <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
+        <a
+          :class="`nav-link fs-14  ${
+            item.type == tab_active ? 'fw-semibold active' : 'text-muted'
+          }`"
+          @click="tab_active = item.type"
+        >
+          <span>{{ item.type }}</span>
+          <span class="badge badge-primary text-muted ml-2">
+            {{ item.length }}
+          </span>
+        </a>
+      </li>
+    </ul>
+    <div class="card border-top-0 rounded-t-0">
       <div class="card-body">
         <div class="row justify-content-end">
           <div class="col-12 col-sm-5 col-lg-4 col-xl-3">
@@ -25,7 +41,7 @@
         </div>
         <v-data-table
           :headers="headers"
-          :items="reports"
+          :items="handleReportsTab()"
           :options.sync="optionsTable"
           :search="optionsTable.search"
           :loading="isLoading"
@@ -57,25 +73,37 @@
                     <span>Detail</span>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="handleModalFormApprove(true, item.id)">
+                <v-list-item
+                  @click="handleModalFormApprove(true, item.id)"
+                  v-if="item.status == 'POSTED'"
+                >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-check small mr-2"></i>
                     <span>Approve</span>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="handleModalFormReject(true, item.id)">
+                <v-list-item
+                  @click="handleModalFormReject(true, item.id)"
+                  v-if="item.status == 'POSTED'"
+                >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-x small mr-2"></i>
                     <span>Reject</span>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="handleEdit(item.id)">
+                <v-list-item
+                  @click="handleEdit(item.id)"
+                  v-if="item.status != 'APPROVED'"
+                >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-edit small mr-2"></i>
                     <span>Edit</span>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="handleDelete(item.id)">
+                <v-list-item
+                  @click="handleDelete(item.id)"
+                  v-if="item.status != 'APPROVED'"
+                >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-trash small mr-2"></i>
                     <span>Delete</span>
@@ -151,6 +179,25 @@ export default {
       modalDetail: false,
       modalFormApprove: false,
       modalFormReject: false,
+      tab_list: [
+        {
+          type: "Posted",
+          length: 0,
+        },
+        {
+          type: "Approved",
+          length: 0,
+        },
+        {
+          type: "Rejected",
+          length: 0,
+        },
+        {
+          type: "All",
+          length: 0,
+        },
+      ],
+      tab_active: "Posted",
     };
   },
   computed: {
@@ -170,6 +217,11 @@ export default {
       set(value) {
         this.$store.commit("SET_OPTIONS_TABLE_PENGAJUAN_SURAT", value);
       },
+    },
+  },
+  watch: {
+    reports() {
+      this.handleLengthTab();
     },
   },
   methods: {
@@ -232,9 +284,34 @@ export default {
         });
       }
     },
+    handleReportsTab() {
+      if (this.tab_active === "Posted") {
+        return this.reports.filter((item) => item.status === "POSTED");
+      } else if (this.tab_active === "Approved") {
+        return this.reports.filter((item) => item.status === "APPROVED");
+      } else if (this.tab_active === "Rejected") {
+        return this.reports.filter((item) => item.status === "REJECTED");
+      } else {
+        return this.reports;
+      }
+    },
+    handleLengthTab() {
+      this.tab_list[0].length = this.reports.filter(
+        (item) => item.status === "POSTED"
+      ).length;
+      this.tab_list[1].length = this.reports.filter(
+        (item) => item.status === "APPROVED"
+      ).length;
+      this.tab_list[2].length = this.reports.filter(
+        (item) => item.status === "REJECTED"
+      ).length;
+      this.tab_list[3].length = this.reports.length;
+    },
   },
-  mounted() {
-    this.$store.dispatch("GetAllPengajuan");
+  async mounted() {
+    await this.$store.dispatch("GetAllPengajuan");
+
+    this.handleLengthTab();
   },
 };
 </script>
