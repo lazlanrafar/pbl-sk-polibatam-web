@@ -6,7 +6,8 @@ import Swal from "sweetalert2";
 const form = {
   title: "",
   type: "",
-  lampiran: "",
+  is_lampiran: false,
+  filepath_lampiran: "",
   pickup_plan: "",
   list_consider: [""],
   list_observe: [""],
@@ -17,8 +18,25 @@ const pengajuanSurat = {
   state: {
     isLoading: false,
     list_type: ["SK Honor", "SK Non-Honor", "Perdir"],
-    list_lampiran: ["Ada", "Tidak Ada"],
-    form: form,
+    list_lampiran: [
+      {
+        key: "Ada",
+        value: true,
+      },
+      {
+        key: "Tidak Ada",
+        value: false,
+      },
+    ],
+    form: {
+      ...form,
+    },
+    optionsTable: {
+      page: 1,
+      itemsPerPage: 5,
+      search: "",
+    },
+    reports: [],
   },
   mutations: {
     SET_IS_LOADING_PENGAJUAN_SURAT(state, payload) {
@@ -28,21 +46,64 @@ const pengajuanSurat = {
       state.form[payload.key] = payload.value;
     },
     RESET_FORM_PENGAJUAN_SURAT(state) {
-      state.form = form;
+      state.form = {
+        ...form,
+      };
+    },
+    SET_OPTIONS_TABLE_PENGAJUAN_SURAT(state, payload) {
+      state.optionsTable = Object.assign({}, payload);
+    },
+    SET_REPORTS_PENGAJUAN_SURAT(state, payload) {
+      state.reports = payload;
     },
   },
   actions: {
+    GetAllPengajuan: async (context) => {
+      context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", true);
+
+      try {
+        const result = await axios({
+          url: `${apiUrl}/pengajuan`,
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+        });
+
+        result.data.data.forEach((item, i) => {
+          item.no = i + 1;
+        });
+
+        context.commit("SET_REPORTS_PENGAJUAN_SURAT", result.data.data);
+      } catch (error) {
+        catchUnauthorized(error);
+      } finally {
+        context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", false);
+      }
+    },
     CreatePengajuan: async (context) => {
       context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", true);
 
       try {
+        const formData = new FormData();
+        const form = context.state.form;
+
+        formData.append("title", form.title);
+        formData.append("type", form.type);
+        formData.append("is_lampiran", form.is_lampiran);
+        formData.append("filepath_lampiran", form.filepath_lampiran);
+        formData.append("pickup_plan", form.pickup_plan);
+        formData.append("list_consider", JSON.stringify(form.list_consider));
+        formData.append("list_observe", JSON.stringify(form.list_observe));
+        formData.append("list_decide", JSON.stringify(form.list_decide));
+
         const result = await axios({
           url: `${apiUrl}/pengajuan`,
           method: "POST",
           headers: {
             Authorization: `Bearer ${context.rootState.app.token}`,
           },
-          data: context.state.form,
+          data: formData,
         });
 
         Swal.fire({
@@ -51,7 +112,7 @@ const pengajuanSurat = {
           text: result.data.message,
         });
 
-        // context.dispatch("GetAllTagGroup");
+        context.dispatch("GetAllPengajuan");
         return true;
       } catch (error) {
         catchUnauthorized(error);

@@ -5,7 +5,7 @@
     <button
       class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
       @click="handleModalForm(true)"
-      v-if="isAdmin"
+      v-if="!isAdmin"
     >
       <i class="fa fa-plus"></i>
       Ajukan Surat
@@ -30,19 +30,12 @@
           :search="optionsTable.search"
           :loading="isLoading"
         >
-          <template v-slot:[`item.remarks`]="{ item }">
-            <div v-if="item.remarks.length > 25">
-              {{ item.remarks.substring(0, 25) + "..." }}
-            </div>
-            <div v-else>{{ item.remarks }}</div>
-          </template>
           <template v-slot:[`item.created_at`]="{ item }">
             {{ moment(item.created_at).format("DD MMMM YYYY | HH:mm") }}
           </template>
-          <template v-slot:[`item.filepath`]="{ item }">
-            <a :href="handleDownload(item.filepath)" target="_blank">
-              {{ item.filepath }}
-            </a>
+          <template v-slot:[`item.is_lampiran`]="{ item }">
+            <span v-if="item.is_lampiran">Ada</span>
+            <span v-else>Tidak Ada</span>
           </template>
           <template v-slot:[`item.action`]="{ item }">
             <v-menu offset-y>
@@ -86,9 +79,6 @@
     <v-dialog v-if="modalForm" v-model="modalForm" max-width="800" persistent>
       <Form @handleModalForm="handleModalForm" />
     </v-dialog>
-    <v-dialog v-model="modalDetail" max-width="1200" persistent>
-      <Detail @handleModalDetail="handleModalDetail" />
-    </v-dialog>
   </div>
 </template>
 
@@ -98,22 +88,22 @@ import Swal from "sweetalert2";
 const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
-  name: "SuratKeteranganPage",
+  name: "pengajuanSuratPage",
   components: {
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("./form.vue"),
-    Detail: () => import("@/components/organisms/detail-document/index.vue"),
   },
   data() {
     return {
       moment,
       headers: [
         { text: "No", value: "no" },
-        { text: "Name", value: "name" },
-        { text: "Description", value: "remarks" },
+        { text: "Title", value: "title" },
+        { text: "Type", value: "type" },
+        { text: "Lampiran", value: "is_lampiran" },
+        { text: "Status", value: "status" },
         { text: "Created At", value: "created_at" },
         { text: "Created By", value: "created_by" },
-        { text: "Document", value: "filepath" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
       modalForm: false,
@@ -122,42 +112,26 @@ export default {
   },
   computed: {
     reports() {
-      return this.$store.state.suratKeterangan.reports;
+      return this.$store.state.pengajuanSurat.reports;
     },
     isLoading() {
-      return this.$store.state.suratKeterangan.isLoading;
+      return this.$store.state.pengajuanSurat.isLoading;
     },
     isAdmin() {
       return this.$store.state.app.user.isAdmin;
     },
     optionsTable: {
       get() {
-        return this.$store.state.suratKeterangan.optionsTable;
+        return this.$store.state.pengajuanSurat.optionsTable;
       },
       set(value) {
-        this.$store.commit("SET_OPTIONS_TABLE_SURAT_KETERANGAN", value);
+        this.$store.commit("SET_OPTIONS_TABLE_PENGAJUAN_SURAT", value);
       },
     },
   },
   methods: {
     async handleModalForm(value) {
       this.modalForm = value;
-      if (value) {
-        this.$store.dispatch("GetAllTagGroup");
-
-        await this.$store.dispatch("GetFilterMahasiswa").then(() => {
-          this.$store.dispatch("GetAllMahasiswa");
-        });
-
-        await this.$store.dispatch("GetFilterPegawai").then(() => {
-          this.$store.dispatch("GetAllPegawai");
-        });
-
-        this.$store.commit("SET_FORM_DOCUMENT", {
-          key: "type",
-          value: "Surat Keterangan",
-        });
-      }
     },
     handleDownload(filename) {
       return apiUrl.split("/api")[0] + "/documents/" + filename;
@@ -188,7 +162,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("GetAllSuratKeterangan");
+    this.$store.dispatch("GetAllPengajuan");
   },
 };
 </script>

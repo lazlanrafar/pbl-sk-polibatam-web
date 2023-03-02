@@ -43,8 +43,9 @@
               outlined
               dense
               :items="list_lampiran"
-              v-model="lampiran"
-              :rules="[(v) => !!v || 'Lampiran is required']"
+              v-model="is_lampiran"
+              item-text="key"
+              item-value="value"
               hide-details="auto"
             />
           </div>
@@ -56,6 +57,17 @@
               dense
               hide-details="auto"
               v-model="pickup_plan"
+            />
+          </div>
+          <div class="col-md-6" v-if="is_lampiran">
+            <label class="mb-2 fw-medium">Lampiran</label>
+            <v-file-input
+              placeholder="Lampiran"
+              outlined
+              dense
+              v-model="filepath_lampiran"
+              :rules="[(v) => !!v || 'Lampiran is required']"
+              hide-details="auto"
             />
           </div>
           <div class="col-12">
@@ -192,13 +204,24 @@ export default {
         });
       },
     },
-    lampiran: {
+    is_lampiran: {
       get() {
-        return this.$store.state.pengajuanSurat.form.lampiran;
+        return this.$store.state.pengajuanSurat.form.is_lampiran;
       },
       set(value) {
         this.$store.commit("SET_FORM_PENGAJUAN_SURAT", {
-          key: "lampiran",
+          key: "is_lampiran",
+          value,
+        });
+      },
+    },
+    filepath_lampiran: {
+      get() {
+        return this.$store.state.pengajuanSurat.form.filepath_lampiran;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_PENGAJUAN_SURAT", {
+          key: "filepath_lampiran",
           value,
         });
       },
