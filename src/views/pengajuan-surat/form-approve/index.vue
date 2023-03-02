@@ -3,7 +3,9 @@
     <v-card class="card" :loading="isLoading">
       <div class="card-header py-3">
         <div class="d-flex justify-content-between align-items-center">
-          <p class="card-title fw-medium mb-0">Detail Pengajuan</p>
+          <p class="card-title fw-medium mb-0">
+            Approve Pengajuan - {{ report.title }}
+          </p>
           <v-btn icon @click="handleClose">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -11,7 +13,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-12">
+          <div class="col">
             <table class="mb-5 fs-14">
               <tr
                 v-for="(item, i) in [
@@ -20,7 +22,10 @@
                     value: report.title,
                   },
                   { text: 'Jenis Surat', value: report.type },
-                  { text: 'Lampiran', value: report.filepath_lampiran },
+                  {
+                    text: 'Lampiran',
+                    value: report.filepath_lampiran || 'Tidak Ada',
+                  },
                   { text: 'Rencana Pengambilan', value: report.pickup_plan },
                   {
                     text: 'Dibuat Pada',
@@ -35,55 +40,43 @@
                   {{ item.text }}
                 </td>
                 <td style="min-width: 20px">:</td>
-                <td v-if="item.text !== 'Lampiran'">{{ item.value }}</td>
-                <td v-else>
-                  <span v-if="!report.is_lampiran">Tidak Ada</span>
-                  <a v-else :href="handleDownload(item.value)" target="_blank">
-                    {{ item.value }}
-                  </a>
-                </td>
+                <td>{{ item.value }}</td>
               </tr>
             </table>
-            <hr />
-            <div class="fs-14">
-              <p class="fw-medium">Menimbang</p>
+          </div>
+        </div>
 
-              <ol>
-                <li v-for="(item, i) in report.list_consider" :key="i">
-                  {{ item }}
-                </li>
-              </ol>
-            </div>
-            <hr />
-            <div class="fs-14">
-              <p class="fw-medium">Memperhatikan</p>
+        <ul class="nav nav-tabs pl-0">
+          <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
+            <a
+              :class="`nav-link fs-14  ${
+                item == tab_active ? 'fw-semibold active' : 'text-muted'
+              }`"
+              @click="tab_active = item"
+              >{{ item }}</a
+            >
+          </li>
+        </ul>
 
-              <ol>
-                <li v-for="(item, i) in report.list_observe" :key="i">
-                  {{ item }}
-                </li>
-              </ol>
-            </div>
-            <hr />
-            <div class="fs-14">
-              <p class="fw-medium">Memutuskan</p>
-
-              <ol>
-                <li v-for="(item, i) in report.list_decide" :key="i">
-                  {{ item }}
-                </li>
-              </ol>
-            </div>
+        <div class="card mb-5 border-top-0 rounded-0">
+          <div :class="tab_active == 'Tag Group' ? '' : 'd-none'">
+            <SelectTagGroup />
+          </div>
+          <div :class="tab_active == 'Mahasiswa' ? '' : 'd-none'">
+            <SelectMahasiswa />
+          </div>
+          <div :class="tab_active == 'Pegawai' ? '' : 'd-none'">
+            <SelectPegawai />
           </div>
         </div>
       </div>
-      <div class="card-footer mt-5">
+      <div class="card-footer">
         <div class="d-flex justify-content-end">
           <button class="mr-5 text-muted" type="button" @click="handleClose">
             Kembali
           </button>
-          <button class="btn bg-darkblue text-white" @click="handleApprove">
-            Approve
+          <button class="btn bg-darkblue text-white" type="submit">
+            Simpan
           </button>
         </div>
       </div>
@@ -93,11 +86,17 @@
 
 <script>
 import moment from "moment";
-const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
-  name: "PengajuanDetail",
+  name: "DocumentForm",
+  components: {
+    SelectTagGroup: () => import("./select-tag-group.vue"),
+    SelectMahasiswa: () => import("./select-mahasiswa.vue"),
+    SelectPegawai: () => import("./select-pegawai.vue"),
+  },
   data: () => ({
+    tab_list: ["Tag Group", "Mahasiswa", "Pegawai"],
+    tab_active: "Tag Group",
     moment,
   }),
   computed: {
@@ -110,15 +109,19 @@ export default {
   },
   methods: {
     handleClose() {
-      this.$emit("handleModalDetail", false);
-    },
-    handleApprove() {
-      this.$emit("handleModalFormApprove", true, this.report.id);
+      this.$refs.initialForm.reset();
+      this.$store.commit("RESET_FORM_DOCUMENT");
 
-      this.handleClose();
+      this.$emit("handleModalFormApprove", false);
     },
-    handleDownload(filename) {
-      return apiUrl.split("/api")[0] + "/documents/" + filename;
+    async handleSubmit() {
+      if (this.$refs.initialForm.validate()) {
+        this.$store.dispatch("CreateDocument").then((res) => {
+          if (res) {
+            this.handleClose();
+          }
+        });
+      }
     },
   },
 };

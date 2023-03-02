@@ -57,6 +57,12 @@
                     <span>Detail</span>
                   </v-list-item-title>
                 </v-list-item>
+                <v-list-item @click="handleModalFormApprove(true, item.id)">
+                  <v-list-item-title class="text-primary fs-12">
+                    <i class="fas fa-check small mr-2"></i>
+                    <span>Approve</span>
+                  </v-list-item-title>
+                </v-list-item>
                 <v-list-item @click="handleEdit(item.id)">
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-edit small mr-2"></i>
@@ -85,7 +91,18 @@
       max-width="800"
       persistent
     >
-      <Detail @handleModalDetail="handleModalDetail" />
+      <Detail
+        @handleModalDetail="handleModalDetail"
+        @handleModalFormApprove="handleModalFormApprove"
+      />
+    </v-dialog>
+    <v-dialog
+      v-if="modalFormApprove"
+      v-model="modalFormApprove"
+      max-width="1200"
+      persistent
+    >
+      <FormApprove @handleModalFormApprove="handleModalFormApprove" />
     </v-dialog>
   </div>
 </template>
@@ -100,6 +117,7 @@ export default {
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("./form.vue"),
     Detail: () => import("./detail.vue"),
+    FormApprove: () => import("./form-approve/index.vue"),
   },
   data() {
     return {
@@ -116,6 +134,7 @@ export default {
       ],
       modalForm: false,
       modalDetail: false,
+      modalFormApprove: false,
     };
   },
   computed: {
@@ -164,6 +183,21 @@ export default {
           this.$store.dispatch("DeletePengajuan", id);
         }
       });
+    },
+    async handleModalFormApprove(value, id) {
+      this.modalFormApprove = value;
+
+      if (value) {
+        this.$store.dispatch("GetDetailPengajuan", id);
+
+        this.$store.dispatch("GetAllTagGroup");
+        await this.$store.dispatch("GetFilterMahasiswa").then(() => {
+          this.$store.dispatch("GetAllMahasiswa");
+        });
+        await this.$store.dispatch("GetFilterPegawai").then(() => {
+          this.$store.dispatch("GetAllPegawai");
+        });
+      }
     },
   },
   mounted() {
