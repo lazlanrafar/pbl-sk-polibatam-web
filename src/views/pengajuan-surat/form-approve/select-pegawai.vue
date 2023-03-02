@@ -76,10 +76,10 @@ export default {
     },
     data_pegawai: {
       get() {
-        return this.$store.state.document.form.data_pegawai;
+        return this.$store.state.pengajuanSurat.form_approve.data_pegawai;
       },
       set(value) {
-        this.$store.commit("SET_FORM_DOCUMENT", {
+        this.$store.commit("SET_FORM_APPROVE_PENGAJUAN_SURAT", {
           key: "data_pegawai",
           value,
         });

@@ -49,10 +49,10 @@ export default {
     },
     details: {
       get() {
-        return this.$store.state.document.form.details;
+        return this.$store.state.pengajuanSurat.form_approve.details;
       },
       set(value) {
-        this.$store.commit("SET_FORM_DOCUMENT", {
+        this.$store.commit("SET_FORM_APPROVE_PENGAJUAN_SURAT", {
           key: "details",
           value,
         });

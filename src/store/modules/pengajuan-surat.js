@@ -35,6 +35,12 @@ const pengajuanSurat = {
     reports: [],
     report: {},
     isUpdate: false,
+    form_approve: {
+      id_pengajuan: "",
+      data_mahasiswa: [],
+      data_pegawai: [],
+      details: [],
+    },
   },
   mutations: {
     SET_IS_LOADING_PENGAJUAN_SURAT(state, payload) {
@@ -66,6 +72,17 @@ const pengajuanSurat = {
     },
     SET_IS_UPDATE_PENGAJUAN_SURAT(state, payload) {
       state.isUpdate = payload;
+    },
+    SET_FORM_APPROVE_PENGAJUAN_SURAT(state, payload) {
+      state.form_approve[payload.key] = payload.value;
+    },
+    RESET_FORM_APPROVE_PENGAJUAN_SURAT(state) {
+      state.form_approve = {
+        id_pengajuan: "",
+        data_mahasiswa: [],
+        data_pegawai: [],
+        details: [],
+      };
     },
   },
   actions: {
@@ -236,6 +253,38 @@ const pengajuanSurat = {
           headers: {
             Authorization: `Bearer ${context.rootState.app.token}`,
           },
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+
+        context.dispatch("GetAllPengajuan");
+        return true;
+      } catch (error) {
+        catchUnauthorized(error);
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      } finally {
+        context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", false);
+      }
+    },
+    ApprovePengajuan: async (context) => {
+      context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", true);
+      try {
+        const result = await axios({
+          url: `${apiUrl}/pengajuan/approve`,
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+          data: context.state.form_approve,
         });
 
         Swal.fire({

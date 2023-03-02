@@ -109,14 +109,13 @@ export default {
   },
   methods: {
     handleClose() {
-      this.$refs.initialForm.reset();
-      this.$store.commit("RESET_FORM_DOCUMENT");
+      this.$store.commit("RESET_FORM_APPROVE_PENGAJUAN_SURAT");
 
       this.$emit("handleModalFormApprove", false);
     },
     async handleSubmit() {
       if (this.$refs.initialForm.validate()) {
-        this.$store.dispatch("CreateDocument").then((res) => {
+        this.$store.dispatch("ApprovePengajuan").then((res) => {
           if (res) {
             this.handleClose();
           }

@@ -190,6 +190,11 @@ export default {
       if (value) {
         this.$store.dispatch("GetDetailPengajuan", id);
 
+        this.$store.commit("SET_FORM_APPROVE_PENGAJUAN_SURAT", {
+          key: "id_pengajuan",
+          value: id,
+        });
+
         this.$store.dispatch("GetAllTagGroup");
         await this.$store.dispatch("GetFilterMahasiswa").then(() => {
           this.$store.dispatch("GetAllMahasiswa");

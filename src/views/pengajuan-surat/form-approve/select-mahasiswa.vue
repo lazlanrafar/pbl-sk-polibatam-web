@@ -75,10 +75,10 @@ export default {
     },
     data_mahasiswa: {
       get() {
-        return this.$store.state.document.form.data_mahasiswa;
+        return this.$store.state.pengajuanSurat.form_approve.data_mahasiswa;
       },
       set(value) {
-        this.$store.commit("SET_FORM_DOCUMENT", {
+        this.$store.commit("SET_FORM_APPROVE_PENGAJUAN_SURAT", {
           key: "data_mahasiswa",
           value,
         });
