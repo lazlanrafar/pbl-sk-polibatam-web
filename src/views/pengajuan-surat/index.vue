@@ -63,6 +63,12 @@
                     <span>Approve</span>
                   </v-list-item-title>
                 </v-list-item>
+                <v-list-item @click="handleModalFormReject(true, item.id)">
+                  <v-list-item-title class="text-primary fs-12">
+                    <i class="fas fa-x small mr-2"></i>
+                    <span>Reject</span>
+                  </v-list-item-title>
+                </v-list-item>
                 <v-list-item @click="handleEdit(item.id)">
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-edit small mr-2"></i>
@@ -104,6 +110,14 @@
     >
       <FormApprove @handleModalFormApprove="handleModalFormApprove" />
     </v-dialog>
+    <v-dialog
+      v-if="modalFormReject"
+      v-model="modalFormReject"
+      max-width="1200"
+      persistent
+    >
+      <FormReject @handleModalFormReject="handleModalFormReject" />
+    </v-dialog>
   </div>
 </template>
 
@@ -118,6 +132,7 @@ export default {
     Form: () => import("./form.vue"),
     Detail: () => import("./detail.vue"),
     FormApprove: () => import("./form-approve/index.vue"),
+    FormReject: () => import("./form-reject/index.vue"),
   },
   data() {
     return {
@@ -135,6 +150,7 @@ export default {
       modalForm: false,
       modalDetail: false,
       modalFormApprove: false,
+      modalFormReject: false,
     };
   },
   computed: {
@@ -201,6 +217,18 @@ export default {
         });
         await this.$store.dispatch("GetFilterPegawai").then(() => {
           this.$store.dispatch("GetAllPegawai");
+        });
+      }
+    },
+    handleModalFormReject(value, id) {
+      this.modalFormReject = value;
+
+      if (value) {
+        this.$store.dispatch("GetDetailPengajuan", id);
+
+        this.$store.commit("SET_FORM_REJECT_PENGAJUAN_SURAT", {
+          key: "id_pengajuan",
+          value: id,
         });
       }
     },

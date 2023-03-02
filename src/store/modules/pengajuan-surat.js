@@ -41,6 +41,10 @@ const pengajuanSurat = {
       data_pegawai: [],
       details: [],
     },
+    form_reject: {
+      id_pengajuan: "",
+      remarks: "",
+    },
   },
   mutations: {
     SET_IS_LOADING_PENGAJUAN_SURAT(state, payload) {
@@ -82,6 +86,15 @@ const pengajuanSurat = {
         data_mahasiswa: [],
         data_pegawai: [],
         details: [],
+      };
+    },
+    SET_FORM_REJECT_PENGAJUAN_SURAT(state, payload) {
+      state.form_reject[payload.key] = payload.value;
+    },
+    RESET_FORM_REJECT_PENGAJUAN_SURAT(state) {
+      state.form_reject = {
+        id_pengajuan: "",
+        remarks: "",
       };
     },
   },
@@ -285,6 +298,38 @@ const pengajuanSurat = {
             Authorization: `Bearer ${context.rootState.app.token}`,
           },
           data: context.state.form_approve,
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+
+        context.dispatch("GetAllPengajuan");
+        return true;
+      } catch (error) {
+        catchUnauthorized(error);
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      } finally {
+        context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", false);
+      }
+    },
+    RejectPengajuan: async (context) => {
+      context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", true);
+      try {
+        const result = await axios({
+          url: `${apiUrl}/pengajuan/reject`,
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+          data: context.state.form_reject,
         });
 
         Swal.fire({

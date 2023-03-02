@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderTitle title="Home" subtitle="Surat Keterangan" />
+    <HeaderTitle title="Home" subtitle="Surat Keputusan" />
 
     <div class="card mt-5 mt-sm-10">
       <div class="card-body">

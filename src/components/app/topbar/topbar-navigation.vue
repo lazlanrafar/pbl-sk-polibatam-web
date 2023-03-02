@@ -134,7 +134,7 @@ export default {
           adminOnly: false,
         },
         {
-          title: "Surat Keterangan",
+          title: "Surat Keputusan",
           path: "/surat-keterangan",
           icon: "fa-solid fa-file-alt",
           children: false,
