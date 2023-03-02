@@ -66,8 +66,18 @@
               outlined
               dense
               v-model="filepath_lampiran"
+              messages="Upload lampiran untuk mengupdate data"
+              hide-details="auto"
+              v-if="isUpdate"
+            />
+            <v-file-input
+              placeholder="Lampiran"
+              outlined
+              dense
+              v-model="filepath_lampiran"
               :rules="[(v) => !!v || 'Lampiran is required']"
               hide-details="auto"
+              v-else
             />
           </div>
           <div class="col-12">
@@ -176,6 +186,9 @@ export default {
     isLoading() {
       return this.$store.state.pengajuanSurat.isLoading;
     },
+    isUpdate() {
+      return this.$store.state.pengajuanSurat.isUpdate;
+    },
     list_type() {
       return this.$store.state.pengajuanSurat.list_type;
     },
@@ -274,6 +287,7 @@ export default {
   methods: {
     handleClose() {
       this.$store.commit("RESET_FORM_PENGAJUAN_SURAT");
+      this.$store.commit("SET_IS_UPDATE_PENGAJUAN_SURAT", false);
       this.$emit("handleModalForm", false);
     },
     handleAdd(params) {
@@ -308,6 +322,14 @@ export default {
     },
     async handleSubmit() {
       if (this.$refs.initialForm.validate()) {
+        if (this.isUpdate) {
+          this.$store.dispatch("UpdatePengajuan", this.isUpdate).then((res) => {
+            if (res) {
+              this.handleClose();
+            }
+          });
+          return;
+        }
         this.$store.dispatch("CreatePengajuan").then((res) => {
           if (res) {
             this.handleClose();

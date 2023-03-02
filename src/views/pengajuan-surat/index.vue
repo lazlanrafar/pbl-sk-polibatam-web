@@ -146,8 +146,8 @@ export default {
       this.modalDetail = value;
     },
     handleEdit(id) {
-      this.$store.dispatch("SetFormDocumentUpdate", id);
-      this.$store.commit("SET_IS_UPDATE_DOCUMENT", id);
+      this.$store.dispatch("SetFormUpdatePengajuan", id);
+      this.$store.commit("SET_IS_UPDATE_PENGAJUAN_SURAT", id);
       this.handleModalForm(true);
     },
     handleDelete(id) {
