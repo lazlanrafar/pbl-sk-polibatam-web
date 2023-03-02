@@ -250,7 +250,7 @@ export default {
   },
   methods: {
     handleClose() {
-      this.$refs.initialForm.reset();
+      this.$store.commit("RESET_FORM_PENGAJUAN_SURAT");
       this.$emit("handleModalForm", false);
     },
     handleAdd(params) {
@@ -285,11 +285,11 @@ export default {
     },
     async handleSubmit() {
       if (this.$refs.initialForm.validate()) {
-        // this.$store.dispatch("CreatepengajuanSurat").then((res) => {
-        //   if (res) {
-        //     this.handleClose();
-        //   }
-        // });
+        this.$store.dispatch("CreatePengajuan").then((res) => {
+          if (res) {
+            this.handleClose();
+          }
+        });
       }
     },
   },
