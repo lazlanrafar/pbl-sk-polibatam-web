@@ -5,7 +5,7 @@
     <button
       class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
       @click="handleModalForm(true)"
-      v-if="isAdmin"
+      v-if="!isAdmin"
     >
       <i class="fa fa-plus"></i>
       Ajukan Surat
@@ -15,12 +15,14 @@
       <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
         <a
           :class="`nav-link fs-14  ${
-            item.type == tab_active ? 'fw-semibold active' : 'text-muted'
+            item.type == tab_active
+              ? 'fw-semibold text-darkblue active'
+              : 'text-muted'
           }`"
           @click="tab_active = item.type"
         >
           <span>{{ item.type }}</span>
-          <span class="badge badge-primary text-muted ml-2">
+          <span class="badge bg-darkblue text-white ml-2">
             {{ item.length }}
           </span>
         </a>
@@ -75,7 +77,7 @@
                 </v-list-item>
                 <v-list-item
                   @click="handleModalFormApprove(true, item.id)"
-                  v-if="item.status == 'POSTED'"
+                  v-if="item.status == 'POSTED' && isAdmin"
                 >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-check small mr-2"></i>
@@ -84,7 +86,7 @@
                 </v-list-item>
                 <v-list-item
                   @click="handleModalFormReject(true, item.id)"
-                  v-if="item.status == 'POSTED'"
+                  v-if="item.status == 'POSTED' && isAdmin"
                 >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-x small mr-2"></i>

@@ -46,9 +46,29 @@
                 style="line-height: 30px; vertical-align: top"
                 :key="i"
               >
-                <td style="min-width: 150px">{{ item.text }}</td>
+                <td style="min-width: 200px">{{ item.text }}</td>
                 <td style="min-width: 20px">:</td>
                 <td>{{ item.value }}</td>
+              </tr>
+              <tr
+                v-if="report.is_from_pengajuan"
+                style="line-height: 30px; vertical-align: top"
+              >
+                <td>Dokumen Diajukan Oleh</td>
+                <td>:</td>
+                <td>{{ report.pengajuan.created_by }}</td>
+              </tr>
+              <tr
+                v-if="report.is_from_pengajuan"
+                style="line-height: 30px; vertical-align: top"
+              >
+                <td>Diajukan Pada</td>
+                <td>:</td>
+                <td>
+                  {{
+                    moment(report.pengajuan.created_at).format("DD MMMM YYYY")
+                  }}
+                </td>
               </tr>
             </table>
           </div>
