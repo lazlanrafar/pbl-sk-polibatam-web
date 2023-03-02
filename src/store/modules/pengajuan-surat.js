@@ -37,6 +37,7 @@ const pengajuanSurat = {
       search: "",
     },
     reports: [],
+    report: {},
   },
   mutations: {
     SET_IS_LOADING_PENGAJUAN_SURAT(state, payload) {
@@ -55,6 +56,9 @@ const pengajuanSurat = {
     },
     SET_REPORTS_PENGAJUAN_SURAT(state, payload) {
       state.reports = payload;
+    },
+    SET_REPORT_PENGAJUAN_SURAT(state, payload) {
+      state.report = payload;
     },
   },
   actions: {
@@ -75,6 +79,24 @@ const pengajuanSurat = {
         });
 
         context.commit("SET_REPORTS_PENGAJUAN_SURAT", result.data.data);
+      } catch (error) {
+        catchUnauthorized(error);
+      } finally {
+        context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", false);
+      }
+    },
+    GetDetailPengajuan: async (context, id) => {
+      context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", true);
+      try {
+        const result = await axios({
+          url: `${apiUrl}/pengajuan/${id}`,
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+        });
+
+        context.commit("SET_REPORT_PENGAJUAN_SURAT", result.data.data);
       } catch (error) {
         catchUnauthorized(error);
       } finally {

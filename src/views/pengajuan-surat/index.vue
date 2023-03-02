@@ -79,19 +79,27 @@
     <v-dialog v-if="modalForm" v-model="modalForm" max-width="800" persistent>
       <Form @handleModalForm="handleModalForm" />
     </v-dialog>
+    <v-dialog
+      v-if="modalDetail"
+      v-model="modalDetail"
+      max-width="800"
+      persistent
+    >
+      <Detail @handleModalDetail="handleModalDetail" />
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import moment from "moment";
 import Swal from "sweetalert2";
-const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   name: "pengajuanSuratPage",
   components: {
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("./form.vue"),
+    Detail: () => import("./detail.vue"),
   },
   data() {
     return {
@@ -133,11 +141,8 @@ export default {
     async handleModalForm(value) {
       this.modalForm = value;
     },
-    handleDownload(filename) {
-      return apiUrl.split("/api")[0] + "/documents/" + filename;
-    },
     handleModalDetail(value, id) {
-      if (value) this.$store.dispatch("GetDetailDocument", id);
+      if (value) this.$store.dispatch("GetDetailPengajuan", id);
       this.modalDetail = value;
     },
     handleEdit(id) {
