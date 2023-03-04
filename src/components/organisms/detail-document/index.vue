@@ -17,17 +17,41 @@
                 v-for="(item, i) in [
                   { text: 'Name', value: report.name },
                   { text: 'Type', value: report.type },
-                  { text: 'Document', value: report.filepath },
                 ]"
                 style="line-height: 30px; vertical-align: top"
                 :key="i"
               >
                 <td style="min-width: 150px">{{ item.text }}</td>
                 <td style="min-width: 20px">:</td>
-                <td v-if="item.text !== 'Document'">{{ item.value }}</td>
-                <td v-else>
-                  <a :href="handleDownload(item.value)" target="_blank">
-                    {{ item.value }}
+                <td>{{ item.value }}</td>
+              </tr>
+              <tr
+                style="line-height: 30px; vertical-align: top"
+                v-if="report.is_from_pengajuan"
+              >
+                <td>Lampiran</td>
+                <td>:</td>
+                <td>
+                  {{ report.pengajuan.is_lampiran ? "Ada" : "Tidak Ada" }}
+                </td>
+              </tr>
+              <tr style="line-height: 30px; vertical-align: top">
+                <td>Document</td>
+                <td>:</td>
+                <td>
+                  <a :href="handleDownload(report.filepath)" target="_blank">
+                    {{ report.filepath }}
+                  </a>
+                  <br />
+                  <a
+                    v-if="
+                      report.is_from_pengajuan &&
+                      report.pengajuan.filepath_lampiran
+                    "
+                    :href="handleDownload(report.pengajuan.filepath_lampiran)"
+                    target="_blank"
+                  >
+                    {{ report.pengajuan.filepath_lampiran }}
                   </a>
                 </td>
               </tr>

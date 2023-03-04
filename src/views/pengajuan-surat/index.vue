@@ -5,7 +5,7 @@
     <button
       class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
       @click="handleModalForm(true)"
-      v-if="!isAdmin"
+      v-if="isAdmin"
     >
       <i class="fa fa-plus"></i>
       Ajukan Surat
@@ -168,7 +168,6 @@ export default {
     return {
       moment,
       headers: [
-        { text: "No", value: "no" },
         { text: "Title", value: "title" },
         { text: "Type", value: "type" },
         { text: "Lampiran", value: "is_lampiran" },
