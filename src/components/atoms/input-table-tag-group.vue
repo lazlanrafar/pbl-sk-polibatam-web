@@ -21,7 +21,8 @@
       :options.sync="optionsTable"
       :search="optionsTable.search"
       :loading="isLoading"
-      v-model="details"
+      :value="value"
+      @input="handleInput"
       item-key="id"
       show-select
     ></v-data-table>
@@ -30,7 +31,13 @@
 
 <script>
 export default {
-  name: "FormDocumentTagGroup",
+  name: "InputTableTagGroup",
+  props: {
+    value: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
       optionsTable: {
@@ -47,16 +54,10 @@ export default {
     isLoading() {
       return this.$store.state.tagGroup.isLoading;
     },
-    details: {
-      get() {
-        return this.$store.state.document.form.details;
-      },
-      set(value) {
-        this.$store.commit("SET_FORM_DOCUMENT", {
-          key: "details",
-          value,
-        });
-      },
+  },
+  methods: {
+    handleInput(value) {
+      this.$emit("input", value);
     },
   },
 };

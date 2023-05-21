@@ -145,10 +145,6 @@ export default {
       if (value) {
         this.$store.dispatch("GetAllTagGroup");
 
-        await this.$store.dispatch("GetFilterMahasiswa").then(() => {
-          this.$store.dispatch("GetAllMahasiswa");
-        });
-
         await this.$store.dispatch("GetFilterPegawai").then(() => {
           this.$store.dispatch("GetAllPegawai");
         });

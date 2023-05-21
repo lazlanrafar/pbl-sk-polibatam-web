@@ -11,54 +11,58 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-md-6">
-            <label class="mb-2 fw-medium">File Document</label>
-            <v-file-input
-              placeholder="File"
-              v-model="filepath"
-              outlined
-              dense
-              :rules="[(v) => !!v || 'File Document is required']"
-              v-if="!isUpdate"
-              hide-details="auto"
-            />
-            <v-file-input
-              placeholder="File"
-              v-model="filepath"
-              outlined
-              dense
-              messages="Upload file jika ingin mengganti file yang lama"
-              v-if="isUpdate"
-              hide-details="auto"
-            />
-          </div>
-          <div class="col-md-6">
-            <label class="mb-2 fw-medium">Name</label>
-            <v-text-field
-              placeholder="Name"
-              v-model="name"
-              outlined
-              dense
-              :rules="[(v) => !!v || 'Name is required']"
-              hide-details="auto"
-            />
-          </div>
-          <div class="col-12">
-            <label class="mb-2 fw-medium">Catatan</label>
-            <v-textarea
-              placeholder="remarks"
-              v-model="remarks"
-              outlined
-              dense
-              rows="3"
-            />
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-12">
+                <label class="mb-2 fs-14">File Document</label>
+                <v-file-input
+                  placeholder="File"
+                  v-model="filepath"
+                  filled
+                  dense
+                  :rules="[(v) => !!v || 'File Document is required']"
+                  v-if="!isUpdate"
+                  hide-details="auto"
+                />
+                <v-file-input
+                  placeholder="File"
+                  v-model="filepath"
+                  filled
+                  dense
+                  messages="Upload file jika ingin mengganti file yang lama"
+                  v-if="isUpdate"
+                  hide-details="auto"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="mb-2 fs-14">No Surat</label>
+                <v-text-field
+                  placeholder="No Surat"
+                  v-model="name"
+                  outlined
+                  dense
+                  :rules="[(v) => !!v || 'No Surat is required']"
+                  hide-details="auto"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="mb-2 fs-14">Nama Surat</label>
+                <v-text-field
+                  placeholder="Nama Surat"
+                  v-model="remarks"
+                  outlined
+                  dense
+                  :rules="[(v) => !!v || 'No Surat is required']"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
         <ul class="nav nav-tabs pl-0">
           <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
             <a
-              :class="`nav-link  ${
+              :class="`nav-link fs-14  ${
                 item == tab_active ? 'fw-semibold active' : 'text-muted'
               }`"
               @click="tab_active = item"
@@ -69,13 +73,10 @@
 
         <div class="card mb-5 border-top-0 rounded-0">
           <div :class="tab_active == 'Tag Group' ? '' : 'd-none'">
-            <SelectTagGroup />
-          </div>
-          <div :class="tab_active == 'Mahasiswa' ? '' : 'd-none'">
-            <SelectMahasiswa />
+            <InputTableTagGroup v-model="details" />
           </div>
           <div :class="tab_active == 'Pegawai' ? '' : 'd-none'">
-            <SelectPegawai />
+            <InputTablePegawai v-model="data_pegawai" />
           </div>
         </div>
       </div>
@@ -97,12 +98,13 @@
 export default {
   name: "DocumentForm",
   components: {
-    SelectTagGroup: () => import("./select-tag-group.vue"),
-    SelectMahasiswa: () => import("./select-mahasiswa.vue"),
-    SelectPegawai: () => import("./select-pegawai.vue"),
+    InputTableTagGroup: () =>
+      import("@/components/atoms/input-table-tag-group.vue"),
+    InputTablePegawai: () =>
+      import("@/components/atoms/input-table-pegawai.vue"),
   },
   data: () => ({
-    tab_list: ["Tag Group", "Mahasiswa", "Pegawai"],
+    tab_list: ["Tag Group", "Pegawai"],
     tab_active: "Tag Group",
   }),
   computed: {
@@ -141,6 +143,28 @@ export default {
       set(value) {
         this.$store.commit("SET_FORM_DOCUMENT", {
           key: "remarks",
+          value,
+        });
+      },
+    },
+    data_pegawai: {
+      get() {
+        return this.$store.state.document.form.data_pegawai;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_DOCUMENT", {
+          key: "data_pegawai",
+          value,
+        });
+      },
+    },
+    details: {
+      get() {
+        return this.$store.state.document.form.details;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_DOCUMENT", {
+          key: "details",
           value,
         });
       },
