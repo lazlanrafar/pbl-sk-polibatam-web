@@ -47,7 +47,6 @@ const userManagement = {
     },
     SetIsNotAdminUM: async (context, uid) => {
       context.commit("SET_IS_LOADING_USER_MANAGEMENT", true);
-
       try {
         const result = await axios({
           url: `${apiUrl}/admin`,

@@ -17,7 +17,6 @@ import pengajuanSurat from "./modules/pengajuan-surat";
 
 import tagGroup from "./modules/tag-group";
 
-import mahasiswa from "./modules/mahasiswa";
 import pegawai from "./modules/pegawai";
 import userManagement from "./modules/user-management";
 
@@ -30,7 +29,6 @@ export default new Vuex.Store({
     suratKeterangan,
     pengajuanSurat,
     tagGroup,
-    mahasiswa,
     pegawai,
     userManagement,
   },
