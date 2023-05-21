@@ -200,6 +200,12 @@ const pengajuanSurat = {
           },
         });
 
+        let data_tag_group = [];
+        result.data.data.details.forEach((item) => {
+          delete item.data_pegawai;
+          data_tag_group.push(item.tag_group);
+        });
+
         context.state.form = {
           title: result.data.data.title,
           type: result.data.data.type,
@@ -210,7 +216,7 @@ const pengajuanSurat = {
           list_observe: result.data.data.list_observe,
           list_decide: result.data.data.list_decide,
           data_pegawai: result.data.data.data_pegawai,
-          details: result.data.data.details,
+          details: data_tag_group,
         };
       } catch (error) {
         catchUnauthorized(error);

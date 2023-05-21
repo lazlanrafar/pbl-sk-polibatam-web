@@ -136,7 +136,6 @@ const document = {
 
         let data_tag_group = [];
         result.data.data.details.forEach((item) => {
-          delete item.data_mahasiswa;
           delete item.data_pegawai;
           data_tag_group.push(item.tag_group);
         });
@@ -146,7 +145,6 @@ const document = {
           filepath: "",
           name: result.data.data.name,
           remarks: result.data.data.remarks,
-          data_mahasiswa: result.data.data.data_mahasiswa,
           data_pegawai: result.data.data.data_pegawai,
           details: data_tag_group,
         };
