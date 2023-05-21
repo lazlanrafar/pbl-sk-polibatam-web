@@ -15,7 +15,8 @@
             <table class="mb-5 fs-14">
               <tr
                 v-for="(item, i) in [
-                  { text: 'Name', value: report.name },
+                  { text: 'No Document', value: report.name },
+                  { text: 'Nama Document', value: report.remarks },
                   { text: 'Type', value: report.type },
                 ]"
                 style="line-height: 30px; vertical-align: top"
@@ -25,33 +26,12 @@
                 <td style="min-width: 20px">:</td>
                 <td>{{ item.value }}</td>
               </tr>
-              <tr
-                style="line-height: 30px; vertical-align: top"
-                v-if="report.is_from_pengajuan"
-              >
-                <td>Lampiran</td>
-                <td>:</td>
-                <td>
-                  {{ report.pengajuan.is_lampiran ? "Ada" : "Tidak Ada" }}
-                </td>
-              </tr>
               <tr style="line-height: 30px; vertical-align: top">
                 <td>Document</td>
                 <td>:</td>
                 <td>
                   <a :href="handleDownload(report.filepath)" target="_blank">
-                    {{ report.filepath }}
-                  </a>
-                  <br />
-                  <a
-                    v-if="
-                      report.is_from_pengajuan &&
-                      report.pengajuan.filepath_lampiran
-                    "
-                    :href="handleDownload(report.pengajuan.filepath_lampiran)"
-                    target="_blank"
-                  >
-                    {{ report.pengajuan.filepath_lampiran }}
+                    Download Document
                   </a>
                 </td>
               </tr>
@@ -61,9 +41,8 @@
             <table class="mb-5 fs-14">
               <tr
                 v-for="(item, i) in [
-                  { text: 'Created By', value: report.created_by },
                   {
-                    text: 'Created At',
+                    text: 'Dibuat Pada',
                     value: moment(report.created_at).format('DD MMMM YYYY'),
                   },
                 ]"
@@ -74,45 +53,14 @@
                 <td style="min-width: 20px">:</td>
                 <td>{{ item.value }}</td>
               </tr>
-              <tr
-                v-if="report.is_from_pengajuan"
-                style="line-height: 30px; vertical-align: top"
-              >
-                <td>Dokumen Diajukan Oleh</td>
-                <td>:</td>
-                <td>{{ report.pengajuan.created_by }}</td>
-              </tr>
-              <tr
-                v-if="report.is_from_pengajuan"
-                style="line-height: 30px; vertical-align: top"
-              >
-                <td>Diajukan Pada</td>
-                <td>:</td>
-                <td>
-                  {{
-                    moment(report.pengajuan.created_at).format("DD MMMM YYYY")
-                  }}
-                </td>
-              </tr>
             </table>
           </div>
         </div>
-        <table class="mb-5 fs-14">
-          <tr
-            v-for="(item, i) in [{ text: 'Remarks', value: report.remarks }]"
-            style="line-height: 30px; vertical-align: top"
-            :key="i"
-          >
-            <td style="min-width: 150px">{{ item.text }}</td>
-            <td style="min-width: 20px">:</td>
-            <td>{{ item.value }}</td>
-          </tr>
-        </table>
 
         <ul class="nav nav-tabs pl-0">
           <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
             <a
-              :class="`nav-link  ${
+              :class="`nav-link fs-14  ${
                 item == tab_active ? 'fw-semibold active' : 'text-muted'
               }`"
               @click="tab_active = item"
@@ -128,19 +76,6 @@
               :headers="[
                 { text: 'Name', value: 'tag_group.name' },
                 { text: 'Created By', value: 'tag_group.created_by' },
-              ]"
-            ></v-data-table>
-          </div>
-          <div class="card-body" v-if="tab_active == 'Mahasiswa'">
-            <v-data-table
-              :items="report.data_mahasiswa"
-              :headers="[
-                { text: 'Nrp', value: 'NRP' },
-                { text: 'Nama', value: 'NAMA' },
-                { text: 'Agama', value: 'AGAMA' },
-                { text: 'Kelas', value: 'KELAS' },
-                { text: 'Jurusan', value: 'JURUSAN' },
-                { text: 'Status', value: 'STATUS' },
               ]"
             ></v-data-table>
           </div>
@@ -175,7 +110,7 @@ const apiUrl = process.env.VUE_APP_API_URL;
 export default {
   name: "DocumentDetail",
   data: () => ({
-    tab_list: ["Tag Group", "Mahasiswa", "Pegawai"],
+    tab_list: ["Tag Group", "Pegawai"],
     tab_active: "Tag Group",
     moment,
   }),
