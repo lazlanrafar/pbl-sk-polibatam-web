@@ -141,7 +141,7 @@ export default {
           adminOnly: false,
         },
         {
-          title: "Pengajuan Surat",
+          title: "Pengajuan SK",
           path: "/pengajuan-surat",
           icon: "fa-solid fa-paper-plane",
           children: false,

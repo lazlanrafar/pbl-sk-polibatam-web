@@ -2,6 +2,20 @@ import axios from "axios";
 import catchUnauthorized from "../../utils/catch-unauthorized";
 const apiUrl = process.env.VUE_APP_API_URL;
 import Swal from "sweetalert2";
+import moment from "moment/moment";
+
+const form = {
+  title: "",
+  type: "",
+  is_lampiran: false,
+  filepath_lampiran: "",
+  pickup_plan: moment().format("YYYY-MM-DD"),
+  list_consider: [""],
+  list_observe: [""],
+  list_decide: [""],
+  details: [],
+  data_pegawai: [],
+};
 
 const pengajuanSurat = {
   state: {
@@ -18,14 +32,7 @@ const pengajuanSurat = {
       },
     ],
     form: {
-      title: "",
-      type: "",
-      is_lampiran: false,
-      filepath_lampiran: "",
-      pickup_plan: "",
-      list_consider: [""],
-      list_observe: [""],
-      list_decide: [""],
+      ...form,
     },
     optionsTable: {
       page: 1,
@@ -56,14 +63,7 @@ const pengajuanSurat = {
     },
     RESET_FORM_PENGAJUAN_SURAT(state) {
       state.form = {
-        title: "",
-        type: "",
-        is_lampiran: false,
-        filepath_lampiran: "",
-        pickup_plan: "",
-        list_consider: [""],
-        list_observe: [""],
-        list_decide: [""],
+        ...form,
       };
     },
     SET_OPTIONS_TABLE_PENGAJUAN_SURAT(state, payload) {
@@ -157,6 +157,8 @@ const pengajuanSurat = {
         formData.append("list_consider", JSON.stringify(form.list_consider));
         formData.append("list_observe", JSON.stringify(form.list_observe));
         formData.append("list_decide", JSON.stringify(form.list_decide));
+        formData.append("details", JSON.stringify(form.details));
+        formData.append("data_pegawai", JSON.stringify(form.data_pegawai));
 
         const result = await axios({
           url: `${apiUrl}/pengajuan`,
@@ -207,6 +209,8 @@ const pengajuanSurat = {
           list_consider: result.data.data.list_consider,
           list_observe: result.data.data.list_observe,
           list_decide: result.data.data.list_decide,
+          data_pegawai: result.data.data.data_pegawai,
+          details: result.data.data.details,
         };
       } catch (error) {
         catchUnauthorized(error);
@@ -229,6 +233,8 @@ const pengajuanSurat = {
         formData.append("list_consider", JSON.stringify(form.list_consider));
         formData.append("list_observe", JSON.stringify(form.list_observe));
         formData.append("list_decide", JSON.stringify(form.list_decide));
+        formData.append("details", JSON.stringify(form.details));
+        formData.append("data_pegawai", JSON.stringify(form.data_pegawai));
 
         const result = await axios({
           url: `${apiUrl}/pengajuan/${id}`,

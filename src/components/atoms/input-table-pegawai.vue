@@ -28,7 +28,6 @@
       </div>
       <v-data-table
         :headers="[
-          { text: 'NIK', value: 'NIK' },
           { text: 'NIP', value: 'NIP' },
           { text: 'Nama', value: 'NAMA' },
           { text: 'Staff', value: 'STAFF' },

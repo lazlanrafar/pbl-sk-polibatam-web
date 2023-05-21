@@ -1,14 +1,22 @@
 <template>
   <div>
-    <HeaderTitle title="Home" subtitle="Pengajuan Surat" />
-
+    <HeaderTitle title="Home" subtitle="Pengajuan SK" />
+    <!-- 
     <button
       class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
       @click="handleModalForm(true)"
       v-if="!isAdmin"
     >
       <i class="fa fa-plus"></i>
-      Ajukan Surat
+      Ajukan SK
+    </button> -->
+
+    <button
+      class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
+      @click="handleModalForm(true)"
+    >
+      <i class="fa fa-plus"></i>
+      Ajukan SK
     </button>
 
     <ul class="nav nav-tabs pl-0 mt-10">
@@ -118,7 +126,7 @@
       </div>
     </div>
 
-    <v-dialog v-if="modalForm" v-model="modalForm" max-width="800" persistent>
+    <v-dialog v-if="modalForm" v-model="modalForm" max-width="1200" persistent>
       <Form @handleModalForm="handleModalForm" />
     </v-dialog>
     <v-dialog
@@ -227,6 +235,13 @@ export default {
   },
   methods: {
     async handleModalForm(value) {
+      if (value) {
+        this.$store.dispatch("GetAllTagGroup");
+
+        await this.$store.dispatch("GetFilterPegawai").then(() => {
+          this.$store.dispatch("GetAllPegawai");
+        });
+      }
       this.modalForm = value;
     },
     handleModalDetail(value, id) {
@@ -265,9 +280,6 @@ export default {
         });
 
         this.$store.dispatch("GetAllTagGroup");
-        await this.$store.dispatch("GetFilterMahasiswa").then(() => {
-          this.$store.dispatch("GetAllMahasiswa");
-        });
         await this.$store.dispatch("GetFilterPegawai").then(() => {
           this.$store.dispatch("GetAllPegawai");
         });

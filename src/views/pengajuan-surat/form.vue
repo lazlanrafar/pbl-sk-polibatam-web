@@ -12,7 +12,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            <label class="mb-2 fw-medium">
+            <label class="mb-2 fs-14 fw-medium">
               Judul Surat Keputusan/Peraturan
             </label>
             <v-text-field
@@ -25,7 +25,7 @@
             />
           </div>
           <div class="col-md-6">
-            <label class="mb-2 fw-medium">Jenis Surat</label>
+            <label class="mb-2 fs-14 fw-medium">Jenis Surat</label>
             <v-select
               placeholder="Jenis Surat"
               outlined
@@ -37,7 +37,7 @@
             />
           </div>
           <div class="col-md-6">
-            <label class="mb-2 fw-medium">Lampiran</label>
+            <label class="mb-2 fs-14 fw-medium">Lampiran</label>
             <v-select
               placeholder="Lampiran"
               outlined
@@ -50,17 +50,11 @@
             />
           </div>
           <div class="col-md-6">
-            <label class="mb-2 fw-medium">Rencana Pengambilan</label>
-            <v-text-field
-              placeholder="Rencana Pengambilan"
-              outlined
-              dense
-              hide-details="auto"
-              v-model="pickup_plan"
-            />
+            <label class="mb-2 fs-14 fw-medium">Rencana Pengambilan</label>
+            <DatePicker v-model="pickup_plan" />
           </div>
           <div class="col-md-6" v-if="is_lampiran">
-            <label class="mb-2 fw-medium">Lampiran</label>
+            <label class="mb-2 fs-14 fw-medium">Lampiran</label>
             <v-file-input
               placeholder="Lampiran"
               outlined
@@ -81,7 +75,7 @@
             />
           </div>
           <div class="col-12">
-            <label class="mb-3 fw-medium">Menimbang</label>
+            <label class="mb-3 fs-14 fw-medium">Menimbang</label>
             <div class="row" v-for="(item, i) in list_consider" :key="i">
               <div class="col-11">
                 <v-text-field
@@ -108,7 +102,7 @@
             </div>
           </div>
           <div class="col-12">
-            <label class="mb-3 fw-medium">Memperhatikan</label>
+            <label class="mb-3 fs-14 fw-medium">Memperhatikan</label>
             <div class="row" v-for="(item, i) in list_observe" :key="i">
               <div class="col-11">
                 <v-text-field
@@ -135,7 +129,7 @@
             </div>
           </div>
           <div class="col-12">
-            <label class="mb-3 fw-medium">Memutuskan</label>
+            <label class="mb-3 fs-14 fw-medium">Memutuskan</label>
             <div class="row" v-for="(item, i) in list_decide" :key="i">
               <div class="col-11">
                 <v-text-field
@@ -162,13 +156,38 @@
             </div>
           </div>
         </div>
+        <br />
+        <ul class="nav nav-tabs pl-0">
+          <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
+            <a
+              :class="`nav-link fs-14  ${
+                item == tab_active ? 'fw-semibold active' : 'text-muted'
+              }`"
+              @click="tab_active = item"
+              >{{ item }}</a
+            >
+          </li>
+        </ul>
+
+        <div class="card mb-5 border-top-0 rounded-0">
+          <div :class="tab_active == 'Tag Group' ? '' : 'd-none'">
+            <InputTableTagGroup v-model="details" />
+          </div>
+          <div :class="tab_active == 'Pegawai' ? '' : 'd-none'">
+            <InputTablePegawai v-model="data_pegawai" />
+          </div>
+        </div>
       </div>
       <div class="card-footer mt-5">
         <div class="d-flex justify-content-end">
           <button class="mr-5 text-muted" type="button" @click="handleClose">
             Kembali
           </button>
-          <button class="btn bg-darkblue text-white" type="submit">
+          <button
+            class="btn bg-darkblue text-white"
+            type="submit"
+            :disabled="isLoading"
+          >
             Simpan
           </button>
         </div>
@@ -180,8 +199,17 @@
 <script>
 export default {
   name: "FormPengajuanSurat",
-  components: {},
-  data: () => ({}),
+  components: {
+    DatePicker: () => import("@/components/atoms/date-picker.vue"),
+    InputTableTagGroup: () =>
+      import("@/components/atoms/input-table-tag-group.vue"),
+    InputTablePegawai: () =>
+      import("@/components/atoms/input-table-pegawai.vue"),
+  },
+  data: () => ({
+    tab_list: ["Tag Group", "Pegawai"],
+    tab_active: "Tag Group",
+  }),
   computed: {
     isLoading() {
       return this.$store.state.pengajuanSurat.isLoading;
@@ -279,6 +307,28 @@ export default {
       set(value) {
         this.$store.commit("SET_FORM_PENGAJUAN_SURAT", {
           key: "list_decide",
+          value,
+        });
+      },
+    },
+    details: {
+      get() {
+        return this.$store.state.pengajuanSurat.form.details;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_PENGAJUAN_SURAT", {
+          key: "details",
+          value,
+        });
+      },
+    },
+    data_pegawai: {
+      get() {
+        return this.$store.state.pengajuanSurat.form.data_pegawai;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_PENGAJUAN_SURAT", {
+          key: "data_pegawai",
           value,
         });
       },
