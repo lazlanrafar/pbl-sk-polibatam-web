@@ -132,7 +132,7 @@
     <v-dialog
       v-if="modalDetail"
       v-model="modalDetail"
-      max-width="800"
+      max-width="1200"
       persistent
     >
       <Detail
@@ -180,8 +180,8 @@ export default {
         { text: "Type", value: "type" },
         { text: "Lampiran", value: "is_lampiran" },
         { text: "Status", value: "status" },
-        { text: "Created At", value: "created_at" },
-        { text: "Created By", value: "created_by" },
+        { text: "Dibuat Pada", value: "created_at" },
+        { text: "Dibuat Oleh", value: "created_by" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
       modalForm: false,
