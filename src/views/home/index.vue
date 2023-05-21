@@ -27,7 +27,7 @@
           </template>
           <template v-slot:[`item.filepath`]="{ item }">
             <a :href="handleDownload(item.filepath)" target="_blank">
-              {{ item.filepath }}
+              Download Document
             </a>
           </template>
         </v-data-table>
@@ -48,10 +48,9 @@ export default {
   data() {
     return {
       headers: [
-        { text: "Name", value: "name" },
-        { text: "Description", value: "remarks" },
-        { text: "Created At", value: "created_at" },
-        { text: "Created By", value: "created_by" },
+        { text: "No Document", value: "name" },
+        { text: "Nama Document", value: "remarks" },
+        { text: "Dibuat Pada", value: "created_at" },
         { text: "Document", value: "filepath" },
       ],
       moment,
