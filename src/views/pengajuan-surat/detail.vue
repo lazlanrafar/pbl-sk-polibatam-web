@@ -11,7 +11,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-12">
+          <div class="col-md-6">
             <table class="mb-5 fs-14">
               <tr
                 v-for="(item, i) in [
@@ -22,11 +22,6 @@
                   { text: 'Jenis Surat', value: report.type },
                   { text: 'Lampiran', value: report.filepath_lampiran },
                   { text: 'Rencana Pengambilan', value: report.pickup_plan },
-                  {
-                    text: 'Dibuat Pada',
-                    value: moment(report.created_at).format('DD MMMM YYYY'),
-                  },
-                  { text: 'Dibuat Oleh', value: report.created_by },
                 ]"
                 style="line-height: 30px; vertical-align: top"
                 :key="i"
@@ -43,38 +38,68 @@
                   </a>
                 </td>
               </tr>
+              <tr>
+                <td class="fw-medium">Document</td>
+                <td>:</td>
+                <td>
+                  <a :href="handleDownload(report.filepath)" target="_blank">
+                    Download Document
+                  </a>
+                </td>
+              </tr>
             </table>
-            <hr />
-            <div class="fs-14">
-              <p class="fw-medium">Menimbang</p>
-
-              <ol>
-                <li v-for="(item, i) in report.list_consider" :key="i">
-                  {{ item }}
-                </li>
-              </ol>
-            </div>
-            <hr />
-            <div class="fs-14">
-              <p class="fw-medium">Memperhatikan</p>
-
-              <ol>
-                <li v-for="(item, i) in report.list_observe" :key="i">
-                  {{ item }}
-                </li>
-              </ol>
-            </div>
-            <hr />
-            <div class="fs-14">
-              <p class="fw-medium">Memutuskan</p>
-
-              <ol>
-                <li v-for="(item, i) in report.list_decide" :key="i">
-                  {{ item }}
-                </li>
-              </ol>
-            </div>
           </div>
+          <div class="col-md-6">
+            <table class="mb-5 fs-14">
+              <tr
+                v-for="(item, i) in [
+                  {
+                    text: 'Dibuat Pada',
+                    value: moment(report.created_at).format('DD MMMM YYYY'),
+                  },
+                  { text: 'Dibuat Oleh', value: report.created_by },
+                ]"
+                style="line-height: 30px; vertical-align: top"
+                :key="i"
+              >
+                <td class="fw-medium" style="min-width: 270px">
+                  {{ item.text }}
+                </td>
+                <td style="min-width: 20px">:</td>
+                <td>{{ item.value }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <hr />
+        <div class="fs-14">
+          <p class="fw-medium">Menimbang</p>
+
+          <ol>
+            <li v-for="(item, i) in report.list_consider" :key="i">
+              {{ item }}
+            </li>
+          </ol>
+        </div>
+        <hr />
+        <div class="fs-14">
+          <p class="fw-medium">Memperhatikan</p>
+
+          <ol>
+            <li v-for="(item, i) in report.list_observe" :key="i">
+              {{ item }}
+            </li>
+          </ol>
+        </div>
+        <hr />
+        <div class="fs-14">
+          <p class="fw-medium">Memutuskan</p>
+
+          <ol>
+            <li v-for="(item, i) in report.list_decide" :key="i">
+              {{ item }}
+            </li>
+          </ol>
         </div>
         <br />
 
@@ -102,7 +127,6 @@
               :items="report.data_pegawai"
               :headers="[
                 { text: 'NIP', value: 'NIP' },
-                { text: 'NIK', value: 'NIK' },
                 { text: 'Nama', value: 'NAMA' },
                 { text: 'Staff', value: 'STAFF' },
                 { text: 'Unit', value: 'UNIT' },

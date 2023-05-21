@@ -46,33 +46,9 @@
           </div>
         </div>
 
-        <ul class="nav nav-tabs pl-0">
-          <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
-            <a
-              :class="`nav-link fs-14  ${
-                item == tab_active ? 'fw-semibold active' : 'text-muted'
-              }`"
-              @click="tab_active = item"
-              >{{ item }}</a
-            >
-          </li>
-        </ul>
-
-        <div class="card mb-5 border-top-0 rounded-0">
-          <div :class="tab_active == 'Tag Group' ? '' : 'd-none'">
-            <SelectTagGroup />
-          </div>
-          <div :class="tab_active == 'Mahasiswa' ? '' : 'd-none'">
-            <SelectMahasiswa />
-          </div>
-          <div :class="tab_active == 'Pegawai' ? '' : 'd-none'">
-            <SelectPegawai />
-          </div>
-        </div>
-
         <div class="row">
           <div class="col-12">
-            <label class="mb-2 fw-medium">Catatan</label>
+            <label class="mb-2 fw-medium fs-14">Catatan</label>
             <v-textarea
               placeholder="remarks"
               v-model="remarks"
@@ -102,14 +78,8 @@ import moment from "moment";
 
 export default {
   name: "DocumentForm",
-  components: {
-    SelectTagGroup: () => import("./select-tag-group.vue"),
-    SelectMahasiswa: () => import("./select-mahasiswa.vue"),
-    SelectPegawai: () => import("./select-pegawai.vue"),
-  },
+  components: {},
   data: () => ({
-    tab_list: ["Tag Group", "Mahasiswa", "Pegawai"],
-    tab_active: "Tag Group",
     moment,
   }),
   computed: {

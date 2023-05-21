@@ -45,9 +45,6 @@ const pengajuanSurat = {
     form_approve: {
       id_pengajuan: "",
       remarks: "",
-      data_mahasiswa: [],
-      data_pegawai: [],
-      details: [],
     },
     form_reject: {
       id_pengajuan: "",
@@ -85,9 +82,6 @@ const pengajuanSurat = {
       state.form_approve = {
         id_pengajuan: "",
         remarks: "",
-        data_mahasiswa: [],
-        data_pegawai: [],
-        details: [],
       };
     },
     SET_FORM_REJECT_PENGAJUAN_SURAT(state, payload) {

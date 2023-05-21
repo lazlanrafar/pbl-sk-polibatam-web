@@ -181,7 +181,7 @@ export default {
         { text: "Lampiran", value: "is_lampiran" },
         { text: "Status", value: "status" },
         { text: "Dibuat Pada", value: "created_at" },
-        { text: "Dibuat Oleh", value: "created_by" },
+        { text: "Diajukan Oleh", value: "created_by" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
       modalForm: false,
