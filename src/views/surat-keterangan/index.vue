@@ -41,7 +41,7 @@
           </template>
           <template v-slot:[`item.filepath`]="{ item }">
             <a :href="handleDownload(item.filepath)" target="_blank">
-              {{ item.filepath }}
+              Download Document
             </a>
           </template>
           <template v-slot:[`item.action`]="{ item }">
@@ -109,8 +109,8 @@ export default {
       moment,
       headers: [
         { text: "No", value: "no" },
-        { text: "Name", value: "name" },
-        { text: "Description", value: "remarks" },
+        { text: "No Surat", value: "name" },
+        { text: "Nama Surat", value: "remarks" },
         { text: "Created At", value: "created_at" },
         { text: "Created By", value: "created_by" },
         { text: "Document", value: "filepath" },

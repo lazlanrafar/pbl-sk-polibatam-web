@@ -85,7 +85,11 @@
           <button class="mr-5 text-muted" type="button" @click="handleClose">
             Kembali
           </button>
-          <button class="btn bg-darkblue text-white" type="submit">
+          <button
+            class="btn bg-darkblue text-white"
+            type="submit"
+            :disabled="isLoading"
+          >
             Simpan
           </button>
         </div>
