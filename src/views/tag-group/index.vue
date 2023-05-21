@@ -125,10 +125,6 @@ export default {
     async handleModalForm(value) {
       this.modalForm = value;
       if (value) {
-        await this.$store.dispatch("GetFilterMahasiswa").then(() => {
-          this.$store.dispatch("GetAllMahasiswa");
-        });
-
         await this.$store.dispatch("GetFilterPegawai").then(() => {
           this.$store.dispatch("GetAllPegawai");
         });

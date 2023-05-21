@@ -15,7 +15,6 @@ const tagGroup = {
     report: "",
     form: {
       name: "",
-      data_mahasiswa: [],
       data_pegawai: [],
     },
     isUpdate: false,
@@ -103,7 +102,6 @@ const tagGroup = {
 
         context.state.form = {
           name: "",
-          data_mahasiswa: [],
           data_pegawai: [],
         };
 

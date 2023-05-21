@@ -23,26 +23,7 @@
           </div>
         </div>
 
-        <ul class="nav nav-tabs pl-0">
-          <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
-            <a
-              :class="`nav-link  ${
-                item == tab_active ? 'fw-semibold active' : 'text-muted'
-              }`"
-              @click="tab_active = item"
-              >{{ item }}</a
-            >
-          </li>
-        </ul>
-
-        <div class="card mb-5 border-top-0 rounded-0">
-          <div :class="tab_active == 'Mahasiswa' ? '' : 'd-none'">
-            <FormMahasiswa />
-          </div>
-          <div :class="tab_active == 'Pegawai' ? '' : 'd-none'">
-            <FormPegawai />
-          </div>
-        </div>
+        <InputTablePegawai v-model="data_pegawai" />
       </div>
       <div class="card-footer">
         <div class="d-flex justify-content-end">
@@ -62,13 +43,10 @@
 export default {
   name: "TagGroupForm",
   components: {
-    FormMahasiswa: () => import("./form-mahasiswa.vue"),
-    FormPegawai: () => import("./form-pegawai.vue"),
+    InputTablePegawai: () =>
+      import("@/components/atoms/input-table-pegawai.vue"),
   },
-  data: () => ({
-    tab_list: ["Mahasiswa", "Pegawai"],
-    tab_active: "Mahasiswa",
-  }),
+  data: () => ({}),
   computed: {
     isLoading() {
       return this.$store.state.tagGroup.isLoading;
@@ -83,6 +61,17 @@ export default {
       set(value) {
         this.$store.commit("SET_FORM_TAG_GROUP", {
           key: "name",
+          value,
+        });
+      },
+    },
+    data_pegawai: {
+      get() {
+        return this.$store.state.tagGroup.form.data_pegawai;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_TAG_GROUP", {
+          key: "data_pegawai",
           value,
         });
       },
