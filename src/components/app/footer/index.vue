@@ -2,7 +2,30 @@
   <div class="bg-white border-top py-1 mt-10">
     <div class="container">
       <p class="text-center mb-0 text-muted small">
-        Copyright &copy; {{ getYear }} Kelompok Ropita Jaya Bersama
+        Created by
+        <a
+          href="https://www.instagram.com/jmariani05/"
+          target="_blank"
+          class="anchor-sosmed"
+        >
+          Jessica Mariani
+        </a>
+        ,
+        <a
+          href="https://www.instagram.com/doput42/"
+          target="_blank"
+          class="anchor-sosmed"
+        >
+          Rido Ramadhan
+        </a>
+        , and
+        <a
+          href="https://www.instagram.com/lazlanrafar/"
+          target="_blank"
+          class="anchor-sosmed"
+        >
+          L Azlan Rafar
+        </a>
       </p>
     </div>
   </div>
@@ -18,3 +41,12 @@ export default {
   },
 };
 </script>
+
+<style>
+.anchor-sosmed {
+  color: #183a64 !important;
+  font-weight: 500 !important;
+  text-decoration: none;
+  transition: 0.3s;
+}
+</style>
