@@ -59,6 +59,24 @@
           <template v-slot:[`item.created_at`]="{ item }">
             {{ moment(item.created_at).format("DD MMMM YYYY | HH:mm") }}
           </template>
+          <template v-slot:[`item.filepath_lampiran`]="{ item }">
+            <a
+              v-if="item.filepath_lampiran"
+              :href="handleDownload(item.filepath_lampiran)"
+              target="_blank"
+            >
+              Download Lampiran
+            </a>
+          </template>
+          <template v-slot:[`item.filepath`]="{ item }">
+            <a
+              v-if="item.filepath"
+              :href="handleDownload(item.filepath)"
+              target="_blank"
+            >
+              Download
+            </a>
+          </template>
           <template v-slot:[`item.is_lampiran`]="{ item }">
             <span v-if="item.is_lampiran">Ada</span>
             <span v-else>Tidak Ada</span>
@@ -162,6 +180,7 @@
 <script>
 import moment from "moment";
 import Swal from "sweetalert2";
+const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   name: "pengajuanSuratPage",
@@ -178,10 +197,11 @@ export default {
       headers: [
         { text: "Title", value: "title" },
         { text: "Type", value: "type" },
-        { text: "Lampiran", value: "is_lampiran" },
         { text: "Status", value: "status" },
         { text: "Dibuat Pada", value: "created_at" },
         { text: "Diajukan Oleh", value: "created_by" },
+        { text: "Lampiran", value: "filepath_lampiran" },
+        { text: "Dokumen", value: "filepath" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
       modalForm: false,
@@ -243,6 +263,9 @@ export default {
         });
       }
       this.modalForm = value;
+    },
+    handleDownload(filename) {
+      return apiUrl.split("/api")[0] + "/documents/" + filename;
     },
     handleModalDetail(value, id) {
       if (value) this.$store.dispatch("GetDetailPengajuan", id);

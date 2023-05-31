@@ -32,7 +32,7 @@
         >
           <template v-slot:[`item.remarks`]="{ item }">
             <div v-if="item.remarks.length > 25">
-              {{ item.remarks.substring(0, 25) + "..." }}
+              {{ item.remarks.substring(0, 50) + "..." }}
             </div>
             <div v-else>{{ item.remarks }}</div>
           </template>

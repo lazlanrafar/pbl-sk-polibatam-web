@@ -20,8 +20,8 @@
                     value: report.title,
                   },
                   { text: 'Jenis Surat', value: report.type },
-                  { text: 'Lampiran', value: report.filepath_lampiran },
                   { text: 'Rencana Pengambilan', value: report.pickup_plan },
+                  { text: 'Lampiran', value: report.filepath_lampiran },
                 ]"
                 style="line-height: 30px; vertical-align: top"
                 :key="i"
@@ -38,12 +38,12 @@
                   </a>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="report.filepath">
                 <td class="fw-medium">Document</td>
                 <td>:</td>
                 <td>
                   <a :href="handleDownload(report.filepath)" target="_blank">
-                    Download Document
+                    {{ report.filepath }}
                   </a>
                 </td>
               </tr>
