@@ -110,6 +110,12 @@
                     <span>Approve</span>
                   </v-list-item-title>
                 </v-list-item>
+                <v-list-item>
+                  <v-list-item-title class="text-primary fs-12">
+                    <i class="fas fa-check small mr-2"></i>
+                    <span>Process</span>
+                  </v-list-item-title>
+                </v-list-item>
                 <v-list-item
                   @click="handleModalFormReject(true, item.id)"
                   v-if="item.status == 'POSTED' && isAdmin"

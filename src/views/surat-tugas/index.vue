@@ -109,9 +109,9 @@ export default {
       moment,
       headers: [
         { text: "No", value: "no" },
-        { text: "No Surat", value: "name" },
-        { text: "Nama Surat", value: "remarks" },
-        { text: "Created At", value: "created_at" },
+        { text: "No Surat Tugas", value: "name" },
+        { text: "Judul Surat Tugas", value: "remarks" },
+        { text: "Tanggal", value: "created_at" },
         { text: "Document", value: "filepath" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],
