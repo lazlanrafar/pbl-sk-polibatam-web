@@ -36,8 +36,8 @@
             </div>
             <div v-else>{{ item.remarks }}</div>
           </template>
-          <template v-slot:[`item.created_at`]="{ item }">
-            {{ moment(item.created_at).format("DD MMMM YYYY | HH:mm") }}
+          <template v-slot:[`item.date`]="{ item }">
+            {{ moment(item.date).format("DD MMMM YYYY") }}
           </template>
           <template v-slot:[`item.filepath`]="{ item }">
             <a :href="handleDownload(item.filepath)" :download="item.name">
@@ -111,7 +111,7 @@ export default {
         { text: "No", value: "no" },
         { text: "No Surat Tugas", value: "name" },
         { text: "Judul Surat Tugas", value: "remarks" },
-        { text: "Tanggal", value: "created_at" },
+        { text: "Tanggal", value: "date" },
         { text: "Document", value: "filepath" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],

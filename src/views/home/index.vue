@@ -22,8 +22,8 @@
             </div>
             <div v-else>{{ item.remarks }}</div>
           </template>
-          <template v-slot:[`item.created_at`]="{ item }">
-            {{ moment(item.created_at).format("DD MMMM YYYY | HH:mm") }}
+          <template v-slot:[`item.date`]="{ item }">
+            {{ moment(item.date).format("DD MMMM YYYY") }}
           </template>
           <template v-slot:[`item.filepath`]="{ item }">
             <a :href="handleDownload(item.filepath)" target="_blank">
@@ -50,7 +50,8 @@ export default {
       headers: [
         { text: "No Document", value: "name" },
         { text: "Nama Document", value: "remarks" },
-        { text: "Dibuat Pada", value: "created_at" },
+        { text: "Type Document", value: "type" },
+        { text: "Tanggal", value: "date" },
         { text: "Document", value: "filepath" },
       ],
       moment,

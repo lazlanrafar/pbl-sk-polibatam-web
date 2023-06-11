@@ -141,6 +141,7 @@ const document = {
           type: result.data.data.type,
           filepath: "",
           name: result.data.data.name,
+          date: moment(result.data.data.date).format("YYYY-MM-DD"),
           remarks: result.data.data.remarks,
           data_pegawai: result.data.data.data_pegawai,
           details: data_tag_group,
