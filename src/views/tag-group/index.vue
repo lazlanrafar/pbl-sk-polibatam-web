@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <layout-app>
     <HeaderTitle title="Setup" subtitle="Tag Group" />
 
     <div class="card mt-5 mt-sm-10">
@@ -77,16 +77,18 @@
     <v-dialog v-model="modalDetail" max-width="1200" persistent>
       <Detail @handleModalDetail="handleModalDetail" />
     </v-dialog>
-  </div>
+  </layout-app>
 </template>
 
 <script>
 import moment from "moment";
 import Swal from "sweetalert2";
+import LayoutApp from "../../layouts/layout-app.vue";
 
 export default {
   name: "TagGroup",
   components: {
+    LayoutApp,
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("./form.vue"),
     Detail: () => import("./detail.vue"),

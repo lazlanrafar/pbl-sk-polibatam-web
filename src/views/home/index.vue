@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <layout-app>
     <div class="d-flex flex-column flex-sm-row gap-2 gap-md-3">
       <CardBarang type="Surat Tugas" :value="length_st" />
       <CardBarang type="Surat Keterangan" :value="length_sk" />
@@ -33,16 +33,18 @@
         </v-data-table>
       </div>
     </div>
-  </div>
+  </layout-app>
 </template>
 
 <script>
 const apiUrl = process.env.VUE_APP_API_URL;
 import moment from "moment";
+import LayoutApp from "../../layouts/layout-app.vue";
 
 export default {
   name: "Home",
   components: {
+    LayoutApp,
     CardBarang: () => import("@/components/molecules/card-barang/index.vue"),
   },
   data() {

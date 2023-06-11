@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <layout-app>
     <HeaderTitle title="Setup" subtitle="Tag Group" />
     <div class="card border-0">
       <div class="card-body py-5">
@@ -95,15 +95,17 @@
         <Detail @handleModalDetail="handleModalDetail" />
       </v-dialog>
     </div>
-  </div>
+  </layout-app>
 </template>
 
 <script>
 import Swal from "sweetalert2";
+import LayoutApp from "../../layouts/layout-app.vue";
 
 export default {
   name: "UMPegawai",
   components: {
+    LayoutApp,
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Detail: () => import("./detail.vue"),
   },

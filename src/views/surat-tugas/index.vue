@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <layout-app>
     <HeaderTitle title="Home" subtitle="Surat Tugas" />
 
     <div class="card mt-5 mt-sm-10">
@@ -89,17 +89,19 @@
     <v-dialog v-model="modalDetail" max-width="1200" persistent>
       <Detail @handleModalDetail="handleModalDetail" />
     </v-dialog>
-  </div>
+  </layout-app>
 </template>
 
 <script>
 import moment from "moment";
 import Swal from "sweetalert2";
+import LayoutApp from "../../layouts/layout-app.vue";
 const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   name: "SuratTugasPage",
   components: {
+    LayoutApp,
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("@/components/organisms/form-document/index.vue"),
     Detail: () => import("@/components/organisms/detail-document/index.vue"),

@@ -1,16 +1,6 @@
 <template>
-  <div>
+  <layout-app>
     <HeaderTitle title="Home" subtitle="Pengajuan SK" />
-    <!-- 
-    <button
-      class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
-      @click="handleModalForm(true)"
-      v-if="!isAdmin"
-    >
-      <i class="fa fa-plus"></i>
-      Ajukan SK
-    </button> -->
-
     <button
       class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
       @click="handleModalForm(true)"
@@ -191,17 +181,19 @@
     >
       <FormPublish @handleModalFormPublish="handleModalFormPublish" />
     </v-dialog>
-  </div>
+  </layout-app>
 </template>
 
 <script>
 import moment from "moment";
 import Swal from "sweetalert2";
+import LayoutApp from "../../layouts/layout-app.vue";
 const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   name: "pengajuanSuratPage",
   components: {
+    LayoutApp,
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("./form.vue"),
     Detail: () => import("./detail.vue"),
