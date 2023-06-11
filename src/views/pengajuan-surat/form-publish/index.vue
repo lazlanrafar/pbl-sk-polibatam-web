@@ -80,7 +80,7 @@
             type="submit"
             :disabled="isLoading"
           >
-            Simpan
+            Publish
           </button>
         </div>
       </div>
@@ -180,21 +180,14 @@ export default {
   },
   methods: {
     handleClose() {
+      this.$store.commit("SET_IS_UPDATE_PENGAJUAN_SURAT", false);
       this.$store.commit("RESET_FORM_PUBLISH_PENGAJUAN_SURAT");
 
       this.$emit("handleModalFormPublish", false);
     },
     async handleSubmit() {
       if (this.$refs.initialForm.validate()) {
-        if (this.isUpdate) {
-          this.$store.dispatch("UpdateDocument", this.isUpdate).then((res) => {
-            if (res) {
-              this.handleClose();
-            }
-          });
-          return;
-        }
-        this.$store.dispatch("CreateDocument").then((res) => {
+        this.$store.dispatch("PublishPengajuan", this.isUpdate).then((res) => {
           if (res) {
             this.handleClose();
           }

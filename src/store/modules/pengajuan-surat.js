@@ -370,6 +370,7 @@ const pengajuanSurat = {
 
         let details = [];
         data.details.forEach((item) => {
+          delete item.tag_group.data_pegawai;
           details.push({
             ...item.tag_group,
           });
@@ -379,13 +380,49 @@ const pengajuanSurat = {
           type: "Surat Keterangan",
           date: moment().format("YYYY-MM-DD"),
           filepath: "",
-          name: data.title,
-          remarks: "",
+          name: "",
+          remarks: data.title,
           data_pegawai: data.data_pegawai,
           details: details,
         };
       } catch (error) {
         catchUnauthorized(error);
+      } finally {
+        context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", false);
+      }
+    },
+    PublishPengajuan: async (context, id) => {
+      context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", true);
+      try {
+        const payload = context.state.form_publish;
+        payload.data_pegawai = JSON.stringify(payload.data_pegawai);
+
+        const result = await axios({
+          url: `${apiUrl}/pengajuan/publish/${id}`,
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+            "Content-Type": "multipart/form-data",
+          },
+          data: payload,
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: result.data.message,
+        });
+
+        context.dispatch("GetAllPengajuan");
+        return true;
+      } catch (error) {
+        catchUnauthorized(error);
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
       } finally {
         context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", false);
       }

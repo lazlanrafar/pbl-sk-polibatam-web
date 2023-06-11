@@ -130,7 +130,7 @@
                 </v-list-item>
                 <v-list-item
                   @click="handleEdit(item.id)"
-                  v-if="item.status != 'APPROVED'"
+                  v-if="item.status != 'APPROVED' && item.status != 'PUBLISHED'"
                 >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-edit small mr-2"></i>
@@ -139,7 +139,7 @@
                 </v-list-item>
                 <v-list-item
                   @click="handleDelete(item.id)"
-                  v-if="item.status != 'APPROVED'"
+                  v-if="item.status != 'APPROVED' && item.status != 'PUBLISHED'"
                 >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-trash small mr-2"></i>
@@ -237,6 +237,10 @@ export default {
           length: 0,
         },
         {
+          type: "Published",
+          length: 0,
+        },
+        {
           type: "Rejected",
           length: 0,
         },
@@ -297,6 +301,8 @@ export default {
     },
     async handleModalFormPublish(value, id) {
       if (value) {
+        this.$store.commit("SET_IS_UPDATE_PENGAJUAN_SURAT", id);
+
         this.$store.dispatch("SetFormPengajuanPublish", id);
         this.$store.dispatch("GetAllTagGroup");
 
@@ -356,6 +362,8 @@ export default {
         return this.reports.filter((item) => item.status === "POSTED");
       } else if (this.tab_active === "Approved") {
         return this.reports.filter((item) => item.status === "APPROVED");
+      } else if (this.tab_active === "Published") {
+        return this.reports.filter((item) => item.status === "PUBLISHED");
       } else if (this.tab_active === "Rejected") {
         return this.reports.filter((item) => item.status === "REJECTED");
       } else {
@@ -370,9 +378,12 @@ export default {
         (item) => item.status === "APPROVED"
       ).length;
       this.tab_list[2].length = this.reports.filter(
+        (item) => item.status === "PUBLISHED"
+      ).length;
+      this.tab_list[3].length = this.reports.filter(
         (item) => item.status === "REJECTED"
       ).length;
-      this.tab_list[3].length = this.reports.length;
+      this.tab_list[4].length = this.reports.length;
     },
   },
   async mounted() {
