@@ -66,6 +66,17 @@
             ></v-data-table>
           </div>
           <div class="card-body" v-if="tab_active == 'Pegawai'">
+            <div class="row justify-content-end">
+              <div class="col-12 col-sm-5 col-lg-4">
+                <v-text-field
+                  outlined
+                  dense
+                  prepend-inner-icon="mdi-magnify"
+                  placeholder="Cari..."
+                  v-model="search_pegawai"
+                />
+              </div>
+            </div>
             <v-data-table
               :items="report.data_pegawai"
               :headers="[
@@ -75,6 +86,7 @@
                 { text: 'Staff', value: 'STAFF' },
                 { text: 'Unit', value: 'UNIT' },
               ]"
+              :search="search_pegawai"
             >
               <template v-slot:[`item.NAMA`]="{ item }">
                 <span> {{ item.GELAR_DPN }} </span>
@@ -99,6 +111,7 @@ export default {
     tab_list: ["Tag Group", "Pegawai"],
     tab_active: "Tag Group",
     moment,
+    search_pegawai: "",
   }),
   computed: {
     isLoading() {

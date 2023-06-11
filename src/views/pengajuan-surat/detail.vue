@@ -141,16 +141,6 @@
           </div>
         </div>
       </div>
-      <div class="card-footer mt-5">
-        <div class="d-flex justify-content-end">
-          <button class="mr-5 text-muted" type="button" @click="handleClose">
-            Kembali
-          </button>
-          <button class="btn bg-darkblue text-white" @click="handleApprove">
-            Approve
-          </button>
-        </div>
-      </div>
     </v-card>
   </v-form>
 </template>
@@ -177,11 +167,6 @@ export default {
   methods: {
     handleClose() {
       this.$emit("handleModalDetail", false);
-    },
-    handleApprove() {
-      this.$emit("handleModalFormApprove", true, this.report.id);
-
-      this.handleClose();
     },
     handleDownload(filename) {
       return apiUrl.split("/api")[0] + "/documents/" + filename;

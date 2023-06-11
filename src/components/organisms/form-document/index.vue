@@ -189,7 +189,7 @@ export default {
   },
   methods: {
     handleClose() {
-      this.$refs.initialForm.reset();
+      this.$store.commit("SET_IS_UPDATE_DOCUMENT", false);
       this.$store.commit("RESET_FORM_DOCUMENT");
 
       this.$emit("handleModalForm", false);
