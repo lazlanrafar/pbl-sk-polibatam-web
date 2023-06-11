@@ -17,39 +17,36 @@ const form = {
   data_pegawai: [],
 };
 
+const form_publish = {
+  type: "",
+  date: moment().format("YYYY-MM-DD"),
+  filepath: "",
+  name: "",
+  remarks: "",
+  data_pegawai: [],
+  details: [],
+};
+
 const pengajuanSurat = {
   state: {
     isLoading: false,
-    list_type: ["SK Honor", "SK Non-Honor", "Perdir"],
-    list_lampiran: [
-      {
-        key: "Ada",
-        value: true,
-      },
-      {
-        key: "Tidak Ada",
-        value: false,
-      },
-    ],
-    form: {
-      ...form,
-    },
     optionsTable: {
       page: 1,
       itemsPerPage: 5,
       search: "",
     },
+    list_type: ["SK Honor", "SK Non-Honor", "Perdir"],
+    list_lampiran: [
+      { key: "Ada", value: true },
+      { key: "Tidak Ada", value: false },
+    ],
     reports: [],
     report: {},
+    form: { ...form },
+    form_approve: { id_pengajuan: "", remarks: "" },
+    form_reject: { id_pengajuan: "", remarks: "" },
+    form_publish: { ...form_publish },
     isUpdate: false,
-    form_approve: {
-      id_pengajuan: "",
-      remarks: "",
-    },
-    form_reject: {
-      id_pengajuan: "",
-      remarks: "",
-    },
   },
   mutations: {
     SET_IS_LOADING_PENGAJUAN_SURAT(state, payload) {
@@ -59,9 +56,7 @@ const pengajuanSurat = {
       state.form[payload.key] = payload.value;
     },
     RESET_FORM_PENGAJUAN_SURAT(state) {
-      state.form = {
-        ...form,
-      };
+      state.form = { ...form };
     },
     SET_OPTIONS_TABLE_PENGAJUAN_SURAT(state, payload) {
       state.optionsTable = Object.assign({}, payload);
@@ -79,19 +74,19 @@ const pengajuanSurat = {
       state.form_approve[payload.key] = payload.value;
     },
     RESET_FORM_APPROVE_PENGAJUAN_SURAT(state) {
-      state.form_approve = {
-        id_pengajuan: "",
-        remarks: "",
-      };
+      state.form_approve = { id_pengajuan: "", remarks: "" };
     },
     SET_FORM_REJECT_PENGAJUAN_SURAT(state, payload) {
       state.form_reject[payload.key] = payload.value;
     },
     RESET_FORM_REJECT_PENGAJUAN_SURAT(state) {
-      state.form_reject = {
-        id_pengajuan: "",
-        remarks: "",
-      };
+      state.form_reject = { id_pengajuan: "", remarks: "" };
+    },
+    SET_FORM_PUBLISH_PENGAJUAN_SURAT(state, payload) {
+      state.form_publish[payload.key] = payload.value;
+    },
+    RESET_FORM_PUBLISH_PENGAJUAN_SURAT(state) {
+      state.form_publish = { ...form_publish };
     },
   },
   actions: {
@@ -356,6 +351,41 @@ const pengajuanSurat = {
           title: "Oops...",
           text: error.response.data.message,
         });
+      } finally {
+        context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", false);
+      }
+    },
+    SetFormPengajuanPublish: async (context, id) => {
+      context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", true);
+      try {
+        const result = await axios({
+          url: `${apiUrl}/pengajuan/${id}`,
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${context.rootState.app.token}`,
+          },
+        });
+
+        const data = result.data.data;
+
+        let details = [];
+        data.details.forEach((item) => {
+          details.push({
+            ...item.tag_group,
+          });
+        });
+
+        context.state.form_publish = {
+          type: "Surat Keterangan",
+          date: moment().format("YYYY-MM-DD"),
+          filepath: "",
+          name: data.title,
+          remarks: "",
+          data_pegawai: data.data_pegawai,
+          details: details,
+        };
+      } catch (error) {
+        catchUnauthorized(error);
       } finally {
         context.commit("SET_IS_LOADING_PENGAJUAN_SURAT", false);
       }

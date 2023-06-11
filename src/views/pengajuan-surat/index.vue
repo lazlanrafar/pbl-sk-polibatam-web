@@ -110,10 +110,13 @@
                     <span>Approve</span>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item
+                  @click="handleModalFormPublish(true, item.id)"
+                  v-if="item.status === 'APPROVED' && isAdmin"
+                >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-check small mr-2"></i>
-                    <span>Process</span>
+                    <span>Publish</span>
                   </v-list-item-title>
                 </v-list-item>
                 <v-list-item
@@ -180,6 +183,14 @@
     >
       <FormReject @handleModalFormReject="handleModalFormReject" />
     </v-dialog>
+    <v-dialog
+      v-if="modalFormPublish"
+      v-model="modalFormPublish"
+      max-width="1200"
+      persistent
+    >
+      <FormPublish @handleModalFormPublish="handleModalFormPublish" />
+    </v-dialog>
   </div>
 </template>
 
@@ -196,6 +207,7 @@ export default {
     Detail: () => import("./detail.vue"),
     FormApprove: () => import("./form-approve/index.vue"),
     FormReject: () => import("./form-reject/index.vue"),
+    FormPublish: () => import("./form-publish/index.vue"),
   },
   data() {
     return {
@@ -214,6 +226,7 @@ export default {
       modalDetail: false,
       modalFormApprove: false,
       modalFormReject: false,
+      modalFormPublish: false,
       tab_list: [
         {
           type: "Posted",
@@ -281,6 +294,18 @@ export default {
       this.$store.dispatch("SetFormUpdatePengajuan", id);
       this.$store.commit("SET_IS_UPDATE_PENGAJUAN_SURAT", id);
       this.handleModalForm(true);
+    },
+    async handleModalFormPublish(value, id) {
+      if (value) {
+        this.$store.dispatch("SetFormPengajuanPublish", id);
+        this.$store.dispatch("GetAllTagGroup");
+
+        await this.$store.dispatch("GetFilterPegawai").then(() => {
+          this.$store.dispatch("GetAllPegawai");
+        });
+      }
+
+      this.modalFormPublish = value;
     },
     handleDelete(id) {
       Swal.fire({
