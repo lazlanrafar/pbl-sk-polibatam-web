@@ -11,54 +11,54 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-md-8">
-            <div class="row">
-              <div class="col-12">
-                <label class="mb-2 fs-14">File Document</label>
-                <v-file-input
-                  placeholder="File"
-                  v-model="filepath"
-                  filled
-                  dense
-                  :rules="[(v) => !!v || 'File Document is required']"
-                  v-if="!isUpdate"
-                  hide-details="auto"
-                />
-                <v-file-input
-                  placeholder="File"
-                  v-model="filepath"
-                  filled
-                  dense
-                  messages="Upload file jika ingin mengganti file yang lama"
-                  v-if="isUpdate"
-                  hide-details="auto"
-                />
-              </div>
-              <div class="col-md-6">
-                <label class="mb-2 fs-14">No Surat</label>
-                <v-text-field
-                  placeholder="No Surat"
-                  v-model="name"
-                  outlined
-                  dense
-                  :rules="[(v) => !!v || 'No Surat is required']"
-                  hide-details="auto"
-                />
-              </div>
-              <div class="col-md-6">
-                <label class="mb-2 fs-14">Nama Surat</label>
-                <v-text-field
-                  placeholder="Nama Surat"
-                  v-model="remarks"
-                  outlined
-                  dense
-                  :rules="[(v) => !!v || 'No Surat is required']"
-                />
-              </div>
-            </div>
+          <div class="col-md-6">
+            <label class="mb-2 fs-14">File Document</label>
+            <v-file-input
+              placeholder="File"
+              v-model="filepath"
+              filled
+              dense
+              :rules="[(v) => !!v || 'File Document is required']"
+              v-if="!isUpdate"
+              hide-details="auto"
+            />
+            <v-file-input
+              placeholder="File"
+              v-model="filepath"
+              filled
+              dense
+              messages="Upload file jika ingin mengganti file yang lama"
+              v-if="isUpdate"
+              hide-details="auto"
+            />
+          </div>
+          <div class="col-md-6">
+            <label class="mb-2 fs-14">Tanggal Surat</label>
+            <date-picker v-model="date" />
+          </div>
+          <div class="col-md-6">
+            <label class="mb-2 fs-14">No Surat</label>
+            <v-text-field
+              placeholder="No Surat"
+              v-model="name"
+              outlined
+              dense
+              :rules="[(v) => !!v || 'No Surat is required']"
+              hide-details="auto"
+            />
+          </div>
+          <div class="col-md-6">
+            <label class="mb-2 fs-14">Nama Surat</label>
+            <v-text-field
+              placeholder="Nama Surat"
+              v-model="remarks"
+              outlined
+              dense
+              :rules="[(v) => !!v || 'No Surat is required']"
+            />
           </div>
         </div>
-
+        <br />
         <ul class="nav nav-tabs pl-0">
           <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
             <a
@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import DatePicker from "../../atoms/date-picker.vue";
 export default {
   name: "DocumentForm",
   components: {
@@ -106,6 +107,7 @@ export default {
       import("@/components/atoms/input-table-tag-group.vue"),
     InputTablePegawai: () =>
       import("@/components/atoms/input-table-pegawai.vue"),
+    DatePicker,
   },
   data: () => ({
     tab_list: ["Tag Group", "Pegawai"],
@@ -125,6 +127,17 @@ export default {
       set(value) {
         this.$store.commit("SET_FORM_DOCUMENT", {
           key: "filepath",
+          value,
+        });
+      },
+    },
+    date: {
+      get() {
+        return this.$store.state.document.form.date;
+      },
+      set(value) {
+        this.$store.commit("SET_FORM_DOCUMENT", {
+          key: "date",
           value,
         });
       },

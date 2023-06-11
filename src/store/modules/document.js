@@ -2,6 +2,18 @@ import axios from "axios";
 import catchUnauthorized from "../../utils/catch-unauthorized";
 const apiUrl = process.env.VUE_APP_API_URL;
 import Swal from "sweetalert2";
+import moment from "moment";
+
+const form = {
+  type: "",
+  date: moment().format("YYYY-MM-DD"),
+  filepath: "",
+  name: "",
+  remarks: "",
+  data_mahasiswa: [],
+  data_pegawai: [],
+  details: [],
+};
 
 const document = {
   state: {
@@ -11,15 +23,7 @@ const document = {
       itemsPerPage: 10,
       search: "",
     },
-    form: {
-      type: "",
-      filepath: "",
-      name: "",
-      remarks: "",
-      data_mahasiswa: [],
-      data_pegawai: [],
-      details: [],
-    },
+    form: { ...form },
     detail: "",
     isUpdate: "",
   },
@@ -34,15 +38,7 @@ const document = {
       state.form[payload.key] = payload.value;
     },
     RESET_FORM_DOCUMENT(state) {
-      state.form = {
-        type: "",
-        filepath: "",
-        name: "",
-        remarks: "",
-        data_mahasiswa: [],
-        data_pegawai: [],
-        details: [],
-      };
+      state.form = { ...form };
     },
     SET_DETAIL_DOCUMENT(state, payload) {
       state.detail = payload;
@@ -58,6 +54,7 @@ const document = {
       try {
         const dataForm = new FormData();
         dataForm.append("type", context.state.form.type);
+        dataForm.append("date", context.state.form.date);
         dataForm.append("filepath", context.state.form.filepath);
         dataForm.append("name", context.state.form.name);
         dataForm.append("remarks", context.state.form.remarks);
@@ -160,6 +157,7 @@ const document = {
       try {
         const dataForm = new FormData();
         dataForm.append("type", context.state.form.type);
+        dataForm.append("date", context.state.form.date);
         dataForm.append("filepath", context.state.form.filepath);
         dataForm.append("name", context.state.form.name);
         dataForm.append("remarks", context.state.form.remarks);
