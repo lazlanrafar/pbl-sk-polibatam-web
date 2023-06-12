@@ -16,6 +16,10 @@
               <tr
                 v-for="(item, i) in [
                   { text: 'No Document', value: report.name },
+                  {
+                    text: 'Tanggal Document',
+                    value: moment(report.date).format('DD MMMM YYYY'),
+                  },
                   { text: 'Nama Document', value: report.remarks },
                   { text: 'Type', value: report.type },
                 ]"
@@ -34,24 +38,6 @@
                     Download Document
                   </a>
                 </td>
-              </tr>
-            </table>
-          </div>
-          <div class="col-md-6">
-            <table class="mb-5 fs-14">
-              <tr
-                v-for="(item, i) in [
-                  {
-                    text: 'Dibuat Pada',
-                    value: moment(report.created_at).format('DD MMMM YYYY'),
-                  },
-                ]"
-                style="line-height: 30px; vertical-align: top"
-                :key="i"
-              >
-                <td style="min-width: 200px">{{ item.text }}</td>
-                <td style="min-width: 20px">:</td>
-                <td>{{ item.value }}</td>
               </tr>
             </table>
           </div>
@@ -80,6 +66,17 @@
             ></v-data-table>
           </div>
           <div class="card-body" v-if="tab_active == 'Pegawai'">
+            <div class="row justify-content-end">
+              <div class="col-12 col-sm-5 col-lg-4">
+                <v-text-field
+                  outlined
+                  dense
+                  prepend-inner-icon="mdi-magnify"
+                  placeholder="Cari..."
+                  v-model="search_pegawai"
+                />
+              </div>
+            </div>
             <v-data-table
               :items="report.data_pegawai"
               :headers="[
@@ -89,6 +86,7 @@
                 { text: 'Staff', value: 'STAFF' },
                 { text: 'Unit', value: 'UNIT' },
               ]"
+              :search="search_pegawai"
             >
               <template v-slot:[`item.NAMA`]="{ item }">
                 <span> {{ item.GELAR_DPN }} </span>
@@ -113,6 +111,7 @@ export default {
     tab_list: ["Tag Group", "Pegawai"],
     tab_active: "Tag Group",
     moment,
+    search_pegawai: "",
   }),
   computed: {
     isLoading() {

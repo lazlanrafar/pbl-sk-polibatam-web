@@ -3,7 +3,7 @@
     <v-card class="card" :loading="isLoading">
       <div class="card-header py-3">
         <div class="d-flex justify-content-between align-items-center">
-          <p class="card-title fw-medium mb-0">Form Document</p>
+          <p class="card-title fw-medium mb-0">Form Publish Pengajuan</p>
           <v-btn icon @click="handleClose">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -19,38 +19,28 @@
               filled
               dense
               :rules="[(v) => !!v || 'File Document is required']"
-              v-if="!isUpdate"
-              hide-details="auto"
-            />
-            <v-file-input
-              placeholder="File"
-              v-model="filepath"
-              filled
-              dense
-              messages="Upload file jika ingin mengganti file yang lama"
-              v-if="isUpdate"
               hide-details="auto"
             />
           </div>
           <div class="col-md-6">
-            <label class="mb-2 fs-14">Tanggal Surat</label>
+            <label class="mb-2 fs-14">Tanggal SK</label>
             <date-picker v-model="date" />
           </div>
           <div class="col-md-6">
-            <label class="mb-2 fs-14">No Surat</label>
+            <label class="mb-2 fs-14">No SK</label>
             <v-text-field
-              placeholder="No Surat"
+              placeholder="No SK"
               v-model="name"
               outlined
               dense
-              :rules="[(v) => !!v || 'No Surat is required']"
+              :rules="[(v) => !!v || 'No SK is required']"
               hide-details="auto"
             />
           </div>
           <div class="col-md-6">
-            <label class="mb-2 fs-14">Nama Surat</label>
+            <label class="mb-2 fs-14">Nama SK</label>
             <v-text-field
-              placeholder="Nama Surat"
+              placeholder="Nama SK"
               v-model="remarks"
               outlined
               dense
@@ -90,7 +80,7 @@
             type="submit"
             :disabled="isLoading"
           >
-            Simpan
+            Publish
           </button>
         </div>
       </div>
@@ -99,9 +89,10 @@
 </template>
 
 <script>
-import DatePicker from "../../atoms/date-picker.vue";
+import DatePicker from "@/components/atoms/date-picker.vue";
+
 export default {
-  name: "DocumentForm",
+  name: "PengajuanPublishForm",
   components: {
     InputTableTagGroup: () =>
       import("@/components/atoms/input-table-tag-group.vue"),
@@ -115,17 +106,17 @@ export default {
   }),
   computed: {
     isLoading() {
-      return this.$store.state.document.isLoading;
+      return this.$store.state.pengajuanSurat.isLoading;
     },
     isUpdate() {
-      return this.$store.state.document.isUpdate;
+      return this.$store.state.pengajuanSurat.isUpdate;
     },
     filepath: {
       get() {
-        return this.$store.state.document.form.filepath;
+        return this.$store.state.pengajuanSurat.form_publish.filepath;
       },
       set(value) {
-        this.$store.commit("SET_FORM_DOCUMENT", {
+        this.$store.commit("SET_FORM_PUBLISH_PENGAJUAN_SURAT", {
           key: "filepath",
           value,
         });
@@ -133,10 +124,10 @@ export default {
     },
     date: {
       get() {
-        return this.$store.state.document.form.date;
+        return this.$store.state.pengajuanSurat.form_publish.date;
       },
       set(value) {
-        this.$store.commit("SET_FORM_DOCUMENT", {
+        this.$store.commit("SET_FORM_PUBLISH_PENGAJUAN_SURAT", {
           key: "date",
           value,
         });
@@ -144,10 +135,10 @@ export default {
     },
     name: {
       get() {
-        return this.$store.state.document.form.name;
+        return this.$store.state.pengajuanSurat.form_publish.name;
       },
       set(value) {
-        this.$store.commit("SET_FORM_DOCUMENT", {
+        this.$store.commit("SET_FORM_PUBLISH_PENGAJUAN_SURAT", {
           key: "name",
           value,
         });
@@ -155,10 +146,10 @@ export default {
     },
     remarks: {
       get() {
-        return this.$store.state.document.form.remarks;
+        return this.$store.state.pengajuanSurat.form_publish.remarks;
       },
       set(value) {
-        this.$store.commit("SET_FORM_DOCUMENT", {
+        this.$store.commit("SET_FORM_PUBLISH_PENGAJUAN_SURAT", {
           key: "remarks",
           value,
         });
@@ -166,10 +157,10 @@ export default {
     },
     data_pegawai: {
       get() {
-        return this.$store.state.document.form.data_pegawai;
+        return this.$store.state.pengajuanSurat.form_publish.data_pegawai;
       },
       set(value) {
-        this.$store.commit("SET_FORM_DOCUMENT", {
+        this.$store.commit("SET_FORM_PUBLISH_PENGAJUAN_SURAT", {
           key: "data_pegawai",
           value,
         });
@@ -177,10 +168,10 @@ export default {
     },
     details: {
       get() {
-        return this.$store.state.document.form.details;
+        return this.$store.state.pengajuanSurat.form_publish.details;
       },
       set(value) {
-        this.$store.commit("SET_FORM_DOCUMENT", {
+        this.$store.commit("SET_FORM_PUBLISH_PENGAJUAN_SURAT", {
           key: "details",
           value,
         });
@@ -189,22 +180,14 @@ export default {
   },
   methods: {
     handleClose() {
-      this.$store.commit("SET_IS_UPDATE_DOCUMENT", false);
-      this.$store.commit("RESET_FORM_DOCUMENT");
+      this.$store.commit("SET_IS_UPDATE_PENGAJUAN_SURAT", false);
+      this.$store.commit("RESET_FORM_PUBLISH_PENGAJUAN_SURAT");
 
-      this.$emit("handleModalForm", false);
+      this.$emit("handleModalFormPublish", false);
     },
     async handleSubmit() {
       if (this.$refs.initialForm.validate()) {
-        if (this.isUpdate) {
-          this.$store.dispatch("UpdateDocument", this.isUpdate).then((res) => {
-            if (res) {
-              this.handleClose();
-            }
-          });
-          return;
-        }
-        this.$store.dispatch("CreateDocument").then((res) => {
+        this.$store.dispatch("PublishPengajuan", this.isUpdate).then((res) => {
           if (res) {
             this.handleClose();
           }

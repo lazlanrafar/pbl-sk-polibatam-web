@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <layout-app>
     <div class="d-flex flex-column flex-sm-row gap-2 gap-md-3">
       <CardBarang type="Surat Tugas" :value="length_st" />
       <CardBarang type="Surat Keterangan" :value="length_sk" />
@@ -22,8 +22,8 @@
             </div>
             <div v-else>{{ item.remarks }}</div>
           </template>
-          <template v-slot:[`item.created_at`]="{ item }">
-            {{ moment(item.created_at).format("DD MMMM YYYY | HH:mm") }}
+          <template v-slot:[`item.date`]="{ item }">
+            {{ moment(item.date).format("DD MMMM YYYY") }}
           </template>
           <template v-slot:[`item.filepath`]="{ item }">
             <a :href="handleDownload(item.filepath)" target="_blank">
@@ -33,16 +33,18 @@
         </v-data-table>
       </div>
     </div>
-  </div>
+  </layout-app>
 </template>
 
 <script>
 const apiUrl = process.env.VUE_APP_API_URL;
 import moment from "moment";
+import LayoutApp from "../../layouts/layout-app.vue";
 
 export default {
   name: "Home",
   components: {
+    LayoutApp,
     CardBarang: () => import("@/components/molecules/card-barang/index.vue"),
   },
   data() {
@@ -50,7 +52,8 @@ export default {
       headers: [
         { text: "No Document", value: "name" },
         { text: "Nama Document", value: "remarks" },
-        { text: "Dibuat Pada", value: "created_at" },
+        { text: "Type Document", value: "type" },
+        { text: "Tanggal", value: "date" },
         { text: "Document", value: "filepath" },
       ],
       moment,

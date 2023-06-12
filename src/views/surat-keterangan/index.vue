@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <layout-app>
     <HeaderTitle title="Home" subtitle="Surat Keputusan" />
 
     <div class="card mt-5 mt-sm-10">
@@ -36,8 +36,8 @@
             </div>
             <div v-else>{{ item.remarks }}</div>
           </template>
-          <template v-slot:[`item.created_at`]="{ item }">
-            {{ moment(item.created_at).format("DD MMMM YYYY | HH:mm") }}
+          <template v-slot:[`item.date`]="{ item }">
+            {{ moment(item.date).format("DD MMMM YYYY") }}
           </template>
           <template v-slot:[`item.filepath`]="{ item }">
             <a :href="handleDownload(item.filepath)" target="_blank">
@@ -89,17 +89,19 @@
     <v-dialog v-model="modalDetail" max-width="1200" persistent>
       <Detail @handleModalDetail="handleModalDetail" />
     </v-dialog>
-  </div>
+  </layout-app>
 </template>
 
 <script>
 import moment from "moment";
 import Swal from "sweetalert2";
+import LayoutApp from "../../layouts/layout-app.vue";
 const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   name: "SuratKeteranganPage",
   components: {
+    LayoutApp,
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("@/components/organisms/form-document/index.vue"),
     Detail: () => import("@/components/organisms/detail-document/index.vue"),
@@ -111,7 +113,7 @@ export default {
         { text: "No", value: "no" },
         { text: "No SK", value: "name" },
         { text: "Judul SK", value: "remarks" },
-        { text: "Tanggal", value: "created_at" },
+        { text: "Tanggal", value: "date" },
         { text: "Document", value: "filepath" },
         { text: "Action", value: "action", align: "right", sortable: false },
       ],

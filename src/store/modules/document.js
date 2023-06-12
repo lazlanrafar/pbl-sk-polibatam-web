@@ -2,6 +2,17 @@ import axios from "axios";
 import catchUnauthorized from "../../utils/catch-unauthorized";
 const apiUrl = process.env.VUE_APP_API_URL;
 import Swal from "sweetalert2";
+import moment from "moment";
+
+const form = {
+  type: "",
+  date: moment().format("YYYY-MM-DD"),
+  filepath: "",
+  name: "",
+  remarks: "",
+  data_pegawai: [],
+  details: [],
+};
 
 const document = {
   state: {
@@ -11,15 +22,7 @@ const document = {
       itemsPerPage: 10,
       search: "",
     },
-    form: {
-      type: "",
-      filepath: "",
-      name: "",
-      remarks: "",
-      data_mahasiswa: [],
-      data_pegawai: [],
-      details: [],
-    },
+    form: { ...form },
     detail: "",
     isUpdate: "",
   },
@@ -34,15 +37,7 @@ const document = {
       state.form[payload.key] = payload.value;
     },
     RESET_FORM_DOCUMENT(state) {
-      state.form = {
-        type: "",
-        filepath: "",
-        name: "",
-        remarks: "",
-        data_mahasiswa: [],
-        data_pegawai: [],
-        details: [],
-      };
+      state.form = { ...form };
     },
     SET_DETAIL_DOCUMENT(state, payload) {
       state.detail = payload;
@@ -56,28 +51,17 @@ const document = {
       context.commit("SET_IS_LOADING_DOCUMENT", true);
 
       try {
-        const dataForm = new FormData();
-        dataForm.append("type", context.state.form.type);
-        dataForm.append("filepath", context.state.form.filepath);
-        dataForm.append("name", context.state.form.name);
-        dataForm.append("remarks", context.state.form.remarks);
-        dataForm.append(
-          "data_mahasiswa",
-          JSON.stringify(context.state.form.data_mahasiswa)
-        );
-        dataForm.append(
-          "data_pegawai",
-          JSON.stringify(context.state.form.data_pegawai)
-        );
-        dataForm.append("details", JSON.stringify(context.state.form.details));
+        const payload = context.state.form;
+        payload.data_pegawai = JSON.stringify(payload.data_pegawai);
 
         const result = await axios({
           url: `${apiUrl}/document`,
           method: "POST",
           headers: {
             Authorization: `Bearer ${context.rootState.app.token}`,
+            "Content-Type": "multipart/form-data",
           },
-          data: dataForm,
+          data: payload,
         });
 
         Swal.fire({
@@ -144,6 +128,7 @@ const document = {
           type: result.data.data.type,
           filepath: "",
           name: result.data.data.name,
+          date: moment(result.data.data.date).format("YYYY-MM-DD"),
           remarks: result.data.data.remarks,
           data_pegawai: result.data.data.data_pegawai,
           details: data_tag_group,
@@ -158,28 +143,17 @@ const document = {
       context.commit("SET_IS_LOADING_DOCUMENT", true);
 
       try {
-        const dataForm = new FormData();
-        dataForm.append("type", context.state.form.type);
-        dataForm.append("filepath", context.state.form.filepath);
-        dataForm.append("name", context.state.form.name);
-        dataForm.append("remarks", context.state.form.remarks);
-        dataForm.append(
-          "data_mahasiswa",
-          JSON.stringify(context.state.form.data_mahasiswa)
-        );
-        dataForm.append(
-          "data_pegawai",
-          JSON.stringify(context.state.form.data_pegawai)
-        );
-        dataForm.append("details", JSON.stringify(context.state.form.details));
+        const payload = context.state.form;
+        payload.data_pegawai = JSON.stringify(payload.data_pegawai);
 
         const result = await axios({
           url: `${apiUrl}/document/${id}`,
           method: "PUT",
           headers: {
             Authorization: `Bearer ${context.rootState.app.token}`,
+            "Content-Type": "multipart/form-data",
           },
-          data: dataForm,
+          data: payload,
         });
 
         Swal.fire({

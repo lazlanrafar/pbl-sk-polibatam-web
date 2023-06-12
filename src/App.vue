@@ -1,7 +1,6 @@
 <template>
   <div>
-    <AppLayout v-if="token" />
-    <AuthLayout v-else />
+    <router-view />
   </div>
 </template>
 
@@ -9,8 +8,8 @@
 export default {
   name: "App",
   components: {
-    AppLayout: () => import("@/layouts/layout-app.vue"),
-    AuthLayout: () => import("@/layouts/layout-auth.vue"),
+    // AppLayout: () => import("@/layouts/layout-app.vue"),
+    // AuthLayout: () => import("@/layouts/layout-auth.vue"),
   },
   computed: {
     token() {

@@ -1,16 +1,6 @@
 <template>
-  <div>
+  <layout-app>
     <HeaderTitle title="Home" subtitle="Pengajuan SK" />
-    <!-- 
-    <button
-      class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
-      @click="handleModalForm(true)"
-      v-if="!isAdmin"
-    >
-      <i class="fa fa-plus"></i>
-      Ajukan SK
-    </button> -->
-
     <button
       class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
       @click="handleModalForm(true)"
@@ -110,10 +100,13 @@
                     <span>Approve</span>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item
+                  @click="handleModalFormPublish(true, item.id)"
+                  v-if="item.status === 'APPROVED' && isAdmin"
+                >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-check small mr-2"></i>
-                    <span>Process</span>
+                    <span>Publish</span>
                   </v-list-item-title>
                 </v-list-item>
                 <v-list-item
@@ -127,7 +120,7 @@
                 </v-list-item>
                 <v-list-item
                   @click="handleEdit(item.id)"
-                  v-if="item.status != 'APPROVED'"
+                  v-if="item.status != 'APPROVED' && item.status != 'PUBLISHED'"
                 >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-edit small mr-2"></i>
@@ -136,7 +129,7 @@
                 </v-list-item>
                 <v-list-item
                   @click="handleDelete(item.id)"
-                  v-if="item.status != 'APPROVED'"
+                  v-if="item.status != 'APPROVED' && item.status != 'PUBLISHED'"
                 >
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-trash small mr-2"></i>
@@ -180,22 +173,33 @@
     >
       <FormReject @handleModalFormReject="handleModalFormReject" />
     </v-dialog>
-  </div>
+    <v-dialog
+      v-if="modalFormPublish"
+      v-model="modalFormPublish"
+      max-width="1200"
+      persistent
+    >
+      <FormPublish @handleModalFormPublish="handleModalFormPublish" />
+    </v-dialog>
+  </layout-app>
 </template>
 
 <script>
 import moment from "moment";
 import Swal from "sweetalert2";
+import LayoutApp from "../../layouts/layout-app.vue";
 const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   name: "pengajuanSuratPage",
   components: {
+    LayoutApp,
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("./form.vue"),
     Detail: () => import("./detail.vue"),
     FormApprove: () => import("./form-approve/index.vue"),
     FormReject: () => import("./form-reject/index.vue"),
+    FormPublish: () => import("./form-publish/index.vue"),
   },
   data() {
     return {
@@ -214,6 +218,7 @@ export default {
       modalDetail: false,
       modalFormApprove: false,
       modalFormReject: false,
+      modalFormPublish: false,
       tab_list: [
         {
           type: "Posted",
@@ -221,6 +226,10 @@ export default {
         },
         {
           type: "Approved",
+          length: 0,
+        },
+        {
+          type: "Published",
           length: 0,
         },
         {
@@ -282,6 +291,20 @@ export default {
       this.$store.commit("SET_IS_UPDATE_PENGAJUAN_SURAT", id);
       this.handleModalForm(true);
     },
+    async handleModalFormPublish(value, id) {
+      if (value) {
+        this.$store.commit("SET_IS_UPDATE_PENGAJUAN_SURAT", id);
+
+        this.$store.dispatch("SetFormPengajuanPublish", id);
+        this.$store.dispatch("GetAllTagGroup");
+
+        await this.$store.dispatch("GetFilterPegawai").then(() => {
+          this.$store.dispatch("GetAllPegawai");
+        });
+      }
+
+      this.modalFormPublish = value;
+    },
     handleDelete(id) {
       Swal.fire({
         title: "Are you sure?",
@@ -331,6 +354,8 @@ export default {
         return this.reports.filter((item) => item.status === "POSTED");
       } else if (this.tab_active === "Approved") {
         return this.reports.filter((item) => item.status === "APPROVED");
+      } else if (this.tab_active === "Published") {
+        return this.reports.filter((item) => item.status === "PUBLISHED");
       } else if (this.tab_active === "Rejected") {
         return this.reports.filter((item) => item.status === "REJECTED");
       } else {
@@ -345,9 +370,12 @@ export default {
         (item) => item.status === "APPROVED"
       ).length;
       this.tab_list[2].length = this.reports.filter(
+        (item) => item.status === "PUBLISHED"
+      ).length;
+      this.tab_list[3].length = this.reports.filter(
         (item) => item.status === "REJECTED"
       ).length;
-      this.tab_list[3].length = this.reports.length;
+      this.tab_list[4].length = this.reports.length;
     },
   },
   async mounted() {

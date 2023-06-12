@@ -2,7 +2,7 @@
   <v-app>
     <AppTopbar />
     <v-main class="container mt-5 mt-md-10 px-3">
-      <router-view />
+      <slot />
     </v-main>
     <AppFooter />
   </v-app>
