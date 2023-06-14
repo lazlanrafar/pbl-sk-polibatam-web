@@ -1,7 +1,7 @@
 <template>
   <layout-auth>
     <div class="row h-100 justify-content-center align-items-center">
-      <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 col-xxl-2">
+      <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
         <div class="card">
           <v-form
             class="card-body py-10"
@@ -20,8 +20,8 @@
             <p class="small text-muted text-center mb-10">
               Aplikasi Distribusi SK dan Surat Tugas
             </p>
-            <div class="row">
-              <div class="col-12">
+            <div class="">
+              <div class="">
                 <v-text-field
                   outlined
                   dense
@@ -35,7 +35,7 @@
                   ]"
                 />
               </div>
-              <div class="col-12">
+              <div class="">
                 <v-text-field
                   outlined
                   dense
@@ -52,7 +52,7 @@
                   ]"
                 />
               </div>
-              <div class="col-12">
+              <div class="">
                 <v-btn
                   class="btn w-100 bg-darkblue text-white"
                   type="submit"
