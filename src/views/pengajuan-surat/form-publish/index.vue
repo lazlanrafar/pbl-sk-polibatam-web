@@ -19,7 +19,6 @@
               filled
               dense
               :rules="[(v) => !!v || 'File Document is required']"
-              hide-details="auto"
             />
           </div>
           <div class="col-md-6">
@@ -34,7 +33,6 @@
               outlined
               dense
               :rules="[(v) => !!v || 'No SK is required']"
-              hide-details="auto"
             />
           </div>
           <div class="col-md-6">

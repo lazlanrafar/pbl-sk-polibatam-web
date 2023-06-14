@@ -12,7 +12,6 @@
         :value="value"
         :label="label"
         prepend-inner-icon="mdi-calendar"
-        hide-details="true"
         readonly
         outlined
         dense
@@ -20,14 +19,31 @@
         v-on="on"
       ></v-text-field>
     </template>
-    <v-date-picker :value="value" @input="handleInput"></v-date-picker>
+    <v-date-picker
+      :value="value"
+      @input="handleInput"
+      :type="type"
+    ></v-date-picker>
   </v-menu>
 </template>
 
 <script>
 export default {
   name: "AtomDatePicker",
-  props: ["value", "label"],
+  props: {
+    value: {
+      type: String,
+      default: "",
+    },
+    label: {
+      type: String,
+      default: "",
+    },
+    type: {
+      type: String,
+      default: "date",
+    },
+  },
   data() {
     return {
       menu: false,

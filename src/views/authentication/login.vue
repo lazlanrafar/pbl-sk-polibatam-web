@@ -27,7 +27,6 @@
                   dense
                   placeholder="Username"
                   prepend-icon="mdi-account"
-                  hide-details="auto"
                   v-model="username"
                   :rules="[
                     (value) => {
@@ -42,7 +41,6 @@
                   dense
                   placeholder="Password"
                   prepend-icon="mdi-lock"
-                  hide-details="auto"
                   :append-icon="isShowPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="isShowPassword ? 'text' : 'password'"
                   @click:append="isShowPassword = !isShowPassword"

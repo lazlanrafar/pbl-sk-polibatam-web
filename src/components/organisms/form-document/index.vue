@@ -20,7 +20,6 @@
               dense
               :rules="[(v) => !!v || 'File Document is required']"
               v-if="!isUpdate"
-              hide-details="auto"
             />
             <v-file-input
               placeholder="File"
@@ -29,7 +28,6 @@
               dense
               messages="Upload file jika ingin mengganti file yang lama"
               v-if="isUpdate"
-              hide-details="auto"
             />
           </div>
           <div class="col-md-6">
@@ -44,7 +42,6 @@
               outlined
               dense
               :rules="[(v) => !!v || 'No Surat is required']"
-              hide-details="auto"
             />
           </div>
           <div class="col-md-6">

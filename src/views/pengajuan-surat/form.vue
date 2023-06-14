@@ -1,3 +1,4 @@
+div
 <template>
   <v-form ref="initialForm" @submit.prevent="handleSubmit">
     <v-card class="card" :loading="isLoading">
@@ -20,7 +21,6 @@
               outlined
               dense
               :rules="[(v) => !!v || 'Judul Surat  is required']"
-              hide-details="auto"
               v-model="title"
             />
           </div>
@@ -33,7 +33,6 @@
               :items="list_type"
               v-model="type"
               :rules="[(v) => !!v || 'Jenis Surat is required']"
-              hide-details="auto"
             />
           </div>
           <div class="col-md-6">
@@ -46,7 +45,6 @@
               v-model="is_lampiran"
               item-text="key"
               item-value="value"
-              hide-details="auto"
             />
           </div>
           <div class="col-md-6">
@@ -61,7 +59,6 @@
               dense
               v-model="filepath_lampiran"
               messages="Upload lampiran untuk mengupdate data"
-              hide-details="auto"
               v-if="isUpdate"
             />
             <v-file-input
@@ -70,7 +67,6 @@
               dense
               v-model="filepath_lampiran"
               :rules="[(v) => !!v || 'Lampiran is required']"
-              hide-details="auto"
               v-else
             />
           </div>
@@ -84,7 +80,6 @@
                   outlined
                   dense
                   v-model="list_consider[i]"
-                  hide-details="auto"
                 />
               </div>
               <div class="col-1">
@@ -111,7 +106,6 @@
                   outlined
                   dense
                   v-model="list_observe[i]"
-                  hide-details="auto"
                 />
               </div>
               <div class="col-1">
@@ -138,7 +132,6 @@
                   outlined
                   dense
                   v-model="list_decide[i]"
-                  hide-details="auto"
                 />
               </div>
               <div class="col-1">

@@ -1,8 +1,7 @@
 <template>
   <layout-app>
     <HeaderTitle title="Home" subtitle="Surat Keputusan" />
-
-    <div class="card mt-5 mt-sm-10">
+    <div class="card mt-3">
       <div class="card-body">
         <button
           class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
@@ -12,6 +11,7 @@
           <i class="fa fa-plus"></i>
           Add New
         </button>
+
         <div class="row justify-content-end">
           <div class="col-12 col-sm-5 col-lg-4 col-xl-3">
             <v-text-field
@@ -119,6 +119,7 @@ export default {
       ],
       modalForm: false,
       modalDetail: false,
+      dateNow: moment().format("YYYY-MM"),
     };
   },
   computed: {
