@@ -269,15 +269,15 @@ export default {
     },
   },
   methods: {
-    async handleModalForm(value) {
+    handleModalForm(value) {
+      this.modalForm = value;
       if (value) {
         this.$store.dispatch("GetAllTagGroup");
 
-        await this.$store.dispatch("GetFilterPegawai").then(() => {
+        this.$store.dispatch("GetFilterPegawai").then(() => {
           this.$store.dispatch("GetAllPegawai");
         });
       }
-      this.modalForm = value;
     },
     handleDownload(filename) {
       return apiUrl.split("/api")[0] + "/documents/" + filename;
