@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white border-top py-5 mt-10">
+  <div class="bg-white border-top py-3 mt-10">
     <div class="container">
       <p class="text-center mb-0 text-muted small">
         Created by
