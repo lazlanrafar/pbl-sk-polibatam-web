@@ -8,7 +8,7 @@
           alt="Icon Product In"
         />
         <img
-          v-if="type == 'Surat Keterangan'"
+          v-if="type == 'Surat Keputusan'"
           src="@/assets/icon/ic_productout.svg"
           alt="Icon Product Out"
         />

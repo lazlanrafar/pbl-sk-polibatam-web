@@ -29,7 +29,7 @@ const suratTugas = {
 
       try {
         const result = await axios({
-          url: `${apiUrl}/document/type/Surat Tugas`,
+          url: `${apiUrl}/document?type=Surat Tugas&year=${context.rootState.app.filter_year}`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${context.rootState.app.token}`,

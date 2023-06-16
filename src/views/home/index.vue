@@ -2,7 +2,7 @@
   <layout-app>
     <div class="d-flex flex-column flex-sm-row gap-2 gap-md-3">
       <CardBarang type="Surat Tugas" :value="length_st" />
-      <CardBarang type="Surat Keterangan" :value="length_sk" />
+      <CardBarang type="Surat Keputusan" :value="length_sk" />
     </div>
 
     <div class="card mt-5 mt-sm-10">

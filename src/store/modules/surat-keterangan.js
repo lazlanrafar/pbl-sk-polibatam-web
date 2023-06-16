@@ -29,7 +29,7 @@ const suratKeterangan = {
 
       try {
         const result = await axios({
-          url: `${apiUrl}/document/type/Surat Keterangan`,
+          url: `${apiUrl}/document?type=Surat Keputusan&year=${context.rootState.app.filter_year}`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${context.rootState.app.token}`,

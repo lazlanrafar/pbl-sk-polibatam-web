@@ -1,8 +1,8 @@
 <template>
   <layout-app>
     <HeaderTitle title="Home" subtitle="Surat Tugas" />
-
-    <div class="card mt-5 mt-sm-10">
+    <FilterDate />
+    <div class="card mt-3">
       <div class="card-body">
         <button
           class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
@@ -105,6 +105,7 @@ export default {
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("@/components/organisms/form-document/index.vue"),
     Detail: () => import("@/components/organisms/detail-document/index.vue"),
+    FilterDate: () => import("@/components/molecules/filter-date/index.vue"),
   },
   data() {
     return {

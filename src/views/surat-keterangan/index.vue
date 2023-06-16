@@ -1,6 +1,7 @@
 <template>
   <layout-app>
     <HeaderTitle title="Home" subtitle="Surat Keputusan" />
+    <FilterDate />
     <div class="card mt-3">
       <div class="card-body">
         <button
@@ -105,6 +106,7 @@ export default {
     HeaderTitle: () => import("@/components/molecules/header-title"),
     Form: () => import("@/components/organisms/form-document/index.vue"),
     Detail: () => import("@/components/organisms/detail-document/index.vue"),
+    FilterDate: () => import("@/components/molecules/filter-date/index.vue"),
   },
   data() {
     return {
@@ -153,7 +155,7 @@ export default {
 
         this.$store.commit("SET_FORM_DOCUMENT", {
           key: "type",
-          value: "Surat Keterangan",
+          value: "Surat Keputusan",
         });
       }
     },

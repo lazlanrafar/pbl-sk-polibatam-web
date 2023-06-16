@@ -1,37 +1,36 @@
 <template>
-  <div class="max-w-input mb-5">
-    <v-menu v-model="showMenu" :close-on-content-click="false" max-width="290">
-      <template v-slot:activator="{ on, attrs }">
-        <v-text-field
-          :value="computedDateFormatted"
-          clearable
-          outlined
-          dense
-          readonly
-          prepend-inner-icon="mdi-calendar"
-          v-bind="attrs"
-          v-on="on"
-          @click:clear="date = null"
-        ></v-text-field>
-      </template>
-      <v-date-picker v-model="date" @change="showMenu = false"></v-date-picker>
-    </v-menu>
+  <div class="d-flex">
+    <v-select
+      outlined
+      dense
+      class="max-w-input"
+      :items="list_year"
+      v-model="filter_year"
+    />
   </div>
 </template>
 
 <script>
-import moment from "moment";
-
 export default {
   name: "FilterDate",
-  data: () => ({
-    date: moment().format("YYYY-MM-DD"),
-    showMenu: false,
-  }),
-
+  data: () => ({}),
+  watch: {
+    filter_year() {
+      this.$store.dispatch("GetAllSuratKeterangan");
+      this.$store.dispatch("GetAllSuratTugas");
+    },
+  },
   computed: {
-    computedDateFormatted() {
-      return this.date ? moment(this.date).format("MMMM YYYY") : "";
+    list_year() {
+      return this.$store.state.app.list_year;
+    },
+    filter_year: {
+      get() {
+        return this.$store.state.app.filter_year;
+      },
+      set(value) {
+        this.$store.commit("SET_FILTER_YEAR", value);
+      },
     },
   },
 };

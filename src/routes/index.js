@@ -37,7 +37,7 @@ const routes = [
   },
   {
     path: "/surat-keterangan",
-    name: "Surat Keterangan",
+    name: "Surat Keputusan",
     component: SuratKeterangan,
     meta: {
       middleware: [auth],

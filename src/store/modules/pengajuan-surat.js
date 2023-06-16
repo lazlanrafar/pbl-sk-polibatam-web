@@ -377,7 +377,7 @@ const pengajuanSurat = {
         });
 
         context.state.form_publish = {
-          type: "Surat Keterangan",
+          type: "Surat Keputusan",
           date: moment().format("YYYY-MM-DD"),
           filepath: "",
           name: "",

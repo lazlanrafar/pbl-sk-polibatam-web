@@ -2,6 +2,15 @@ import axios from "axios";
 import Swal from "sweetalert2";
 const apiUrl = process.env.VUE_APP_API_URL;
 import router from "../../routes/index";
+import moment from "moment";
+
+// make list year from now to 50 years pass
+const listYear = [];
+const yearNow = moment().format("YYYY");
+const yearNowInt = parseInt(yearNow);
+for (let i = yearNowInt; i >= yearNowInt - 50; i--) {
+  listYear.push(i);
+}
 
 const app = {
   state: {
@@ -12,6 +21,8 @@ const app = {
     },
     user: "",
     token: "",
+    list_year: listYear,
+    filter_year: yearNowInt,
   },
   mutations: {
     SET_IS_LOADING_APP(state, payload) {
@@ -25,6 +36,9 @@ const app = {
     },
     SET_TOKEN_APP(state, payload) {
       state.token = payload;
+    },
+    SET_FILTER_YEAR(state, payload) {
+      state.filter_year = payload;
     },
   },
   actions: {
