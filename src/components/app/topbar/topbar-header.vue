@@ -23,7 +23,7 @@
         >
           <div class="d-flex align-items-center">
             <img
-              src="https://avatars.githubusercontent.com/u/52142835?v=4"
+              :src="`https://ui-avatars.com/api/${user.nama}?background=ade7f7`"
               width="40"
               height="40"
               alt="pp"
