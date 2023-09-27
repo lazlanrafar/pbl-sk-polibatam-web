@@ -6,24 +6,16 @@
           <img src="@/assets/logo.svg" width="60" alt="logo" />
           <div class="d-none d-sm-block">
             <h1 class="mb-0 h5 ml-3 fw-semibold text-white">Polibatam</h1>
-            <p class="mb-0 ml-3 text-white fw-normal fs-14">
-              Aplikasi Ditribusi Sk dan Surat Tugas
-            </p>
+            <p class="mb-0 ml-3 text-white fw-normal fs-14">Aplikasi Ditribusi Sk dan Surat Tugas</p>
           </div>
         </div>
       </div>
 
       <div class="dropdown my-auto">
-        <a
-          class="flex text-decoration-none text-white"
-          href="#"
-          role="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
+        <a class="flex text-decoration-none text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <div class="d-flex align-items-center">
             <img
-              :src="`https://ui-avatars.com/api/${user.nama}?background=ade7f7`"
+              :src="`https://ui-avatars.com/api/?uppercase=false&background=ade7f7&name=${user.nama}`"
               width="40"
               height="40"
               alt="pp"
