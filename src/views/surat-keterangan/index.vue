@@ -4,11 +4,7 @@
     <FilterDate />
     <div class="card mt-3">
       <div class="card-body">
-        <button
-          class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
-          @click="handleModalForm(true)"
-          v-if="isAdmin"
-        >
+        <button class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0" @click="handleModalForm(true)" v-if="isAdmin">
           <i class="fa fa-plus"></i>
           Add New
         </button>
@@ -41,19 +37,12 @@
             {{ moment(item.date).format("DD MMMM YYYY") }}
           </template>
           <template v-slot:[`item.filepath`]="{ item }">
-            <a :href="handleDownload(item.filepath)" target="_blank">
-              Download Document
-            </a>
+            <a :href="handleDownload(item.filepath)" target="_blank"> Download Document </a>
           </template>
           <template v-slot:[`item.action`]="{ item }">
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  small
-                  class="btn btn-outline-primary py-4"
-                  v-bind="attrs"
-                  v-on="on"
-                >
+                <v-btn small class="btn btn-outline-primary py-4" v-bind="attrs" v-on="on">
                   <span class="fw-light mr-1">Action</span>
                   <i class="fa-solid fa-chevron-down small"></i>
                 </v-btn>
@@ -149,9 +138,7 @@ export default {
       if (value) {
         this.$store.dispatch("GetAllTagGroup");
 
-        await this.$store.dispatch("GetFilterPegawai").then(() => {
-          this.$store.dispatch("GetAllPegawai");
-        });
+        this.$store.dispatch("GetAllPegawai");
 
         this.$store.commit("SET_FORM_DOCUMENT", {
           key: "type",

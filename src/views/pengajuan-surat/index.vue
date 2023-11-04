@@ -1,10 +1,7 @@
 <template>
   <layout-app>
     <HeaderTitle title="Home" subtitle="Pengajuan SK" />
-    <button
-      class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0"
-      @click="handleModalForm(true)"
-    >
+    <button class="btn bg-darkblue text-white fs-14 mb-3 mb-sm-0" @click="handleModalForm(true)">
       <i class="fa fa-plus"></i>
       Ajukan SK
     </button>
@@ -12,11 +9,7 @@
     <ul class="nav nav-tabs pl-0 mt-10">
       <li class="nav-item" v-for="(item, i) in tab_list" :key="i">
         <a
-          :class="`nav-link fs-14  ${
-            item.type == tab_active
-              ? 'fw-semibold text-darkblue active'
-              : 'text-muted'
-          }`"
+          :class="`nav-link fs-14  ${item.type == tab_active ? 'fw-semibold text-darkblue active' : 'text-muted'}`"
           @click="tab_active = item.type"
         >
           <span>{{ item.type }}</span>
@@ -50,22 +43,12 @@
             {{ moment(item.created_at).format("DD MMMM YYYY | HH:mm") }}
           </template>
           <template v-slot:[`item.filepath_lampiran`]="{ item }">
-            <a
-              v-if="item.filepath_lampiran"
-              :href="handleDownload(item.filepath_lampiran)"
-              target="_blank"
-            >
+            <a v-if="item.filepath_lampiran" :href="handleDownload(item.filepath_lampiran)" target="_blank">
               Download Lampiran
             </a>
           </template>
           <template v-slot:[`item.filepath`]="{ item }">
-            <a
-              v-if="item.filepath"
-              :href="handleDownload(item.filepath)"
-              target="_blank"
-            >
-              Download
-            </a>
+            <a v-if="item.filepath" :href="handleDownload(item.filepath)" target="_blank"> Download </a>
           </template>
           <template v-slot:[`item.is_lampiran`]="{ item }">
             <span v-if="item.is_lampiran">Ada</span>
@@ -74,12 +57,7 @@
           <template v-slot:[`item.action`]="{ item }">
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  small
-                  class="btn btn-outline-primary py-4"
-                  v-bind="attrs"
-                  v-on="on"
-                >
+                <v-btn small class="btn btn-outline-primary py-4" v-bind="attrs" v-on="on">
                   <span class="fw-light mr-1">Action</span>
                   <i class="fa-solid fa-chevron-down small"></i>
                 </v-btn>
@@ -91,10 +69,7 @@
                     <span>Detail</span>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item
-                  @click="handleModalFormApprove(true, item.id)"
-                  v-if="item.status == 'POSTED' && isAdmin"
-                >
+                <v-list-item @click="handleModalFormApprove(true, item.id)" v-if="item.status == 'POSTED' && isAdmin">
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-check small mr-2"></i>
                     <span>Approve</span>
@@ -109,10 +84,7 @@
                     <span>Publish</span>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item
-                  @click="handleModalFormReject(true, item.id)"
-                  v-if="item.status == 'POSTED' && isAdmin"
-                >
+                <v-list-item @click="handleModalFormReject(true, item.id)" v-if="item.status == 'POSTED' && isAdmin">
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fas fa-x small mr-2"></i>
                     <span>Reject</span>
@@ -146,39 +118,16 @@
     <v-dialog v-if="modalForm" v-model="modalForm" max-width="1200" persistent>
       <Form @handleModalForm="handleModalForm" />
     </v-dialog>
-    <v-dialog
-      v-if="modalDetail"
-      v-model="modalDetail"
-      max-width="1200"
-      persistent
-    >
-      <Detail
-        @handleModalDetail="handleModalDetail"
-        @handleModalFormApprove="handleModalFormApprove"
-      />
+    <v-dialog v-if="modalDetail" v-model="modalDetail" max-width="1200" persistent>
+      <Detail @handleModalDetail="handleModalDetail" @handleModalFormApprove="handleModalFormApprove" />
     </v-dialog>
-    <v-dialog
-      v-if="modalFormApprove"
-      v-model="modalFormApprove"
-      max-width="1200"
-      persistent
-    >
+    <v-dialog v-if="modalFormApprove" v-model="modalFormApprove" max-width="1200" persistent>
       <FormApprove @handleModalFormApprove="handleModalFormApprove" />
     </v-dialog>
-    <v-dialog
-      v-if="modalFormReject"
-      v-model="modalFormReject"
-      max-width="1200"
-      persistent
-    >
+    <v-dialog v-if="modalFormReject" v-model="modalFormReject" max-width="1200" persistent>
       <FormReject @handleModalFormReject="handleModalFormReject" />
     </v-dialog>
-    <v-dialog
-      v-if="modalFormPublish"
-      v-model="modalFormPublish"
-      max-width="1200"
-      persistent
-    >
+    <v-dialog v-if="modalFormPublish" v-model="modalFormPublish" max-width="1200" persistent>
       <FormPublish @handleModalFormPublish="handleModalFormPublish" />
     </v-dialog>
   </layout-app>
@@ -274,9 +223,7 @@ export default {
       if (value) {
         this.$store.dispatch("GetAllTagGroup");
 
-        this.$store.dispatch("GetFilterPegawai").then(() => {
-          this.$store.dispatch("GetAllPegawai");
-        });
+        this.$store.dispatch("GetAllPegawai");
       }
     },
     handleDownload(filename) {
@@ -298,9 +245,7 @@ export default {
         this.$store.dispatch("SetFormPengajuanPublish", id);
         this.$store.dispatch("GetAllTagGroup");
 
-        await this.$store.dispatch("GetFilterPegawai").then(() => {
-          this.$store.dispatch("GetAllPegawai");
-        });
+        this.$store.dispatch("GetAllPegawai");
       }
 
       this.modalFormPublish = value;
@@ -332,9 +277,7 @@ export default {
         });
 
         this.$store.dispatch("GetAllTagGroup");
-        await this.$store.dispatch("GetFilterPegawai").then(() => {
-          this.$store.dispatch("GetAllPegawai");
-        });
+        this.$store.dispatch("GetAllPegawai");
       }
     },
     handleModalFormReject(value, id) {
@@ -363,18 +306,10 @@ export default {
       }
     },
     handleLengthTab() {
-      this.tab_list[0].length = this.reports.filter(
-        (item) => item.status === "POSTED"
-      ).length;
-      this.tab_list[1].length = this.reports.filter(
-        (item) => item.status === "APPROVED"
-      ).length;
-      this.tab_list[2].length = this.reports.filter(
-        (item) => item.status === "PUBLISHED"
-      ).length;
-      this.tab_list[3].length = this.reports.filter(
-        (item) => item.status === "REJECTED"
-      ).length;
+      this.tab_list[0].length = this.reports.filter((item) => item.status === "POSTED").length;
+      this.tab_list[1].length = this.reports.filter((item) => item.status === "APPROVED").length;
+      this.tab_list[2].length = this.reports.filter((item) => item.status === "PUBLISHED").length;
+      this.tab_list[3].length = this.reports.filter((item) => item.status === "REJECTED").length;
       this.tab_list[4].length = this.reports.length;
     },
   },

@@ -4,10 +4,7 @@
 
     <div class="card mt-5 mt-sm-10">
       <div class="card-body">
-        <button
-          class="btn bg-darkblue text-white fs-14"
-          @click="handleModalForm(true)"
-        >
+        <button class="btn bg-darkblue text-white fs-14" @click="handleModalForm(true)">
           <i class="fa fa-plus"></i>
           Add New
         </button>
@@ -35,12 +32,7 @@
           <template v-slot:[`item.action`]="{ item }">
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  small
-                  class="btn btn-outline-primary py-4"
-                  v-bind="attrs"
-                  v-on="on"
-                >
+                <v-btn small class="btn btn-outline-primary py-4" v-bind="attrs" v-on="on">
                   <span class="fw-light mr-1">Action</span>
                   <i class="fa-solid fa-chevron-down small"></i>
                 </v-btn>
@@ -127,9 +119,7 @@ export default {
     async handleModalForm(value) {
       this.modalForm = value;
       if (value) {
-        await this.$store.dispatch("GetFilterPegawai").then(() => {
-          this.$store.dispatch("GetAllPegawai");
-        });
+        this.$store.dispatch("GetAllPegawai");
       }
     },
     handleModalDetail(value, id) {
@@ -137,9 +127,9 @@ export default {
       this.modalDetail = value;
     },
     async handleEdit(id) {
-      await this.handleModalForm(true);
-      await this.$store.dispatch("SetFormUpdateTagGroup", id);
-      await this.$store.commit("SET_IS_UPDATE_TAG_GROUP", id);
+      this.handleModalForm(true);
+      this.$store.dispatch("SetFormUpdateTagGroup", id);
+      this.$store.commit("SET_IS_UPDATE_TAG_GROUP", id);
     },
     handleDelete(id) {
       Swal.fire({

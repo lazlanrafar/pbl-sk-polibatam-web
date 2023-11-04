@@ -3,9 +3,7 @@
     <v-card class="card" :loading="isLoading">
       <div class="card-header py-3">
         <div class="d-flex justify-content-between align-items-center">
-          <p class="card-title fw-medium mb-0">
-            Detail Tag Group ( {{ report.name }} )
-          </p>
+          <p class="card-title fw-medium mb-0">Detail Tag Group ( {{ report.name }} )</p>
           <v-btn icon @click="handleClose">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -16,13 +14,7 @@
         <div class="card-body">
           <div class="row justify-content-end">
             <div class="col-12 col-sm-5 col-lg-4">
-              <v-text-field
-                outlined
-                dense
-                prepend-inner-icon="mdi-magnify"
-                placeholder="Cari..."
-                v-model="search"
-              />
+              <v-text-field outlined dense prepend-inner-icon="mdi-magnify" placeholder="Cari..." v-model="search" />
             </div>
           </div>
           <v-data-table
@@ -30,7 +22,6 @@
             :search="search"
             :headers="[
               { text: 'NIP', value: 'NIP' },
-              { text: 'NIK', value: 'NIK' },
               { text: 'Nama', value: 'NAMA' },
               { text: 'Staff', value: 'STAFF' },
               { text: 'Unit', value: 'UNIT' },

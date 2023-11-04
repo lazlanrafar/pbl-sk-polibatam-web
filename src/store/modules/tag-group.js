@@ -132,7 +132,6 @@ const tagGroup = {
         });
         context.state.form = {
           name: result.data.data.name,
-          data_mahasiswa: result.data.data.data_mahasiswa,
           data_pegawai: result.data.data.data_pegawai,
         };
       } catch (error) {
