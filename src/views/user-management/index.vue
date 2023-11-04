@@ -5,19 +5,6 @@
       <div class="card-body py-5">
         <div class="row justify-content-end">
           <div class="col-12 col-sm-5 col-lg-4 col-xl-3">
-            <label class="fw-medium fs-14 mb-3">Unit</label>
-            <v-autocomplete
-              outlined
-              dense
-              v-model="unit_active"
-              :items="list_unit"
-              item-text="UNIT"
-              item-value="ID"
-              @input="handleFetch"
-              :loading="isLoading"
-            />
-          </div>
-          <div class="col-12 col-sm-5 col-lg-4 col-xl-3">
             <label class="fw-medium fs-14 mb-3">Serach</label>
             <v-text-field
               outlined
@@ -41,11 +28,7 @@
             <span> {{ item.GELAR_BLK }}</span>
           </template>
           <template v-slot:[`item.isAdmin`]="{ item }">
-            <v-chip
-              :color="item.isAdmin ? 'success' : 'error'"
-              :text-color="item.isAdmin ? 'white' : 'white'"
-              small
-            >
+            <v-chip :color="item.isAdmin ? 'success' : 'error'" :text-color="item.isAdmin ? 'white' : 'white'" small>
               <span v-if="item.isAdmin">Admin</span>
               <span v-else>Tidak Admin</span>
             </v-chip>
@@ -53,12 +36,7 @@
           <template v-slot:[`item.action`]="{ item }">
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  small
-                  class="btn btn-outline-primary py-4"
-                  v-bind="attrs"
-                  v-on="on"
-                >
+                <v-btn small class="btn btn-outline-primary py-4" v-bind="attrs" v-on="on">
                   <span class="fw-light mr-1">Action</span>
                   <i class="fa-solid fa-chevron-down small"></i>
                 </v-btn>
@@ -76,10 +54,7 @@
                     <span>Set to Admin</span>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item
-                  @click="setIsNotAdmin(item.NIP)"
-                  v-if="item.isAdmin"
-                >
+                <v-list-item @click="setIsNotAdmin(item.NIP)" v-if="item.isAdmin">
                   <v-list-item-title class="text-primary fs-12">
                     <i class="fa-regular fa-eye small mr-2"></i>
                     <span>Set to Not Admin</span>
@@ -113,7 +88,6 @@ export default {
     return {
       headers: [
         { text: "No", value: "NO" },
-        { text: "NIK", value: "NIK" },
         { text: "NIP", value: "NIP" },
         { text: "Nama", value: "NAMA" },
         { text: "Staff", value: "STAFF" },
@@ -140,14 +114,6 @@ export default {
       },
       set(value) {
         this.$store.commit("SET_OPTIONS_TABLE_PEGAWAI", value);
-      },
-    },
-    unit_active: {
-      get() {
-        return this.$store.state.pegawai.unit_active;
-      },
-      set(value) {
-        this.$store.commit("SET_UNIT_ACTIVE", value);
       },
     },
   },
@@ -195,9 +161,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("GetFilterPegawai").then(() => {
-      this.handleFetch();
-    });
+    this.handleFetch();
   },
 };
 </script>

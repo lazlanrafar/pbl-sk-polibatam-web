@@ -10,8 +10,6 @@ const pegawai = {
       itemsPerPage: 5,
       search: "",
     },
-    list_unit: [],
-    unit_active: "",
     reports: [],
     report: {},
   },
@@ -22,12 +20,6 @@ const pegawai = {
     SET_OPTIONS_TABLE_PEGAWAI(state, payload) {
       state.optionsTable = Object.assign({}, payload);
     },
-    SET_LIST_UNIT(state, payload) {
-      state.list_unit = payload;
-    },
-    SET_UNIT_ACTIVE(state, payload) {
-      state.unit_active = payload;
-    },
     SET_REPORTS_PEGAWAI(state, payload) {
       state.reports = payload;
     },
@@ -36,36 +28,12 @@ const pegawai = {
     },
   },
   actions: {
-    GetFilterPegawai: async (context) => {
-      context.commit("SET_IS_LOADING_PEGAWAI", true);
-
-      try {
-        const unit = await axios({
-          url: `${apiUrl}/pegawai/unit`,
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${context.rootState.app.token}`,
-          },
-        });
-
-        if (unit.data.data === "") {
-          return;
-        }
-
-        context.commit("SET_LIST_UNIT", unit.data.data);
-        context.commit("SET_UNIT_ACTIVE", unit.data.data[0].ID);
-      } catch (error) {
-        catchUnauthorized(error);
-      } finally {
-        context.commit("SET_IS_LOADING_PEGAWAI", false);
-      }
-    },
     GetAllPegawai: async (context) => {
       context.commit("SET_IS_LOADING_PEGAWAI", true);
 
       try {
         const result = await axios({
-          url: `${apiUrl}/pegawai?unit=${context.state.unit_active}`,
+          url: `${apiUrl}/pegawai`,
           method: "GET",
           headers: {
             Authorization: `Bearer ${context.rootState.app.token}`,
